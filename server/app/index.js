@@ -3,6 +3,8 @@ var path = require('path');
 var express = require('express');
 var app = express();
 
+
+
 module.exports = function (db) {
 
     // Pass our express application pipeline into the configuration
@@ -40,6 +42,8 @@ module.exports = function (db) {
         console.error(err.stack);
         res.status(err.status || 500).send(err.message || 'Internal server error.');
     });
+
+
 
     return app;
 

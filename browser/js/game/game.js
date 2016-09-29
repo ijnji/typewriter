@@ -8,7 +8,6 @@ app.config(function($stateProvider) {
 });
 
 
-
 app.controller('GameCtrl', function($scope, $state, Socket) {
 
     if ($state.params.gameId) {

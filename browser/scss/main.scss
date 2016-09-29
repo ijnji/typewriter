@@ -1,9 +1,18 @@
+$background: #b2dfdb;
+
+@font-face {
+  font-family: 'SketchBlock';
+  src: url('/img/font/Sketch_Block.ttf');
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  background: #fdfdfd;
+  background: $background;
+  font-family: SketchBlock;
+  text-align: center;
 }
 
 @mixin clearfix {
@@ -14,6 +23,7 @@ body {
   }
 }
 
+
 #main {
   padding-top: 60px;
   margin: 0 auto;
@@ -22,3 +32,5 @@ body {
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
+@import 'frontpage/main';
+@import 'game/main'

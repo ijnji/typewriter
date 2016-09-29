@@ -1,8 +1,8 @@
 <style>
-  #ran-ani {
+  .fall {
     animation-duration: 10s;
     animation-name: slidedown;
-    animation-iteration-count: infinite;
+    animation-iteration-count: 1;
     position: relative;
   }
 
@@ -20,7 +20,7 @@
     }
   }
 
-  #ran-box {
+  #box {
     border: 5px solid #dddddd;
     height: 800px;
     padding: 0px;
@@ -29,11 +29,39 @@
 </style>
 <section id="home">
   <center>
-  <div id="ran-box">
-    <div id="ran-ani">
-      <h3 class="animated infinite jello">Stegosaurus</h3>
+  <div id="box">
+      <button ng-click="fallWord(words[0])">click to initiate word</button>
+      <button ng-click="subLetter(words[0])">click to remove letter</button>
+      <div ng-class="{'fall': words[0].fall}">
+        <h3 id='stego'>{{words[0].remain}}</h3>
     </div>
   </div>
   </center>
 </section>
 <button ng-click='callSocket()'>Click me</button>
+<div id="a">{{word.remain}}</div>
+<div id="b">{{word.remain}}</div>
+<div id="c">{{word.remain}}</div>
+<div id="d">{{word.remain}}</div>
+<div id="e">{{word.remain}}</div>
+<div id="f">{{word.remain}}</div>
+<div id="g">{{word.remain}}</div>
+<div id="h">{{word.remain}}</div>
+<div id="i">{{word.remain}}</div>
+<div id="j">{{word.remain}}</div>
+<div id="k">{{word.remain}}</div>
+<div id="l">{{word.remain}}</div>
+<div id="m">{{word.remain}}</div>
+<div id="n">{{word.remain}}</div>
+<div id="o">{{word.remain}}</div>
+<div id="p">{{word.remain}}</div>
+<div id="q">{{word.remain}}</div>
+<div id="r">{{word.remain}}</div>
+<div id="s">{{word.remain}}</div>
+<div id="t">{{word.remain}}</div>
+<div id="u">{{word.remain}}</div>
+<div id="v">{{word.remain}}</div>
+<div id="w">{{word.remain}}</div>
+<div id="x">{{word.remain}}</div>
+<div id="y">{{word.remain}}</div>
+<div id="z">{{word.remain}}</div>

@@ -1,4 +1,4 @@
-app.config(function ($stateProvider) {
+app.config(function($stateProvider) {
     $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'js/home/home.html',
@@ -7,11 +7,6 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('HomeCtrl', function ($scope, Socket) {
-  Socket.on('connect', function () {
-    console.log('i am connected!');
-  })
-  Socket.on('helloworld', function () {
-    console.log('hello world');
-  })
+app.controller('HomeCtrl', function($scope, Socket) {
+  
 });

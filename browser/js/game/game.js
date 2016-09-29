@@ -7,7 +7,11 @@ app.config(function($stateProvider) {
 });
 
 
-app.controller('GameCtrl', function($scope, $state, Socket) {
+app.controller('GameCtrl', function($scope, $state, Socket, InputFactory) {
+
+    document.body.addEventListener('keypress', InputFactory.onPress);
+    InputFactory.gOne = document.getElementById('gameOne');
+    InputFactory.gTwo = document.getElementById('gameTwo');
 
     if ($state.params.gameId) {
         Socket.emit('eventClientJoinGame', {

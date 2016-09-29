@@ -1,4 +1,45 @@
+<style>
+  #ran-ani {
+    animation-duration: 10s;
+    animation-name: slidedown;
+    animation-iteration-count: infinite;
+    position: relative;
+  }
+
+  @keyframes slidedown {
+    from {
+      top: 0%;
+      margin-left: 0%;
+      margin-right: 0%;
+    }
+
+    to {
+      top: 93%;
+      margin-left: 0%;
+      margin-right: 0%;
+    }
+  }
+
+  #ran-box {
+    border: 5px solid #dddddd;
+    height: 800px;
+    padding: 0px;
+    width: 500px;
+  }
+</style>
 <section id="home">
-    <fullstack-logo></fullstack-logo>
-    <rando-greeting></rando-greeting>
+  <center>
+  <div id="ran-box">
+    <div id="ran-ani">
+      <h3 class="animated infinite jello">Stegosaurus</h3>
+    </div>
+  </div>
+  </center>
 </section>
+
+ <script>
+  $(document).ready(function() {
+    console.log('hello!');
+  });
+  console.log('hello');
+</script>

@@ -8,7 +8,7 @@ var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var livereload = require('gulp-livereload');
 var minifyCSS = require('gulp-minify-css');
-var ngAnnotate = require('gulp-ng-annotate');
+// var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var eslint = require('gulp-eslint');
@@ -123,7 +123,7 @@ gulp.task('buildJSProduction', function () {
         .pipe(babel({
             presets: ['es2015']
         }))
-        .pipe(ngAnnotate())
+        // .pipe(ngAnnotate())
         .pipe(uglify())
         .pipe(gulp.dest('./public'));
 });

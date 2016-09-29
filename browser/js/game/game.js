@@ -1,3 +1,4 @@
+
 app.config(function($stateProvider) {
     $stateProvider.state('game', {
         url: '/game/:gameId',
@@ -7,11 +8,7 @@ app.config(function($stateProvider) {
 });
 
 
-app.controller('GameCtrl', function($scope, $state, Socket, InputFactory) {
-
-    document.body.addEventListener('keypress', InputFactory.onPress);
-    InputFactory.gOne = document.getElementById('gameOne');
-    InputFactory.gTwo = document.getElementById('gameTwo');
+app.controller('GameCtrl', function($scope, $state, Socket) {
 
     if ($state.params.gameId) {
         Socket.emit('eventClientJoinGame', {

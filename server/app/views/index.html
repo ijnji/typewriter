@@ -2,16 +2,22 @@
 <html lang="en">
 <head>
     <base href="/" />
-    <title>Fullstack Academy Generated Application</title>
+    <title>TypeRightr</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+<body ng-app="TypeWriterApp" ng-cloak>
+   <!--  <navbar></navbar> -->
+    <div id="main" ui-view></div>
     <script src="/angular/angular.js"></script>
     <script src="/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="/socket.io-client/socket.io.js"></script>
-    <script src="/main.js"></script>
-</head>
-<body ng-app="FullstackGeneratedApp">
-    <navbar></navbar>
-    <div id="main" ui-view></div>
+
+  <!-- Angular Material Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+   <script src="/main.js"></script>
+
 </body>
 </html>
 

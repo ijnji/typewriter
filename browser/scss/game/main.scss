@@ -1,11 +1,17 @@
-.game-container {
-    text-align: center;
-}
+#typingGame {
 
-.game {
-    border: 5px solid #888888;
-    width: 25%;
-    height: 75vh;
-    display: inline-block;
-    margin: 5px;
+  .gameBox {
+    background-color: white;
+    color: black;
+    border: 5px solid #dddddd;
+    height: 800px;
+
+  }
+
+  #playerYou {
+
+  }
+
+  #playerOpponent {
+  }
 }

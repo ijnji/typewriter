@@ -1,13 +1,12 @@
 <div class="container">
-  <section id="typingGame">
-    <div class="row">
-    <div class="gameBox col s6" id="playerYou">You</div>
-
-    <div class="gameBox col s6" id="playerOpponent">Opponent</div>
+  <div class="row">
+    <div class="col s6 gameContainer">
+      <h4>You</h4>
+      <div class="gameDrawContainer" id="gamePlayerOne"></div>
     </div>
-  </section>
-
-<button ng-click="sendOne()">Send eventClientOne</button>
-<button ng-click="sendTwo()">Send eventClientTwo</button>
-<div id="output">
+    <div class="col s6 gameContainer">
+      <h4>Opponent</h4>
+      <div class="gameDrawContainer" id="gamePlayerTwo"></div>
+    </div>
+  </div>
 </div>

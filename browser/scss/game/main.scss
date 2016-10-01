@@ -1,17 +1,36 @@
-#typingGame {
+.gameContainer {
+}
 
-  .gameBox {
-    background-color: white;
-    color: black;
-    border: 5px solid #dddddd;
-    height: 800px;
+.gameDrawContainer {
+  background-color: #ffffff;
+  border: 5px solid #dddddd;
+  width: 500px;
+  height: 800px;
+  display: inline-block;
+  text-align: left;
+  position: relative;
+}
 
+.gameWordDiv {
+  position: absolute;
+}
+
+.gameCurrLeft {
+  font-weight: bold;
+  color: red;
+  font-size: 1.5em;
+}
+
+.animateFall {
+  animation-duration: 9999s;
+  animation-name: fall;
+}
+
+@keyframes fall {
+  from {
+    top: 0%;
   }
-
-  #playerYou {
-
-  }
-
-  #playerOpponent {
+  to {
+    top: 150%;
   }
 }

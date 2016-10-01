@@ -2,7 +2,8 @@
 var socketio = require('socket.io');
 var chalk = require('chalk');
 var io = null;
-
+const DICT = require('../dictionary');
+console.log('DICT',DICT);
 module.exports = function(server) {
 
     let socketToRoom = {};
@@ -38,6 +39,10 @@ module.exports = function(server) {
                 io.to(gameId).emit('eventServerRelayTwo');
             }
         });
+
+        socket.on('eveClnKey', function(event){
+          let key = event.key;
+        })
 
         socket.on('disconnect', function() {
             console.log(chalk.magenta(socket.id + ' has disconnected'));

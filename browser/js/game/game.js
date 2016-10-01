@@ -10,31 +10,31 @@ app.config(function($stateProvider) {
 
 app.controller('GameCtrl', function($scope, $state, Socket, Utils, PlayerFactory) {
 
-    $scope.playerMe = new PlayerFactory.Player();
-    $scope.playerRival = new PlayerFactory.Player();
-
-    angular.element(document).ready(function() {
-
-        $(window).keypress(function(e) {
-            Socket.emit('eveClnKey', {
-                key: e.key
-            });
-        });
+    // $scope.playerMe = new PlayerFactory.Player();
+    // $scope.playerRival = new PlayerFactory.Player();
+    //
+    // angular.element(document).ready(function() {
+    //
+    //     $(window).keypress(function(e) {
+    //         Socket.emit('eveClnKey', {
+    //             key: e.key
+    //         });
+    //     });
 
         // TODO: socket on
 
-        $scope.playerMe.elem = document.getElementById('elemPlayerMe');
-        Utils.ALPHABET.forEach(function(l, idx) {
-            let elm = document.createElement('div');
-            $scope.playerMe.divs[l] = elm;
-            $scope.playerMe.elem.appendChild(elm);
-            $scope.playerMe.wordPool[l] = TESTWORDS[idx];
-            elm.innerHTML = TESTWORDS[idx];
-            elm.setAttribute('class', 'gameWordDiv animateFall');
-            elm.style.left = randNum(80) + '%';
-            elm.style.animationDuration = (randNum(15) + 30) + 's';
-        });
-    });
+        // $scope.playerMe.elem = document.getElementById('elemPlayerMe');
+        // Utils.ALPHABET.forEach(function(l, idx) {
+        //     let elm = document.createElement('div');
+        //     $scope.playerMe.divs[l] = elm;
+        //     $scope.playerMe.elem.appendChild(elm);
+        //     $scope.playerMe.wordPool[l] = TESTWORDS[idx];
+        //     elm.innerHTML = TESTWORDS[idx];
+        //     elm.setAttribute('class', 'gameWordDiv animateFall');
+        //     elm.style.left = randNum(80) + '%';
+        //     elm.style.animationDuration = (randNum(15) + 30) + 's';
+        // });
+});
 
 
     // if ($state.params.gameId) {
@@ -113,5 +113,3 @@ app.controller('GameCtrl', function($scope, $state, Socket, Utils, PlayerFactory
     //     return '<span class="gameCurrLeft">'
     //         + left + '</span>' + right;
     // };
-
-});

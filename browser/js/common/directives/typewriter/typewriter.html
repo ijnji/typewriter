@@ -1,17 +1,20 @@
-<nav class="navbar navbar-static-top">
-    <div class="container">
-        <div class="navbar-header">
-            <fullstack-logo></fullstack-logo>
+<div class="container">
+  <div class="row">
+    <div class="col s6 gameContainer">
+      <h4>You</h4>
+      <div class="gameDrawContainer" id="elemPlayerMe">
+        <div ng-repeat='word in me.activeWords'>
+          {{word.text}}
         </div>
-        <ul class="nav navbar-nav">
-            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
-                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
-            </li>
-        </ul>
-        <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
-        <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
-            <a ng-click="logout()">Logout</a>
-        </div>
+      </div>
     </div>
-</nav>
+    <div class="col s6 gameContainer">
+      <h4>Opponent</h4>
+      <div class="gameDrawContainer" id="elemPlayerRival">
+        <div ng-repeat='word in rival.activeWords'>
+          {{word.text}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

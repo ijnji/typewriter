@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col s6 gameContainer">
+      <h1 ng-if="me.win">YOU WIN</h1>
+      <h1 ng-if="me.win === false">YOU NO WIN.</h1>
       <h4>You</h4>
       <div class="gameDrawContainer" id="elemPlayerMe">
         <div ng-repeat='word in me.activeWords'>

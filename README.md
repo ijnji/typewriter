@@ -3,7 +3,7 @@
 Overall flow of information.
 Input modifies the game state. View draws based on game state.
 
-All 
+All
 
 ## InputFactory
 Only factory that has Socket injected.
@@ -15,9 +15,10 @@ Most of the 'game state'.
 Injected into other factories, and controller to R/W game state.
 
 ## DisplayFactory
-Uses information in game state to 
+Uses information in game state to
 
 ## Events
 ### From server:
+eveSrvKey
 ### From client:
 eveClnKey

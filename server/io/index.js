@@ -2,8 +2,10 @@
 var socketio = require('socket.io');
 var chalk = require('chalk');
 var io = null;
-const DICT = require('../dictionary');
-console.log('DICT',DICT);
+const dictionaryUtils = require('../dictionary');
+const DICT = dictionaryUtils.DICT;
+const randomWord = dictionaryUtils.randomWord;
+
 module.exports = function(server) {
 
     let socketToRoom = {};
@@ -23,7 +25,10 @@ module.exports = function(server) {
                 socket.join(msg.gameId);
             }
         });
-
+        setInterval(function(){
+          let word = randomWord();
+          io.emit('eveSrvWord', {word: word})
+        }, 6000);
         socket.on('eventClientOne', function() {
             console.log(chalk.magenta(socket.id + ' sent eventClientOne'));
             let gameId = socketToRoom[socket.id];
@@ -41,8 +46,9 @@ module.exports = function(server) {
         });
 
         socket.on('eveClnKey', function(event){
-          let key = event.key;
-        })
+          let payload = {id: socket.id, key: event.key};
+          io.emit('eveSrvKey', payload);
+        });
 
         socket.on('disconnect', function() {
             console.log(chalk.magenta(socket.id + ' has disconnected'));

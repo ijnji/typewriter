@@ -5,10 +5,10 @@ var io = null;
 const dictionaryUtils = require('../dictionary');
 const DICT = dictionaryUtils.DICT;
 const randomWord = dictionaryUtils.randomWord;
-const rooms = require('../rooms');
+var findOrCreateRoom = require('../rooms').findOrCreateRoom;
+var roomMap = require('../rooms').roomMap;
 module.exports = function(server) {
 
-    let socketToRoom = {0: []};
     if (io) return io;
 
     io = socketio(server);
@@ -17,15 +17,19 @@ module.exports = function(server) {
     //   io.emit('eveSrvWord', {word: word})
     // }, 6000);
     io.on('connection', function(socket) {
+
         // Now have access to socket, wowzers!
         console.log(chalk.magenta(socket.id + ' has connected'));
+        socket.on('eveClnJoinGame', function() {
+          let roomId = findOrCreateRoom(socket.id).toString();
+          console.log(socket.roomId);
+          console.log(roomMap);
+          socket.join(roomId);
+          var clients = io.sockets.adapter.rooms[roomId].sockets;
+          //to get the number of clients in room.
+          var numClients = (typeof clients !== 'undefined') ? Object.keys(clients).length : 0;
+          io.to(roomId).emit('eveSrvNewPlayer', {numClients: numClients})
 
-        socket.on('eventClientJoinGame', function(msg) {
-            if (msg.gameId) {
-                console.log(chalk.magenta(socket.id + ' joins room ' + msg.gameId));
-                socketToRoom[socket.id] = msg.gameId;
-                socket.join(msg.gameId);
-            }
         });
 
         socket.on('eventClientOne', function() {

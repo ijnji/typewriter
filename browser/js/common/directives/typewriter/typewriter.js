@@ -8,10 +8,17 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, GameFact
         link: function(scope) {
             InputFactory.watchKeys();
             let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
-            let playerRival = new PlayerFactory.Player();
-            scope.me = playerMe;
-            scope.rival = playerRival;
-
+            let playerRival, timeStart;
+            Socket.emit('eveClnJoinGame');
+            Socket.on('eveSrvNewPlayer', function(event){
+              if(event.numClients === 2){
+                playerRival = new PlayerFactory.Player();
+                scope.me = playerMe;
+                scope.rival = playerRival;
+                timeStart = Date.now();
+                requestAnimationFrame(gameLoop);
+              }
+            });
             Socket.on('eveSrvKey', function(payload) {
               if (playerMe.id === payload.id) {
                 playerMe.newChar(payload.key);
@@ -47,8 +54,7 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, GameFact
               }
               requestAnimationFrame(gameLoop);
             }
-            const timeStart = Date.now();
-            requestAnimationFrame(gameLoop);
+
         }
 
     };

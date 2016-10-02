@@ -1,4 +1,5 @@
 <section id="title">
     <div class="header" class="animated infinite pulse">TypeRightr</div>
-    <a ui-sref="game" class="btn waves-effect waves-light">Play</a>
+    <a ng-click="findGame()" class="btn waves-effect waves-light">Join a Game</a>
+    <h3 ng-if="searchingForGame"> Searching For Game...</h3>
 </section>

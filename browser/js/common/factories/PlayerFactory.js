@@ -17,7 +17,6 @@ app.factory('PlayerFactory', function(alphabet, WordFactory) {
     }
 
     Player.prototype.newChar = function(char){
-      console.log(char);
       if (!this.letter) {
         if (!this.activeWords[char]) return;
         this.typed = char;
@@ -34,7 +33,6 @@ app.factory('PlayerFactory', function(alphabet, WordFactory) {
         this.typed = null;
         this.remaining = null;
       }
-      console.log(this);
     }
     return {
       Player: Player

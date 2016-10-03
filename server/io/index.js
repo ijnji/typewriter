@@ -57,6 +57,7 @@ module.exports = function(server) {
           io.emit('eveSrvGameOver', {loserId: socket.id});
         });
         socket.on('disconnect', function() {
+            so
             console.log(chalk.magenta(socket.id + ' has disconnected'));
         });
     });

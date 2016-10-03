@@ -1,4 +1,4 @@
-app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFactory, Socket) {
+app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFactory, GameFactory, Socket) {
 
     return {
         restrict: 'E',
@@ -7,11 +7,13 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
         // controller: 'GameCtrl',
         link: function(scope) {
             InputFactory.watchKeys();
-            let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
-            let playerRival = new PlayerFactory.Player();
+            const playerMe = new PlayerFactory.Player(Socket.io.engine.id);
+            const playerRival = new PlayerFactory.Player();
             scope.me = playerMe;
             scope.rival = playerRival;
-
+            const timeStart = Date.now();
+            requestAnimationFrame(gameLoop);
+            console.log(Socket.wordInterval);
             Socket.on('eveSrvKey', function(payload) {
               if (playerMe.id === payload.id) {
                 playerMe.newChar(payload.key);
@@ -21,15 +23,32 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
               }
               scope.$digest();
             });
-            Socket.on('eveSrvWord', function(event){
-              console.log(event);
-              playerMe.addWord(event.word, 5);
-              playerRival.addWord(event.word, 5);
+            Socket.on('eveSrvWord', function(payload){
+              playerMe.addWord(payload.word, 5);
+              playerRival.addWord(payload.word, 5);
+              scope.$digest();
+            });
+            Socket.on('eveSrvGameOver', function(payload){
+              GameFactory.handleGameOver(playerMe, payload.loserId);
+            });
+            Socket.on('playerLeave', function(){
+              scope.win = true;
               scope.$digest();
             });
             // Main game loop.
             // Input modifies the game state. View draws based on game state.
-
+            function gameLoop(){
+              for (let letter in playerMe.activeWords) {
+                let word = playerMe.activeWords[letter];
+                if (word) {
+                  if (Date.now() > word.end){
+                    console.log('I LOSE');
+                    return GameFactor.emitGameOver();
+                  }
+                }
+              }
+              requestAnimationFrame(gameLoop);
+            }
         }
 
     };

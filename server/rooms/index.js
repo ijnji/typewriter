@@ -13,8 +13,9 @@ Room.prototype.addClient = function(clientId){
 roomMap.findRoom = function(clientId){
   for (let roomId in roomMap) {
     let clients = roomMap[roomId];
-    if(clients.length )
+    if(clients.length) {
   }
+}
 }
 var findSingleClientRoom = function(){
   for (let roomId in roomMap) {

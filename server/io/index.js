@@ -5,17 +5,29 @@ var io = null;
 const dictionaryUtils = require('../dictionary');
 const DICT = dictionaryUtils.DICT;
 const randomWord = dictionaryUtils.randomWord;
+const orgLength = dictionaryUtils.orgLength
+const DictObj = dictionaryUtils.DictObj
 const rooms = require('../rooms');
+const WordOutput = dictionaryUtils.wordOutput
 module.exports = function(server) {
 
     let socketToRoom = {0: []};
     if (io) return io;
-
     io = socketio(server);
-    // let wordInterval = setInterval(function(){
-    //   let word = randomWord();
-    //   io.emit('eveSrvWord', {word: word})
-    // }, 6000);
+    let wordTime = 0
+    let wordInterval = setInterval(function(){
+      let word = randomWord();
+
+      io.emit('eveSrvWord', {word: word})
+    }, 1000);
+
+    let diffuclty  = 0;
+    const diffInterval = setInterval(function() {
+        diffuclty++
+        const words = WordOutput(diffuclty)
+        io.emit('eventDiff',{words: words})
+    },60000)
+
     io.on('connection', function(socket) {
         // Now have access to socket, wowzers!
         console.log(chalk.magenta(socket.id + ' has connected'));
@@ -23,6 +35,8 @@ module.exports = function(server) {
         socket.on('eventClientJoinGame', function(msg) {
             if (msg.gameId) {
                 console.log(chalk.magenta(socket.id + ' joins room ' + msg.gameId));
+                orgLength();
+                console.log("fun",DictObj)
                 socketToRoom[socket.id] = msg.gameId;
                 socket.join(msg.gameId);
             }

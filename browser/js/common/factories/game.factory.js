@@ -1,5 +1,8 @@
 app.factory('GameFactory', function(Socket){
-  let Game = {};
+  let Game = function(){
+    this.difficulty = 1
+    this.gameTime = 0 
+  };
   Game.emitGameOver = function(){
     Socket.emit('eveClnGameOver');
   }
@@ -11,5 +14,9 @@ app.factory('GameFactory', function(Socket){
       playerMe.win = true;
     }
   }
-  return Game;
+
+  return {
+    Game: Game;
+  }
+
 });

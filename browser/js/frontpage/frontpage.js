@@ -12,7 +12,6 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket){
     Socket.emit('randomMatch');
   }
   Socket.on('gameStart', function(payload){
-    console.log(payload.roomId);
     $state.go('game', {gameId: payload.room});
   });
 });

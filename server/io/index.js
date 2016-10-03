@@ -33,7 +33,7 @@ module.exports = function(server) {
         roomToWordInterval[room] = setInterval(function(){
           const word = randomWord();
           io.to(room).emit('eveSrvWord', {word: word});
-        }, 1000);
+        }, 3000);
 
         console.log(chalk.magenta(socket.id + ' joins room and begins game ' + room));
       } else {
@@ -63,6 +63,8 @@ module.exports = function(server) {
           if(socket.currGame){
             const room = socket.currGame;
             delete socket.currGame;
+            clearInterval(roomToWordInterval[room]);
+            delete roomToWordInterval[room];
             io.to(room).emit('eveSrvGameOver', {loserId: socket.id});
           }
         });

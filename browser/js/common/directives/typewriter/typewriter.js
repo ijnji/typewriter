@@ -13,7 +13,6 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
             scope.rival = playerRival;
             const timeStart = Date.now();
             requestAnimationFrame(gameLoop);
-            console.log(Socket.wordInterval);
             Socket.on('eveSrvKey', function(payload) {
               if (playerMe.id === payload.id) {
                 playerMe.newChar(payload.key);
@@ -24,15 +23,15 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
               scope.$digest();
             });
             Socket.on('eveSrvWord', function(payload){
-              playerMe.addWord(payload.word, 5);
-              playerRival.addWord(payload.word, 5);
+              playerMe.addWord(payload.word, 4);
+              playerRival.addWord(payload.word, 4);
               scope.$digest();
             });
             Socket.on('eveSrvGameOver', function(payload){
               GameFactory.handleGameOver(playerMe, payload.loserId);
             });
             Socket.on('playerLeave', function(){
-              scope.win = true;
+              playerMe.win = true;
               scope.$digest();
             });
             // Main game loop.
@@ -42,8 +41,8 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
                 let word = playerMe.activeWords[letter];
                 if (word) {
                   if (Date.now() > word.end){
-                    console.log('I LOSE');
-                    return GameFactor.emitGameOver();
+                    console.log('I LOSE SO HARD');
+                    return GameFactory.emitGameOver();
                   }
                 }
               }

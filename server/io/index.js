@@ -5,17 +5,15 @@ var io = null;
 const dictionaryUtils = require('../dictionary');
 const DICT = dictionaryUtils.DICT;
 const randomWord = dictionaryUtils.randomWord;
-const rooms = require('../rooms');
+
 module.exports = function(server) {
 
-    let socketToRoom = {0: []};
+    let socketToRoom = {};
+
     if (io) return io;
 
     io = socketio(server);
-    // let wordInterval = setInterval(function(){
-    //   let word = randomWord();
-    //   io.emit('eveSrvWord', {word: word})
-    // }, 6000);
+
     io.on('connection', function(socket) {
         // Now have access to socket, wowzers!
         console.log(chalk.magenta(socket.id + ' has connected'));
@@ -27,7 +25,10 @@ module.exports = function(server) {
                 socket.join(msg.gameId);
             }
         });
-
+        setInterval(function(){
+          let word = randomWord();
+          io.emit('eveSrvWord', {word: word})
+        }, 6000);
         socket.on('eventClientOne', function() {
             console.log(chalk.magenta(socket.id + ' sent eventClientOne'));
             let gameId = socketToRoom[socket.id];
@@ -48,10 +49,7 @@ module.exports = function(server) {
           let payload = {id: socket.id, key: event.key};
           io.emit('eveSrvKey', payload);
         });
-        socket.on('eveClnGameOver', function(){
-          clearInterval(wordInterval);
-          io.emit('eveSrvGameOver', {loserId: socket.id});
-        });
+
         socket.on('disconnect', function() {
             console.log(chalk.magenta(socket.id + ' has disconnected'));
         });

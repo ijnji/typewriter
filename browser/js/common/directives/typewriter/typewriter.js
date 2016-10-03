@@ -1,4 +1,4 @@
-app.directive('typewriter', function($rootScope, $state, PlayerFactory, GameFactory, InputFactory, Socket) {
+app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFactory, Socket) {
 
     return {
         restrict: 'E',
@@ -22,33 +22,14 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, GameFact
               scope.$digest();
             });
             Socket.on('eveSrvWord', function(event){
-              // console.log(event);
+              console.log(event);
               playerMe.addWord(event.word, 5);
               playerRival.addWord(event.word, 5);
               scope.$digest();
             });
-            Socket.on('eveSrvGameOver', function(event){
-              GameFactory.handleGameOver(playerMe, event.loserId);
-            });
             // Main game loop.
             // Input modifies the game state. View draws based on game state.
-            function gameLoop(){
-              // console.log('game loop');
-              for (let letter in playerMe.activeWords){
-                let word = playerMe.activeWords[letter];
-                if (word) {
-                  // console.log(playerMe.activeWords[letter]);
-                  if (Date.now() > playerMe.activeWords[letter].end) {
-                    //Client has lost;
-                    console.log('I HAVE LOST');
-                    return GameFactory.emitGameOver();
-                  }
-                }
-              }
-              requestAnimationFrame(gameLoop);
-            }
-            const timeStart = Date.now();
-            requestAnimationFrame(gameLoop);
+
         }
 
     };

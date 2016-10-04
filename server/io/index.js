@@ -7,15 +7,21 @@ const sharedsession = require('express-socket.io-session')
 const dictionaryUtils = require('../dictionary');
 const DICT = dictionaryUtils.DICT;
 const randomWord = dictionaryUtils.randomWord;
+
 const shortid = require('shortid');
+
+
+const orgLength = dictionaryUtils.orgLength
+const DictObj = dictionaryUtils.DictObj
+const WordOutput = dictionaryUtils.wordOutput
 
 module.exports = function(server) {
 
     // let socketToRoom = {};
 
     if (io) return io;
-
     io = socketio(server);
+
 
     //implement socket sessions soon
     // io.use(sharedsession(session));
@@ -46,6 +52,21 @@ module.exports = function(server) {
       }
     }
 
+    let wordTime = 0
+    let wordInterval = setInterval(function(){
+      let word = randomWord();
+
+      io.emit('eveSrvWord', {word: word})
+    }, 1000);
+
+    let diffuclty  = 0;
+    const diffInterval = setInterval(function() {
+        diffuclty++
+        const words = WordOutput(diffuclty)
+        io.emit('eventDiff',{words: words})
+    },60000)
+
+
     io.on('connection', function(socket) {
         // Now have access to socket, wowzers!
         console.log(chalk.magenta(socket.id + ' has connected'));
@@ -53,6 +74,32 @@ module.exports = function(server) {
 
         socket.on('randomMatch', function(){
           findOrCreateRoom(socket);
+
+        socket.on('eventClientJoinGame', function(msg) {
+            if (msg.gameId) {
+                console.log(chalk.magenta(socket.id + ' joins room ' + msg.gameId));
+                orgLength();
+                console.log("fun",DictObj)
+                socketToRoom[socket.id] = msg.gameId;
+                socket.join(msg.gameId);
+            }
+        });
+
+        socket.on('eventClientOne', function() {
+            console.log(chalk.magenta(socket.id + ' sent eventClientOne'));
+            let gameId = socketToRoom[socket.id];
+            if (gameId) {
+                io.to(gameId).emit('eventServerRelayOne');
+            }
+        });
+
+        socket.on('eventClientTwo', function() {
+            console.log(chalk.magenta(socket.id + ' sent eventClientTwo'));
+            let gameId = socketToRoom[socket.id];
+            if (gameId) {
+                io.to(gameId).emit('eventServerRelayTwo');
+            }
+
         });
 
         socket.on('eveClnKey', function(event){
@@ -83,4 +130,5 @@ module.exports = function(server) {
 
     return io;
 
-};
+});
+}

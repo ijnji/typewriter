@@ -4,11 +4,17 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
         restrict: 'E',
         scope: {},
         templateUrl: 'js/common/directives/typewriter/typewriter.html',
-        // controller: 'GameCtrl',
+      
         link: function(scope) {
             InputFactory.watchKeys();
-            const playerMe = new PlayerFactory.Player(Socket.io.engine.id);
-            const playerRival = new PlayerFactory.Player();
+
+            let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
+            let playerRival = new PlayerFactory.Player();
+            let theGame = new GameFactory.Game();
+            let interval = setInterval(function() {
+              this.gameTime++
+            },1000)
+
             scope.me = playerMe;
             scope.rival = playerRival;
             const timeStart = Date.now();
@@ -34,15 +40,22 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
               playerMe.win = true;
               scope.$digest();
             });
+            Socket.on('eventDiff', function(event) {
+               console.log("Event Words",event.words)
+                 
+              })
+
+            
             // Main game loop.
             // Input modifies the game state. View draws based on game state.
             function gameLoop(){
-              for (let letter in playerMe.activeWords) {
+              
+              for (let letter in playerMe.activeWords){
                 let word = playerMe.activeWords[letter];
                 if (word) {
                   if (Date.now() > word.end){
                     console.log('I LOSE SO HARD');
-                    return GameFactory.emitGameOver();
+                    return theGame.emitGameOver();
                   }
                 }
               }

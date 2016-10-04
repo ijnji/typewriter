@@ -1,4 +1,4 @@
-app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFactory, Socket) {
+app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFactory, DrawFactory, Socket) {
 
     return {
         restrict: 'E',
@@ -22,14 +22,12 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
               scope.$digest();
             });
             Socket.on('eveSrvWord', function(event){
-              console.log(event);
               playerMe.addWord(event.word, 5);
               playerRival.addWord(event.word, 5);
               scope.$digest();
             });
             // Main game loop.
             // Input modifies the game state. View draws based on game state.
-
         }
 
     };

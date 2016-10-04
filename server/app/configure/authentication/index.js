@@ -1,8 +1,7 @@
 'use strict';
 var path = require('path');
-var session = require('express-session');
 var passport = require('passport');
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+var session = require('express-session');
 
 var ENABLED_AUTH_STRATEGIES = [
     'local',
@@ -13,9 +12,7 @@ var ENABLED_AUTH_STRATEGIES = [
 
 module.exports = function (app, db) {
 
-    var dbStore = new SequelizeStore({
-        db: db
-    });
+    var dbStore = require('./createSessionStore')(db);
 
     var User = db.model('user');
 

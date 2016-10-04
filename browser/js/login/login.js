@@ -8,7 +8,7 @@ app.config(function($stateProvider) {
 
 });
 
-app.controller('LoginCtrl', function($scope, AuthService, $state) {
+app.controller('LoginCtrl', function($scope, AuthService, $state, Socket) {
 
     $scope.login = {};
     $scope.error = null;
@@ -18,6 +18,8 @@ app.controller('LoginCtrl', function($scope, AuthService, $state) {
         $scope.error = null;
 
         AuthService.login(loginInfo).then(function() {
+            Socket.emit('clnEveUserLobby');
+            console.log('hey putshed name');
             $state.go('home');
         }).catch(function() {
             $scope.error = 'Invalid login credentials.';

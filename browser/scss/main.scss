@@ -5,8 +5,8 @@ $color-bgh-light: #f3f0d7;
 $color-bgh-dark: #3fab9b;
 
 @font-face {
-  font-family: 'SketchBlock';
-  src: url('/img/font/Sketch_Block.ttf');
+  font-family: 'BlankSpace';
+  src: url('/img/font/KGBlankSpaceSolid.ttf');
 }
 
 * {
@@ -20,7 +20,7 @@ html, body, .container, .row {
 
 body {
   background: $color-bgh-normal;
-  font-family: SketchBlock;
+  font-family: BlankSpace;
   text-align: center;
 }
 
@@ -38,3 +38,4 @@ body {
 @import 'login/main';
 @import 'game/main';
 @import 'frontpage/main';
+@import 'signup/main';

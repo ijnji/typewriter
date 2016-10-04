@@ -1,14 +1,16 @@
 'use strict';
 
-app.factory('UserFactory', function ($http) {
-  let UserFactory = {};
-  const path = 'api/users';
-  let formatData = (res) => res.data;
+app.factory('UserFactory', function($http) {
 
-  UserFactory.addPlayer = function (data) {
-    return $http.post(path, data)
-      .then(formatData);
-  };
+    let UserFactory = {};
+    const path = 'api/users';
+    let formatData = (res) => res.data;
 
-  return UserFactory;
+    UserFactory.addPlayer = function(data) {
+        return $http.post(path, data)
+            .then(formatData);
+    };
+
+    return UserFactory;
+    
 });

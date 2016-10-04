@@ -8,7 +8,7 @@ app.config(function($stateProvider) {
 });
 
 
-app.controller('GameCtrl', function($scope, $state, Socket, Utils, PlayerFactory) {
+app.controller('GameCtrl', function($scope, $state, UtilityFactory, PlayerFactory, Socket) {
 
     // $scope.playerMe = new PlayerFactory.Player();
     // $scope.playerRival = new PlayerFactory.Player();

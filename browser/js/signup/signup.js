@@ -24,8 +24,7 @@ app.directive('compareTo', function (){
   }
 });
 
-app.controller('SignupCtrl', function ($scope, $state, $log, $http, AuthService, UserFactory, Socket) {
-  console.log('here');
+app.controller('SignupCtrl', function ($scope, $state, $log, AuthService, UserFactory, Socket) {
     $scope.submitSignup = function(data) {
         return UserFactory.addPlayer(data)
                 .then(function(user) {

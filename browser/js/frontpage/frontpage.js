@@ -6,7 +6,7 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('FrontpageCtrl', function($scope, $state, Socket) {
+app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 
     $scope.createUserName = function() {
         Socket.emit('clnEveGuestLobby');
@@ -22,4 +22,8 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket) {
         $state.go('game', { gameId: payload.room });
     });
 
+    document.onkeydown = function (e) {
+        console.log(e.keyCode);
+        AudioFactory.play('singletype');
+    }
 });

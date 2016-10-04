@@ -39,5 +39,5 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     return {
         Player: Player
     }
-    
+
 });

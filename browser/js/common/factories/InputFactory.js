@@ -11,5 +11,5 @@ app.factory('InputFactory', function(Socket) {
     return {
         watchKeys: watchKeys
     }
-    
+
 });

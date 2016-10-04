@@ -1,4 +1,4 @@
-app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket) {
+app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket) {
 
     return {
         restrict: 'E',
@@ -40,7 +40,7 @@ app.directive('typewriter', function($rootScope, $state, PlayerFactory, InputFac
                 scope.$digest();
             });
             Socket.on('eventDiff', function(event) {
-                console.log("Event Words", event.words)
+                console.log('Event Words', event.words)
 
             })
 

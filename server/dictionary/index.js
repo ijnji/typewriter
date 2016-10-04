@@ -1,7 +1,10 @@
+ /* eslint-disable no-floating-decimal */
 const fs = require('fs');
 const _ = require('lodash');
-
-const DICT = fs.readFileSync(__dirname + '/dictionary.txt').toString().toLowerCase().split('\n');
+const path = require('path');
+const dictionaryPath = path.join(__dirname, '/dictionary.txt');
+const DICT = fs.readFileSync(dictionaryPath).toString().toLowerCase()
+            .split('\n');
 const DictObj = _.groupBy(DICT, value => value.length)
 const BaseCharLength = 50;
 
@@ -50,9 +53,9 @@ const wordOutput = function(diff) {
 
 
 // just going to round up if char not even with stuff
-//once over char send words in the array 
-// need x amount of char also need to limit length of words? Also need full length 
-// go up diffuctly if get done before 
+//once over char send words in the array
+// need x amount of char also need to limit length of words? Also need full length
+// go up diffuctly if get done before
 
 
 module.exports = {

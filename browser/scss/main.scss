@@ -5,13 +5,18 @@ $background: #b2dfdb;
   src: url('/img/font/Sketch_Block.ttf');
 }
 
+@font-face {
+  font-family: 'BlankSpace';
+  src: url('/img/font/KGBlankSpaceSolid.ttf');
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   background: $background;
-  font-family: SketchBlock;
+  font-family: BlankSpace;
   text-align: center;
 }
 
@@ -34,3 +39,4 @@ body {
 @import 'login/main';
 @import 'game/main';
 @import 'frontpage/main';
+@import 'signup/main';

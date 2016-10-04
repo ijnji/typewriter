@@ -1,0 +1,35 @@
+<div id="signup">
+  <div class="signin-container" ng-controller="SignupCtrl">
+    <div class="buffer local">
+      <form name="signUpForm" ng-submit="signUpForm.$valid && submitSignup(form)" novalidate>
+        <div class="form-group">
+  <!-- ERROR MESSAGES -->
+<!--           {{signUpForm.email}}
+           <div ng-message="signUpForm.email.$error" ng-hide="signUpForm.email.$untouched ||signUpForm.email.$pristine ||signUpForm.email.$valid">
+             <div ng-message="pattern" class="alert alert-warning">
+             Please enter valid email.
+             </div>
+           </div>
+          <div ng-message="signUpForm.confirmPassword.$error" ng-hide="signUpFrom.confirmPassword.$valid || signUpForm.confirmPassword.$untouched ||signUpForm.confirmPassword.$pristine">
+             <div ng-message="compareTo" class="alert alert-warning">Passwords do not match.</div>
+          </div>
+          <div ng-message="signUpForm.password.$error" ng-hide="signUpFrom.password.$valid || signUpForm.password.$untouched ||signUpForm.password.$pristine">
+             <div ng-message="minlength" class="alert alert-warning">Password must be at least 5 characters long.</div>
+          </div> -->
+      <!-- END OF ERROR MESSAGES -->
+          <label>email</label>
+          <input type="text" class="form-control" ng-model="form.email" name="email" ng-pattern="/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$/i" required />
+        </div>
+        <div class="form-group">
+          <label>password</label>
+          <input type="password" class="form-control" ng-model="form.password" name="password" ng-minlength="5"/>
+        </div>
+        <div class="form-group">
+          <label>Re-enter password</label>
+          <input type="password" class="form-control" ng-model="form.confirmPassword" name="confirmPassword" required compare-to="form.password"/>
+        </div>
+        <button type="submit" class="btn btn-block btn-primary" ng-disabled="signUpForm.$invalid">signup</button>
+      </form>
+    </div>
+  </div>
+</div>

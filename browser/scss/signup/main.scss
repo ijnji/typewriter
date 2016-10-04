@@ -1,0 +1,23 @@
+#signup {
+  .signin-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: -webkit-min-content;
+  }
+
+  @media (max-width: 600px) {
+    .signin-container {
+      flex-direction: column; }
+      .signin-container > * {
+        width: 100%; }
+      }
+      .ng-dirty.ng-touched.ng-invalid {
+        border-color: red;
+        outline-color: red;
+      }
+      .ng-dirty.ng-touched.ng-valid{
+        border-color: green;
+      }
+
+}

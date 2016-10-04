@@ -7,11 +7,17 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('FrontpageCtrl', function($scope, $state, Socket){
+  
+  $scope.createUserName = function () {
+      Socket.emit('clnEveGuestLobby');
+  }
   $scope.randomMatch = function(){
     $scope.searching = true;
     Socket.emit('randomMatch');
   }
+
   Socket.on('gameStart', function(payload){
     $state.go('game', {gameId: payload.room});
   });
+
 });

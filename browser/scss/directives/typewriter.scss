@@ -1,0 +1,21 @@
+.gameContainerDrawing {
+    width: 80%;
+    height: 80vh;
+    margin: 0 auto;
+
+    background-color: #ffffff;
+    background-image: 
+    linear-gradient(#eee .1em, transparent .1em);
+    background-size: 100% 2.5rem;
+}
+
+#playerMeInput, #playerRivalInput {
+    margin: 0 auto;
+    width: 90%;
+    display: block;
+    text-align: center;
+    background-color: $color-bgh-dark;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 1.5rem;
+}

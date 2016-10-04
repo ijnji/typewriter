@@ -6,7 +6,6 @@ app.factory('UserFactory', function ($http) {
   let formatData = (res) => res.data;
 
   UserFactory.addPlayer = function (data) {
-    console.log(data);
     return $http.post(path, data)
       .then(formatData);
   };

@@ -25,20 +25,22 @@ app.directive('compareTo', function (){
 });
 
 app.controller('SignupCtrl', function ($scope, $state, $log, $http, AuthService, UserFactory, Socket) {
-
+  console.log('here');
     $scope.submitSignup = function(data) {
         return UserFactory.addPlayer(data)
                 .then(function(user) {
-                    console.log(user);
                     $scope.loginInfo = {
                         email: user.email,
                         password: data.password
                     };
-
+                    console.log('here');
                     AuthService.login($scope.loginInfo);
+                  })
+                .then(function(){
+                  Socket.emit('clnEveUserLobby');
+                  console.log('emitted');
                 })
                 .then(function() {
-                  Socket.emit('eveClnUserLobby');
                   $state.go('home');
                 })
                 .catch($log.error);

@@ -7,8 +7,8 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('FrontPageCtrl', function ($scope, Socket){
+  console.log('hey');
   $scope.createUserName = function () {
-    console.log('createUserName function')
-    Socket.emit('eveClnGuestLobby');
+    Socket.emit('clnEveGuestLobby');
   }
 });

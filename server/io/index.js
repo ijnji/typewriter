@@ -47,16 +47,20 @@ module.exports = function(server) {
         // Now have access to socket, wowzers!
         console.log(chalk.magenta(socket.id + ' has connected'));
 
-        socket.on('eveClnGuestLobby', function () {
+        socket.on('clnEveGuestLobby', function () {
             socketFunctions.addGuest(socket);
+            console.log('ere', socketFunctions.activeUsers);
         });
 
-        socket.on('eveClnUserLobby', function () {
+        socket.on('clnEveUserLobby', function () {
             socketFunctions.addUser(socket);
+            console.log('fsfsfs', socketFunctions.activeUsers);
         });
 
         // socket.emit('eveClnLobby', {users: socketFunctions.activeUsers})
         socket.on('getUsers', function(){
+            console.log('hello');
+            console.log(socketFunctions.activeUsers);
             socket.emit('users', {users: socketFunctions.activeUsers})
         })
         socket.on('eventClientJoinGame', function(msg) {

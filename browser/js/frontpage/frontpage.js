@@ -8,9 +8,9 @@ app.config(function($stateProvider) {
 
 app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 
-    $scope.createUserName = function() {
-        Socket.emit('clnEveGuestLobby');
-    };
+    Socket.emit('addGuest');
+
+
 
     $scope.randomMatch = function() {
         console.log('request randomMatch');

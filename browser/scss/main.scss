@@ -4,9 +4,15 @@ $color-bgh-normal: #cee5d0;
 $color-bgh-light: #f3f0d7;
 $color-bgh-dark: #3fab9b;
 
+
 @font-face {
   font-family: 'BlankSpace';
   src: url('/img/font/KGBlankSpaceSolid.ttf');
+}
+
+@font-face {
+  font-family: 'SketchBlock';
+  src: url('/img/font/Sketch_Block.ttf');
 }
 
 * {

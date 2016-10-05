@@ -32,7 +32,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 playerRival.addWord(event.word, 5);
                 scope.$digest();
             });
-            Socket.on('eveSrvGameOver', function(payload) {
+            Socket.on('endGame', function(payload) {
                 GameFactory.handleGameOver(playerMe, payload.loserId);
             });
             Socket.on('playerLeave', function() {

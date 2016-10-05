@@ -29,6 +29,8 @@ module.exports = function(server) {
     // io.use(sharedsession(session));
     io.on('connection', function(socket) {
         // Create event handlers for this socket
+        console.log(chalk.magenta(socket.id + ' has connected'));
+
         const eventHandlers = {
             match: new Match(app, socket, io),
             lobby: new Lobby(app, socket, io, activeUsers),

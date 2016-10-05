@@ -19,19 +19,34 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             scope.rival = playerRival;
             const timeStart = Date.now();
             requestAnimationFrame(gameLoop);
-            Socket.on('eveSrvKey', function(payload) {
+
+            Socket.on('newKey', function(payload) {
                 if (playerMe.id === payload.id) {
-                    playerMe.newChar(payload.key);
+                    if (payload.key === 'Enter') {
+                        playerMe.validateInput(payload.key);
+                    } else if (payload.key === 'Backspace'){
+                        playerMe.removeChar(payload.key);
+                    } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
+                        playerMe.newChar(payload.key);
+                    }
                 } else {
-                    playerRival.newChar(payload.key);
+                    if (payload.key === 'Enter') {
+                        playerRival.validateInput(payload.key);
+                    } else if (payload.key === 'Backspace') {
+                        playerRival.removeChar(payload.key);
+                    } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
+                        playerRival.newChar(payload.key);
+                    }
                 }
                 scope.$digest();
             });
+
             Socket.on('eveSrvWord', function(event) {
                 playerMe.addWord(event.word, 5);
                 playerRival.addWord(event.word, 5);
                 scope.$digest();
             });
+
             Socket.on('endGame', function(payload) {
                 GameFactory.handleGameOver(playerMe, payload.loserId);
             });

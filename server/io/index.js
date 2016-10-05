@@ -1,7 +1,7 @@
 'use strict';
 const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
-const Lobby = require('./EventHandlers/Lobby');
+const Game = require('./EventHandlers/Game');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passportSocketIo = require("passport.socketio");
@@ -21,6 +21,8 @@ const socketFunctions = require('./SocketHelpers');
 
 let io = null;
 
+const activeUsers = [];
+
 const app = {
     allSockets: []
 }
@@ -33,6 +35,7 @@ module.exports = function(server) {
 
     //implement socket sessions soon
     // io.use(sharedsession(session));
+
     // let diffuclty = 0;
     // const diffInterval = setInterval(function() {
     //     diffuclty++
@@ -40,14 +43,31 @@ module.exports = function(server) {
     //     io.emit('eventDiff', { words: words })
     // }, 60000);
 
-    io.on('connection', function(socket) {
+    // TODO: The following breaks game joining over socket.io. PLEASE FIX.
+    // io.use(passportSocketIo.authorize({
+    //     cookieParser: cookieParser,
+    //     secret: 'Optimus Prime is my real dad',
+    //     store: createSessionStore(db),
+    //     success: onAuthorizeSuccess,
+    //     fail: onAuthorizeFail
+    // }));
 
-        console.log('connected' + socket.id);
+    function onAuthorizeSuccess(data, accept) {
+        accept();
+    }
+
+    function onAuthorizeFail(data, message, error, accept) {
+        if (error)
+            accept(new Error(message));
+    }
+
+
+    io.on('connection', function(socket) {
 
         // Create event handlers for this socket
         const eventHandlers = {
             match: new Match(app, socket, io),
-            lobby: new Lobby (app, socket, io)
+            game: new Game(app, socket, io)
         };
 
         // Bind events to handlers
@@ -62,12 +82,25 @@ module.exports = function(server) {
         app.allSockets.push(socket);
 
         //everything below this should be in it's own EventHandler (except disconnect)
+        socket.on('clnEveGuestLobby', function() {
+            socketFunctions.addGuest(socket);
+        });
 
+        socket.on('clnEveUserLobby', function() {
+            socketFunctions.addUser(socket);
+        });
 
+        socket.on('getUsers', function() {
+            socket.emit('users', { users: socketFunctions.activeUsers })
+        })
 
-        socket.on('eveClnKey', function(event) {
-            const payload = { id: socket.id, key: event.key };
-            io.to(socket.currGame).emit('eveSrvKey', payload);
+        socket.on('eventClientJoinGame', function(msg) {
+            if (msg.gameId) {
+                console.log(chalk.magenta(socket.id + ' joins room ' + msg.gameId));
+                orgLength();
+                socketToRoom[socket.id] = msg.gameId;
+                socket.join(msg.gameId);
+            }
         });
 
         socket.on('disconnect', function() {
@@ -83,22 +116,4 @@ module.exports = function(server) {
         return io;
 
     });
-
-    io.use(passportSocketIo.authorize({
-        cookieParser: cookieParser,
-        secret: 'Optimus Prime is my real dad',
-        store: createSessionStore(db),
-        success: onAuthorizeSuccess,
-        fail: onAuthorizeFail
-    }));
-
-    function onAuthorizeSuccess(data, accept) {
-        accept();
-    }
-
-    function onAuthorizeFail(data, message, error, accept) {
-        if (error)
-            accept(new Error(message));
-    }
-
 }

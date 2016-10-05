@@ -2,12 +2,10 @@
 
 app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
-    let Player = function(socketId) {
+    const Player = function(socketId) {
         this.difficulty = 0;
-        this.id = '/#' + socketId;
-        this.letter = null;
-        this.typed = null;
-        this.remaining = null;
+        this.id = socketId;
+        this.word = '';
         this.activeWords = {};
         UtilityFactory.ALPHABET.forEach(letter => {
             this.activeWords[letter] = null;
@@ -19,21 +17,22 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     }
 
     Player.prototype.newChar = function(char) {
-        if (!this.letter) {
-            if (!this.activeWords[char]) return;
-            this.typed = char;
-            this.remaining = this.activeWords[char].text.substring(1);
-            this.letter = this.remaining[0];
-        } else if (this.letter === char) {
-            this.typed += char;
-            this.remaining = this.remaining.substring(1);
-            this.letter = this.remaining[0];
+        this.word += char;
+    }
+
+    Player.prototype.removeChar = function(char) {
+        this.word = this.word.substring(0, this.word.length - 1 );
+    }
+
+    Player.prototype.validateInput = function(){
+        let targetWord = this.activeWords[this.word[0]];
+        if (targetWord && targetWord === this.word) {
+            targetWord = null;
         }
-        if (this.remaining === '') {
-            this.activeWords[this.typed[0]] = null;
-            this.typed = null;
-            this.remaining = null;
-        }
+        this.clearWord();
+    }
+    Player.prototype.clearWord = function(){
+        this.word = '';
     }
 
     return {

@@ -1,24 +1,8 @@
-const io = ('../index.js');
 const adjectives = require('adjectives');
 const _ = require('lodash');
 
 
-const Lobby = function(app, socket, io, activeUsers){
-    this.activeUsers = activeUsers;
-    this.app = app;
-    this.socket = socket;
-    this.io = io;
-    this.handler = {
-        addGuest: addGuest.bind(this),
-        addUser: addUser.bind(this),
-        getUsers: getUsers.bind(this),
-        challengeUser: challengeUser.bind(this)
-    }
-}
-
 const animals =  ['alpaca', 'bunny', 'cat', 'dog', 'elephant', 'fox', 'gorilla', 'hippo', 'iguana', 'jackalope', 'kangaroo', 'kakapo', 'lemur', 'monkey', 'octopus', 'penguin', 'quail', 'racoon', 'sloth', 'tiger', 'vulture', 'walrus', 'xenon', 'yak', 'zebra' ];
-
-
 
 const nameGenerator = function(){
         const adj = _.sample(adjectives);
@@ -68,7 +52,21 @@ const getUsers = function(){
 
 const challengeUser = function(socketid){
     const id = socketid.id;
-    this.io.to(id).emit( 'sendingmsg', {sender : this.socket.id} );
+    this.io.to(id).emit( 'sendingmsg', {sender: this.socket.id} );
+}
+
+
+const Lobby = function(app, socket, io, activeUsers){
+    this.activeUsers = activeUsers;
+    this.app = app;
+    this.socket = socket;
+    this.io = io;
+    this.handler = {
+        addGuest: addGuest.bind(this),
+        addUser: addUser.bind(this),
+        getUsers: getUsers.bind(this),
+        challengeUser: challengeUser.bind(this)
+    }
 }
 
 module.exports = Lobby;

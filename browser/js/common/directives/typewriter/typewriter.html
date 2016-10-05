@@ -1,17 +1,22 @@
 <div class="container">
+
   <div class="row">
     <div class="col s6">
       <div class="gameContainerDrawing z-depth-1">
         <div ng-repeat="word in me.activeWords">{{ word.text }}</div>
       </div>
-      <input id="playerMeInput" type="text">
+      <div id="playerMeInput">
+        {{me.word}}
+      </div>
       <label>Me</label>
     </div>
     <div class="col s6">
       <div class="gameContainerDrawing z-depth-1">
         <div ng-repeat="word in rival.activeWords">{{ word.text }}</div>
       </div>
-      <input id="playerRivalInput" type="text">
+      <div id="playerRivalInput">
+        {{rival.word}}
+      </div>
       <label>Rival</label>
     </div>
   </div>

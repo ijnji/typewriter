@@ -2,17 +2,11 @@
 const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
 const Lobby = require('./EventHandlers/Lobby');
+const Game = require('./EventHandlers/Game');
 const session = require('express-session');
 const passportSocketIo = require("passport.socketio");
 const chalk = require('chalk');
 const _ = require('lodash');
-
-const dictionaryUtils = require('../dictionary');
-const DICT = dictionaryUtils.DICT;
-const randomWord = dictionaryUtils.randomWord;
-const orgLength = dictionaryUtils.orgLength
-const DictObj = dictionaryUtils.DictObj
-const WordOutput = dictionaryUtils.wordOutput
 
 const cookieParser = require('cookie-parser');
 const db = require('../db');
@@ -20,35 +14,26 @@ const createSessionStore = require('../app/configure/authentication/createSessio
 
 let io = null;
 
+const activeUsers = [];
+
 const app = {
     allSockets: []
 }
 
-const activeUsers = [];
-
 module.exports = function(server) {
-
 
     if (io) return io;
     io = socketio(server);
 
     //implement socket sessions soon
     // io.use(sharedsession(session));
-    // let diffuclty = 0;
-    // const diffInterval = setInterval(function() {
-    //     diffuclty++
-    //     const words = WordOutput(diffuclty)
-    //     io.emit('eventDiff', { words: words })
-    // }, 60000);
-
     io.on('connection', function(socket) {
-
-        console.log(chalk.magenta(socket.id + ' has connected'));
-
         // Create event handlers for this socket
         const eventHandlers = {
             match: new Match(app, socket, io),
-            lobby: new Lobby (app, socket, io, activeUsers)
+            lobby: new Lobby(app, socket, io, activeUsers),
+            game: new Game(app, socket, io)
+
         };
 
         // Bind events to handlers
@@ -63,14 +48,6 @@ module.exports = function(server) {
         app.allSockets.push(socket);
 
         //everything below this should be in it's own EventHandler (except disconnect)
-
-
-
-        socket.on('eveClnKey', function(event) {
-            const payload = { id: socket.id, key: event.key };
-            io.to(socket.currGame).emit('eveSrvKey', payload);
-        });
-
         socket.on('disconnect', function() {
             console.log(chalk.magenta(socket.id + ' has disconnected'));
             if (socket.currGame) {
@@ -85,9 +62,6 @@ module.exports = function(server) {
                     return el.id === socket.id;
                 });
                 activeUsers.splice(i, 1);
-
-                console.log(activeUsers);
-
         });
         return io;
 
@@ -107,8 +81,9 @@ module.exports = function(server) {
 
     function onAuthorizeFail(data, message, error, accept) {
         console.log('failed');
-        if (error)
+        if (error) {
             accept(new Error(message));
+        }
     }
 
 }

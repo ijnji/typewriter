@@ -4,13 +4,14 @@
     margin: 0 auto;
 
     background-color: #ffffff;
-    background-image: 
+    background-image:
     linear-gradient(#eee .1em, transparent .1em);
     background-size: 100% 2.5rem;
 }
 
 #playerMeInput, #playerRivalInput {
     margin: 0 auto;
+    height: 42px;
     width: 90%;
     display: block;
     text-align: center;

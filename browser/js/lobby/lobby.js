@@ -13,6 +13,7 @@ app.controller('LobbyCtrl', function ($scope, Socket){
 }
   Socket.emit('getUsers');
   Socket.on('users', function(activeUsers){
+    console.log(activeUsers.users);
     $scope.activeUsers = activeUsers.users;
     $scope.$digest();
   })

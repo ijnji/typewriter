@@ -26,8 +26,6 @@ const nameGenerator = function(){
         return guestName;
     }
 
-
-
 const addGuest = function () {
     const self = this;
     if (_.findIndex(activeUsers, function (el){
@@ -39,7 +37,7 @@ const addGuest = function () {
         while (_.isMatch(activeUsers, {userName: userName})){
             userName = nameGenerator();
         }
-        activeUsers.push({id: this.socket.id, userName: userName})
+        activeUsers.push({id: this.socket.id, userName: userName, playing: false})
     }
 };
 
@@ -51,7 +49,7 @@ const addUser = function () {
     });
         activeUsers.splice(i, 1);
     }
-    activeUsers.push({id: this.socket.id, userName: this.socket.request.user.username});
+    activeUsers.push({id: this.socket.id, userName: this.socket.request.user.username, playing: false});
 };
 
 const removeUser = function () {
@@ -65,6 +63,5 @@ const removeUser = function () {
 const getUsers = function(){
     this.io.emit('users', {users: activeUsers});
 }
-
 
 module.exports = Lobby;

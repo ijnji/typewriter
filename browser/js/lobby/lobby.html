@@ -2,7 +2,7 @@
   <div>
     <h3>Active Users</h3>
     <ul>
-         <li ng-repeat="user in activeUsers">
+         <li ng-repeat="user in activeUsers | filter: {playing: false}">
             <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{user.userName}}</a>
            <div id="modal{{$index+1}}"" class="modal">
             <div class="modal-content">

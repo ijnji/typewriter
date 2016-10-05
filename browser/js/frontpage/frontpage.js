@@ -10,7 +10,9 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 
     Socket.emit('addGuest');
 
-
+    $scope.testMatch = function() {
+        $state.go('test');
+    };
 
     $scope.randomMatch = function() {
         console.log('request randomMatch');

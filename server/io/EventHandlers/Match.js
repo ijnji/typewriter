@@ -1,4 +1,3 @@
-const io = ('../index.js');
 const shortid = require('shortid');
 const dictionaryUtils = require('../../dictionary');
 
@@ -8,6 +7,7 @@ const Match = function(app, socket, io){
     this.io = io;
     this.roomToWordInterval = {};
     this.handler = {
+        testMatch: testMatch.bind(this),
         randomMatch: randomMatch.bind(this),
         gameOver:   gameOver.bind(this)
     }
@@ -15,6 +15,15 @@ const Match = function(app, socket, io){
 
 const openRooms = [];
 
+function testMatch() {
+    const self = this;
+    this.socket.join('test');
+    this.socket.currGame = 'test';
+    setInterval(function() {
+        const word = dictionaryUtils.randomWord();
+        self.io.to('test').emit('eveSrvWord', { word: word });
+    }, 1000);
+}
 
 function randomMatch() {
     if (openRooms.length) {
@@ -22,11 +31,6 @@ function randomMatch() {
         this.socket.join(room);
         this.socket.currGame = room;
         this.io.sockets.in(room).emit('gameStart', { room: room });
-        //start sending words to players in room
-        // this.roomToWordInterval[room] = setInterval(function() {
-        //     const word = dictionaryUtils.randomWord();
-        //     io.to(room).emit('eveSrvWord', { word: word });
-        // }, 3000);
     } else {
         const room = shortid.generate();
         this.socket.join(room);

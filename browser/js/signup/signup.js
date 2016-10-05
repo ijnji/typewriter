@@ -37,7 +37,7 @@ app.controller('SignupCtrl', function ($scope, $state, $log, $http, AuthService,
                     AuthService.login($scope.loginInfo);
                   })
                 .then(function(){
-                  Socket.emit('clnEveUserLobby');
+                  Socket.emit('addUser');
                   console.log('emitted');
                 })
                 .then(function() {

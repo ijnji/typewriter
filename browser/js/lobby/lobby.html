@@ -2,7 +2,17 @@
   <div>
     <h3>Active Users</h3>
     <ul>
-      <li ng-repeat="user in activeUsers">{{user.userName}}</li>
+         <li ng-repeat="user in activeUsers | filter: {playing: false}">
+            <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{user.userName}}</a>
+           <div id="modal{{$index+1}}"" class="modal">
+            <div class="modal-content">
+                <p>A Would you like to challenge {{user.userName}}?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close" ng-click="challengeUser(user.id)">Yes</a>
+                <a href="#!" class=" modal-action modal-close">No</a>
+            </div>
+        </li>
     </ul>
   </div>
 </section>

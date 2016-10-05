@@ -14,6 +14,10 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
         $state.go('test');
     };
 
+    document.onkeydown = function (e) {
+        AudioFactory.play('singletype');
+    };
+
     $scope.randomMatch = function() {
         console.log('request randomMatch');
         $scope.searching = true;
@@ -24,8 +28,4 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
         $state.go('game', { gameId: payload.room });
     });
 
-    document.onkeydown = function (e) {
-        console.log(e.keyCode);
-        AudioFactory.play('singletype');
-    }
 });

@@ -26,8 +26,9 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
     Player.prototype.validateInput = function(){
         let targetWord = this.activeWords[this.word[0]];
+        console.log(targetWord);
         if (targetWord && targetWord === this.word) {
-            targetWord = null;
+            this.activeWords[this.word[0]] = null;
         }
         this.clearWord();
     }

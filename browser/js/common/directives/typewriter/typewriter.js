@@ -24,6 +24,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         Socket.on('newKey', function(payload) {
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter') {
+                    console.log(payload.key);
                     playerMe.validateInput(payload.key);
                 } else if (payload.key === 'Backspace'){
                     playerMe.removeChar(payload.key);

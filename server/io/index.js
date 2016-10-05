@@ -3,8 +3,8 @@ const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
 const Lobby = require('./EventHandlers/Lobby');
 const Game = require('./EventHandlers/Game');
-const session = require('express-session');
-const passportSocketIo = require("passport.socketio");
+//const session = require('express-session');
+const passportSocketIo = require('passport.socketio');
 const chalk = require('chalk');
 const _ = require('lodash');
 
@@ -69,23 +69,23 @@ module.exports = function(server) {
 
     });
 
-    io.use(passportSocketIo.authorize({
-        cookieParser: cookieParser,
-        secret: 'Optimus Prime is my real dad',
-        store: createSessionStore(db),
-        success: onAuthorizeSuccess,
-        fail: onAuthorizeFail
-    }));
+    // io.use(passportSocketIo.authorize({
+    //     cookieParser: cookieParser,
+    //     secret: 'Optimus Prime is my real dad',
+    //     store: createSessionStore(db),
+    //     success: onAuthorizeSuccess,
+    //     fail: onAuthorizeFail
+    // }));
 
-    function onAuthorizeSuccess(data, accept) {
-        accept();
-    }
+    // function onAuthorizeSuccess(data, accept) {
+    //     accept();
+    // }
 
-    function onAuthorizeFail(data, message, error, accept) {
-        console.log('failed');
-        if (error) {
-            accept(new Error(message));
-        }
-    }
+    // function onAuthorizeFail(data, message, error, accept) {
+    //     console.log('failed');
+    //     if (error) {
+    //         accept(new Error(message));
+    //     }
+    // }
 
 }

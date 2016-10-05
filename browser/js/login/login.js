@@ -18,6 +18,7 @@ app.controller('LoginCtrl', function($scope, AuthService, $state, Socket) {
         $scope.error = null;
 
         AuthService.login(loginInfo).then(function() {
+            console.log('je');
             Socket.emit('addUser');
             $state.go('home');
         }).catch(function() {

@@ -14,7 +14,7 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
         $state.go('test');
     };
 
-    document.onkeydown = function (e) {
+    document.onkeydown = function () {
         AudioFactory.play('singletype');
     };
 

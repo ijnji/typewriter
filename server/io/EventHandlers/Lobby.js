@@ -29,9 +29,6 @@ const nameGenerator = function(){
 
 
 const addGuest = function () {
-    // console.log(activeUsers);
-    console.log('THIS', this);
-    // console.log(this.socket);
     const self = this;
     if (_.findIndex(activeUsers, function (el){
         return el.id === self.socket.id;
@@ -44,14 +41,11 @@ const addGuest = function () {
         }
         activeUsers.push({id: this.socket.id, userName: userName})
     }
-    console.log(activeUsers);
 };
 
 const addUser = function () {
-    console.log('id', this.socket.id);
     const self = this;
     if (_.isMatch(activeUsers, {id: this.socket.id})) {
-        console.log('found user');
         var i = _.findIndex(activeUsers, function (el){
         return el.id === self.socket.id;
     });

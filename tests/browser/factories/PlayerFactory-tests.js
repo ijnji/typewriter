@@ -34,7 +34,6 @@ describe ('PlayerFactory', function () {
   });
   it("is an object", function () {
     expect(PlayerFactory).to.be.an('object');
-    console.log(Player1);
   });
 
   describe("addWord", function (){

@@ -36,7 +36,6 @@ router.post('/', function (req, res, next) {
 router.put('/', function (req, res, next) {
   if (!req.params.userId) {
     req.session.address = req.body;
-    console.log(req.session);
     res.send(req.body);
    } else {
      User.findById(req.session.passport.user)

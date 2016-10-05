@@ -42,7 +42,7 @@ module.exports = function(server) {
 
     io.on('connection', function(socket) {
 
-        console.log('connected' + socket.id);
+        console.log(chalk.magenta(socket.id + ' has connected'));
 
         // Create event handlers for this socket
         const eventHandlers = {

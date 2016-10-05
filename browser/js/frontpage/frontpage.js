@@ -23,7 +23,6 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
     });
 
     document.onkeydown = function (e) {
-        console.log(e.keyCode);
         AudioFactory.play('singletype');
     }
 });

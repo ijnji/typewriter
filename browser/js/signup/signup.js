@@ -32,12 +32,10 @@ app.controller('SignupCtrl', function ($scope, $state, $log, AuthService, UserFa
                         email: user.email,
                         password: data.password
                     };
-                    console.log('here');
                     AuthService.login($scope.loginInfo);
                   })
                 .then(function(){
                   Socket.emit('addUser');
-                  console.log('emitted');
                 })
                 .then(function() {
                   $state.go('home');

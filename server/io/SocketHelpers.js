@@ -31,7 +31,6 @@ module.exports = {
     },
 
     addUser: function (socket) {
-        console.log('id', socket.id);
         if (_.isMatch(activeUsers, {id: socket.id})) {
             console.log('found user');
             var i = _.findIndex(activeUsers, function (el){

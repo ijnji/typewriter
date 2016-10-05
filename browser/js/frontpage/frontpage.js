@@ -10,7 +10,9 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 
     Socket.emit('addGuest');
 
-
+    document.onkeydown = function (e) {
+        AudioFactory.play('singletype');
+    }
 
     $scope.randomMatch = function() {
         console.log('request randomMatch');
@@ -22,7 +24,4 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
         $state.go('game', { gameId: payload.room });
     });
 
-    document.onkeydown = function (e) {
-        AudioFactory.play('singletype');
-    }
 });

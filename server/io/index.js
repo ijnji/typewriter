@@ -3,9 +3,9 @@ const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
 const Lobby = require('./EventHandlers/Lobby');
 const session = require('express-session');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passportSocketIo = require("passport.socketio");
 const chalk = require('chalk');
+const _ = require('lodash');
 
 const dictionaryUtils = require('../dictionary');
 const DICT = dictionaryUtils.DICT;
@@ -17,13 +17,14 @@ const WordOutput = dictionaryUtils.wordOutput
 const cookieParser = require('cookie-parser');
 const db = require('../db');
 const createSessionStore = require('../app/configure/authentication/createSessionStore');
-const socketFunctions = require('./SocketHelpers');
 
 let io = null;
 
 const app = {
     allSockets: []
 }
+
+const activeUsers = [];
 
 module.exports = function(server) {
 
@@ -47,7 +48,7 @@ module.exports = function(server) {
         // Create event handlers for this socket
         const eventHandlers = {
             match: new Match(app, socket, io),
-            lobby: new Lobby (app, socket, io)
+            lobby: new Lobby (app, socket, io, activeUsers)
         };
 
         // Bind events to handlers
@@ -79,6 +80,14 @@ module.exports = function(server) {
                 // delete roomToWordInterval[room];
                 io.to(room).emit('playerLeave');
             }
+
+                var i = _.findIndex(activeUsers, function (el){
+                    return el.id === socket.id;
+                });
+                activeUsers.splice(i, 1);
+
+                console.log(activeUsers);
+
         });
         return io;
 
@@ -97,6 +106,7 @@ module.exports = function(server) {
     }
 
     function onAuthorizeFail(data, message, error, accept) {
+        console.log('failed');
         if (error)
             accept(new Error(message));
     }

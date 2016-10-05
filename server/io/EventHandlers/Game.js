@@ -1,9 +1,8 @@
 const dictionaryUtils = require('../../dictionary');
 const DICT = dictionaryUtils.DICT;
-const randomWord = dictionaryUtils.randomWord;
 const orgLength = dictionaryUtils.orgLength
 const DictObj = dictionaryUtils.DictObj
-const WordOutput = dictionaryUtils.wordOutput
+
 
 const Game = function(app, socket, io){
     this.app = app;
@@ -14,6 +13,24 @@ const Game = function(app, socket, io){
         keypress: keypress.bind(this)
     }
 }
+function gameStart(payload) {
+
+    this.socket.on('gameStart', function() {
+        const player1 = dictionaryUtils.wordOutput(1)
+        const player2 = dictionaryUtils.wordOutput(1)
+
+      const stuff =  {
+            player1: player1,
+            player2: player2
+        }
+
+        this.io.to(this.socket.payload.id).emit('')
+        
+        
+    })
+}
+
+
 
 function keypress(payload){
     this.io.to(this.socket.currGame).emit('newKey', payload);

@@ -16,6 +16,7 @@ const Match = function(app, socket, io){
 const openRooms = [];
 
 function testMatch() {
+   
     const self = this;
     this.socket.join('test');
     this.socket.currGame = 'test';

@@ -7,7 +7,7 @@ const session = require('express-session');
 const passportSocketIo = require("passport.socketio");
 const chalk = require('chalk');
 const _ = require('lodash');
-
+const dictionaryUtils = require('../dictionary');
 const cookieParser = require('cookie-parser');
 const db = require('../db');
 const createSessionStore = require('../app/configure/authentication/createSessionStore');
@@ -29,8 +29,8 @@ module.exports = function(server) {
     // io.use(sharedsession(session));
     io.on('connection', function(socket) {
         // Create event handlers for this socket
+        console.log(dictionaryUtils.wordOutput(1))
         console.log(chalk.magenta(socket.id + ' has connected'));
-
         const eventHandlers = {
             match: new Match(app, socket, io),
             lobby: new Lobby(app, socket, io, activeUsers),

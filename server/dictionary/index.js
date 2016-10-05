@@ -32,23 +32,40 @@ const getCharLimit = function(diff) {
 
     return charLimit
 }
-
+// wordOutPut called twice every 60 seconds 
 const wordOutput = function(diff) {
-    let words = []
+    let words = {}
 
     const charLimit = getCharLimit(diff)
-
+    console.log(charLimit)
     for (let key in charLimit) {
+        words[key] = []
         let counter = charLimit[key]
 
         while (counter > 0) {
-            words.push(DictObj[key][Math.floor(Math.random() * DictObj[key].length)])
+            words[key].push(DictObj[key][Math.floor(Math.random() * DictObj[key].length)])
             counter = counter - key
 
         }
-    }
 
+        // duration(findChar(diff),words)
+    }
+    console.log("object",words)
     return words
+}
+
+// one big function that has interval 
+// sendWords is called every 60 seconds 
+const duration = function(totalChar, words) {
+
+    const charSec = totalChar/60
+
+    // need to type 1.66 on average per second 
+    // need to have range [2-x]
+    // range becomes more erractic per level? 
+    //have 60 seconds worth of words now need to distrubte over 60 seconds
+    //range of durations and frequency based on level and word length 
+
 }
 
 

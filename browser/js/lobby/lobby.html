@@ -2,14 +2,14 @@
   <div>
     <h3>Active Users</h3>
     <ul>
-         <li ng-repeat="user in activeUsers | filter: {playing: false}">
-            <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{user.username}}</a>
+         <li ng-repeat="activeUser in activeUsers | filter: {playing: false, username: '!' + user}">
+            <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{activeUser.username}}</a>
            <div id="modal{{$index+1}}"" class="modal">
             <div class="modal-content">
-                <p>A Would you like to challenge {{user.username}}?</p>
+                <p>A Would you like to challenge {{activeUser.username}}?</p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close" ng-click="challengeUser(user)">Yes</a>
+                <a href="#!" class=" modal-action modal-close" ng-click="challengeUser(activeUser)">Yes</a>
                 <a href="#!" class=" modal-action modal-close">No</a>
             </div>
         </li>

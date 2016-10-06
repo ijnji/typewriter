@@ -8,6 +8,7 @@ app.directive('navbar', function($rootScope, $state, AuthService, AUTH_EVENTS, S
 
 
             scope.items = [
+                { label: 'Home', state: 'frontpage' },
                 { label: 'Lobby', state: 'lobby' }
             ];
 
@@ -23,28 +24,32 @@ app.directive('navbar', function($rootScope, $state, AuthService, AUTH_EVENTS, S
                 });
             };
 
-            Socket.on('setUsername', function (payload){
-                $rootScope.user = payload.username;
-                scope.user = $rootScope.user;
-                scope.$digest();
-            })
+            // Socket.on('setUsername', function (payload){
+            //     $rootScope.user = payload.username;
+            //     scope.user = $rootScope.user;
+            //     scope.$digest();
+            // })
 
-            // var setUser = function() {
-            //     console.log('setUser');
-            //     AuthService.getLoggedInUser().then(function(user) {
-            //         scope.user = user;
-            //     });
-            // };
-
-            var removeUser = function() {
-                scope.user = null;
+            var setUser = function() {
+                console.log('setUser');
+                AuthService.getLoggedInUser().then(function(user) {
+                    console.log(user);
+                    $rootScope.loggedUser = user;
+                    $rootScope.user = user.username;
+                    scope.user = $rootScope.user;
+                    console.log($rootScope.user);
+                });
             };
 
-            // setUser();
+            var removeUser = function() {
+                scope.loggedUser = null;
+            };
 
-            // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
-            // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
-            // $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
+            setUser();
+
+            $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
+            $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
+            $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
 
         }
 

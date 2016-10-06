@@ -80,7 +80,7 @@ module.exports = function(server) {
 
         //send user to frontend
 
-        // socket.emit('sendUsername', {username: username});
+        socket.emit('setUsername', {username: username});
 
 
 

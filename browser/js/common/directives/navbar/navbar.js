@@ -22,7 +22,7 @@ app.directive('navbar', function($rootScope, $state, AuthService, AUTH_EVENTS, S
                     $state.go('home');
                 });
             };
-
+            console.log('here');
             Socket.on('setUsername', function (payload){
                 console.log(payload);
                 scope.user = payload.username;

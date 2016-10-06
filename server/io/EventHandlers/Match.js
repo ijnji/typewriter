@@ -1,6 +1,5 @@
 const shortid = require('shortid');
-const dictionaryUtils = require('../../dictionary');
-
+const wordEmitter = require('../wordEmitter');
 const Match = function(app, socket, io){
     this.app = app;
     this.socket = socket;
@@ -19,10 +18,7 @@ function testMatch() {
     const self = this;
     this.socket.join('test');
     this.socket.currGame = 'test';
-    setInterval(function() {
-        const word = dictionaryUtils.randomWord();
-        self.io.to('test').emit('eveSrvWord', { word: word });
-    }, 1000);
+
 }
 
 function randomMatch() {
@@ -31,6 +27,8 @@ function randomMatch() {
         this.socket.join(room);
         this.socket.currGame = room;
         this.io.sockets.in(room).emit('gameStart', { room: room });
+        console.log('gameStart emitted', room);
+        wordEmitter.emitWords(room, this.io);
     } else {
         const room = shortid.generate();
         this.socket.join(room);

@@ -43,10 +43,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             scope.$digest();
         });
 
-        Socket.on('eveSrvWord', function(event) {
-            playerMe.addWord(event.word, 5);
-            playerRival.addWord(event.word, 5);
-            scope.$digest();
+        Socket.on('newWord', function(event) {
+            console.log(event);
+            // playerMe.addWord(event.word, 5);
+            // playerRival.addWord(event.word, 5);
+            // scope.$digest();
         });
 
         Socket.on('endGame', function(payload) {

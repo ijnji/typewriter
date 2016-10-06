@@ -3,7 +3,7 @@ const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
 const Lobby = require('./EventHandlers/Lobby');
 const Game = require('./EventHandlers/Game');
-//const session = require('express-session');
+const session = require('express-session');
 const passportSocketIo = require('passport.socketio');
 const chalk = require('chalk');
 const _ = require('lodash');
@@ -25,8 +25,6 @@ module.exports = function(server) {
     if (io) return io;
     io = socketio(server);
 
-    //implement socket sessions soon
-    // io.use(sharedsession(session));
     io.on('connection', function(socket) {
         // Create event handlers for this socket
         console.log(chalk.magenta(socket.id + ' has connected'));
@@ -68,7 +66,9 @@ module.exports = function(server) {
         return io;
 
     });
-
+}
+    //implement socket sessions soon
+    // io.use(sharedsession(session));
     // io.use(passportSocketIo.authorize({
     //     cookieParser: cookieParser,
     //     secret: 'Optimus Prime is my real dad',
@@ -87,5 +87,3 @@ module.exports = function(server) {
     //         accept(new Error(message));
     //     }
     // }
-
-}

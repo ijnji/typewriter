@@ -5,7 +5,7 @@ const path = require('path');
 const dictionaryPath = path.join(__dirname, '/dictionary.txt');
 const DICT = fs.readFileSync(dictionaryPath).toString().toLowerCase()
             .split('\n');
-const DictObj = _.groupBy(DICT, value => value.length)
+const dictObj = _.groupBy(DICT, value => value.length)
 const BaseCharLength = 50;
 
 
@@ -60,7 +60,7 @@ const wordOutput = function(diff) {
 
 module.exports = {
     DICT: DICT,
-    DictObj: DictObj,
+    dictObj: dictObj,
     wordOutput: wordOutput,
     randomWord: randomWord
 };

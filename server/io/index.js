@@ -29,7 +29,7 @@ const animals =  ['alpaca', 'bunny', 'cat', 'dog', 'elephant', 'fox', 'gorilla',
 const nameGenerator = function(){
         const adj = _.sample(adjectives);
         const animal = _.sample(animals);
-        const guestName = adj + _.capitalize(animal);
+        const guestName = _.capitalize(adj) + _.capitalize(animal);
         return guestName;
     }
 
@@ -47,12 +47,42 @@ module.exports = function(server) {
     io.on('connection', function(socket) {
         // Create event handlers for this socket
         console.log(chalk.magenta(socket.id + ' has connected'));
+        console.log(activeUsers);
+        let username = socket.handshake.session.username;
 
-        if(!socket.handshake.session.username){
-            let username = nameGenerator();
-            socket.handshake.session.username = username;
-            socket.handshake.session.save();
+        //make sure socketid matches user
+        if(username) {
+            var idx = _.findIndex(activeUsers, function (el){
+                return el.username === username;
+            });
+            if (idx > -1) {
+                console.log('changing socketid');
+                activeUsers[idx].id = socket.id;
+            } else {
+                console.log('adding user again');
+                activeUsers.push({id: socket.id, username: username, playing: false});
+                console.log(activeUsers);
+            }
         }
+
+        //set a username for guest
+        if(!username){
+            console.log('adding username for guest');
+            let newUser = nameGenerator();
+            while (_.isMatch(this.activeUsers, {username: username})){
+                newUser = nameGenerator();
+            }
+            username = newUser;
+            socket.handshake.session.save();
+            activeUsers.push({id: socket.id, username: username, playing: false})
+            console.log(activeUsers);
+        }
+
+        //send user to frontend
+
+        // socket.emit('sendUsername', {username: username});
+
+
 
         const eventHandlers = {
             match: new Match(app, socket, io),
@@ -83,10 +113,10 @@ module.exports = function(server) {
                 io.to(room).emit('playerLeave');
             }
 
-                var i = _.findIndex(activeUsers, function (el){
+                var idx = _.findIndex(activeUsers, function (el){
                     return el.id === socket.id;
                 });
-                activeUsers.splice(i, 1);
+                activeUsers.splice(idx, 1);
         });
         return io;
 
@@ -95,7 +125,7 @@ module.exports = function(server) {
     // io.use(passportSocketIo.authorize({
     //     cookieParser: cookieParser,
     //     secret: 'Optimus Prime is my real dad',
-    //     store: createSessionStore(db),
+    //     store: createSessionStore(),
     //     success: onAuthorizeSuccess,
     //     fail: onAuthorizeFail
     // }));

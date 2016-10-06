@@ -1,11 +1,13 @@
 const shortid = require('shortid');
 const dictionaryUtils = require('../../dictionary');
+const _ = require('lodash');
 
-const Match = function(app, socket, io){
+const Match = function(app, socket, io, activeUsers){
     this.app = app;
     this.socket = socket;
     this.io = io;
     this.roomToWordInterval = {};
+    this.activeUsers = activeUsers;
     this.handler = {
         testMatch: testMatch.bind(this),
         randomMatch: randomMatch.bind(this),
@@ -39,13 +41,19 @@ function randomMatch() {
     }
 }
 
+
 function gameOver(){
     if (this.socket.currGame) {
         const room = this.socket.currGame;
         delete this.socket.currGame;
         // clearInterval(this.roomToWordInterval[room]);
         // delete this.roomToWordInterval[room];
-        io.to(room).emit('endGame', { loserId: this.socket.id });
+        var self = this;
+        var idx = _.findIndex(this.activeUsers, function (el){
+        return el.id === self.socket.id;
+    });
+        this.activeUsers[idx].playing = false;
+        this.io.to(room).emit('endGame', { loserId: this.socket.id });
     }
 }
 

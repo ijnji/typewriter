@@ -20,9 +20,12 @@ function testMatch() {
     this.socket.join('test');
     this.socket.currGame = 'test';
     setInterval(function() {
-        const word = dictionaryUtils.randomWord();
-        self.io.to('test').emit('eveSrvWord', { word: word });
-    }, 1000);
+        self.io.to('test').emit('eveSrvWord', {
+            text: dictionaryUtils.randomWord(),
+            duration: 20,
+            xoffset: Math.random()
+        });
+    }, 5000);
 }
 
 function randomMatch() {

@@ -2,11 +2,16 @@
     width: 80%;
     height: 80vh;
     margin: 0 auto;
+    position: relative;
 
     background-color: #ffffff;
     background-image:
     linear-gradient(#eee .1em, transparent .1em);
     background-size: 100% 2.5rem;
+}
+
+.gameContainerSprite {
+    position: absolute;
 }
 
 #playerMeInput, #playerRivalInput {
@@ -20,3 +25,4 @@
     color: #ffffff;
     font-size: 1.5rem;
 }
+

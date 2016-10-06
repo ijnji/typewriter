@@ -70,5 +70,6 @@ function Sprite(drawing) {
 Sprite.prototype.initialize = function(text, duration, xoffset) {
     this.txtDiv.html(text);
     this.posDiv.css('left', (xoffset * 90) + '%');
+    // TODO: remove Math.random() after server starts varying duration.
     this.speed = Math.random() * (duration / 100);
 };

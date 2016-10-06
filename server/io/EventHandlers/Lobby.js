@@ -45,7 +45,7 @@ const loginUser = function (payload) {
     };
 
 const getUsers = function(){
-    this.socket.emit('users', {users: this.activeUsers});
+    this.io.emit('users', {users: this.activeUsers});
 }
 
 const challengeUser = function(payload){

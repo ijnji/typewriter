@@ -1,16 +1,24 @@
 var session = require('express-session');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
-let store = null;
+let middleware = null;
 
 module.exports = function (db) {
 
-    if (store) return store;
+    if (middleware) return middleware;
 
-    store = new SequelizeStore({
+    let store = new SequelizeStore({
         db: db
     });
 
+    middleware = session({
+        secret: 'Optimus Prime is my real mom',
+        store: store,
+        resave: true,
+        saveUninitialized: true
+    });
 
-    return store;
+    store.sync();
+
+    return middleware;
 
 };

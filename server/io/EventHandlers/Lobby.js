@@ -30,27 +30,22 @@ const addGuest = function () {
     console.log(this.activeUsers);
 };
 
-const addUser = function () {
+const loginUser = function (payload) {
     const self = this;
+    console.log(this.socket.username, this.activeUsers);
     if (_.isMatch(this.activeUsers, {id: this.socket.id})) {
-        var i = _.findIndex(this.activeUsers, function (el){
+        var idx = _.findIndex(this.activeUsers, function (el){
         return el.id === self.socket.id;
     });
         this.activeUsers.splice(i, 1);
     }
-    this.activeUsers.push({id: this.socket.id, username: this.socket.request.user.username, playing: false});
-};
-
-// const removeUser = function () {
-//     const self = this;
-//     var i = _.findIndex(this.activeUsers, function (el){
-//         return el.id === self.socket.id;
-//     })
-//     this.activeUsers.splice(i, 1);
-// };
+    this.socket.handshake.session.username = payload.username;
+    this.socket.handshake.session.save();
+    this.activeUsers.push({id: this.socket.id, username: payload.username, playing: false});
+    };
 
 const getUsers = function(){
-    this.io.emit('users', {users: this.activeUsers});
+    this.socket.emit('users', {users: this.activeUsers});
 }
 
 const challengeUser = function(payload){
@@ -64,10 +59,19 @@ const challengeUser = function(payload){
 
 const challengeAccepted = function(payload){
     const challenger = this.io.sockets.connected[payload.id];
+    const self = this;
+    var opponentIdx = _.findIndex(this.activeUsers, function (el){
+        return el.id === self.socket.id;
+    });
+    var challengerIdx = _.findIndex(this.activeUsers, function (el){
+        return el.id === payload.id;
+    });
     const room = shortid.generate();
     this.socket.join(room);
+    this.activeUsers[opponentIdx].playing = true;
     this.socket.currGame = room;
     challenger.join(room);
+    this.activeUsers[challengerIdx].playing = true;
     challenger.currGame = room;
     this.io.in(room).emit('gameStart', { room: room });
 
@@ -85,7 +89,7 @@ const Lobby = function(app, socket, io, activeUsers){
     this.io = io;
     this.handler = {
         addGuest: addGuest.bind(this),
-        addUser: addUser.bind(this),
+        loginUser: loginUser.bind(this),
         getUsers: getUsers.bind(this),
         challengeUser: challengeUser.bind(this),
         challengeAccepted: challengeAccepted.bind(this),

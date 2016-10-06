@@ -3,10 +3,10 @@ const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
 const Lobby = require('./EventHandlers/Lobby');
 const Game = require('./EventHandlers/Game');
-//const session = require('express-session');
 const passportSocketIo = require('passport.socketio');
 const chalk = require('chalk');
 const _ = require('lodash');
+const sharedsession = require("express-socket.io-session");
 
 const cookieParser = require('cookie-parser');
 const db = require('../db');
@@ -14,22 +14,45 @@ const createSessionStore = require('../app/configure/authentication/createSessio
 
 let io = null;
 
+const adjectives = require('adjectives');
+
+    let socketToRoom = {};
+
 const activeUsers = [];
 
 const app = {
     allSockets: []
 }
+const animals =  ['alpaca', 'bunny', 'cat', 'dog', 'elephant', 'fox', 'gorilla', 'hippo', 'iguana', 'jackalope', 'kangaroo', 'kakapo', 'lemur', 'monkey', 'octopus', 'penguin', 'quail', 'racoon', 'sloth', 'tiger', 'vulture', 'walrus', 'xenon', 'yak', 'zebra' ];
+
+
+const nameGenerator = function(){
+        const adj = _.sample(adjectives);
+        const animal = _.sample(animals);
+        const guestName = adj + _.capitalize(animal);
+        return guestName;
+    }
+
 
 module.exports = function(server) {
 
     if (io) return io;
     io = socketio(server);
 
+    let session = createSessionStore();
+
+    io.use(sharedsession(session));
     //implement socket sessions soon
     // io.use(sharedsession(session));
     io.on('connection', function(socket) {
         // Create event handlers for this socket
         console.log(chalk.magenta(socket.id + ' has connected'));
+
+        if(!socket.handshake.session.username){
+            let username = nameGenerator();
+            socket.handshake.session.username = username;
+            socket.handshake.session.save();
+        }
 
         const eventHandlers = {
             match: new Match(app, socket, io),

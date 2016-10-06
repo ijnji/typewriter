@@ -24,6 +24,8 @@ const addGuest = function () {
             username = nameGenerator();
         }
         this.activeUsers.push({id: this.socket.id, username: username, playing: false})
+        this.socket.handshake.session.username = username;
+        console.log(this.socket.handshake.session);
     }
     console.log(this.activeUsers);
 };

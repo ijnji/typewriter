@@ -103,7 +103,7 @@ Sprite.prototype.initialize = function(text, duration, xoffset) {
     if ((xoffset * sParentWidth) + this.posDiv.width() > sParentWidth) {
         xoffset = (sParentWidth - this.posDiv.width()) / sParentWidth;
     }
-    this.posDiv.css('left', (xoffset * 90) + '%');
+    this.posDiv.css('left', (xoffset * 95) + '%');
     // TODO: remove Math.random() after server starts varying duration.
-    this.speed = Math.random() * (1 / duration);
+    this.speed = Math.random() * (1 / duration) + 0.025;
 };

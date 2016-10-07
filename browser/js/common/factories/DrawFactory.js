@@ -9,11 +9,15 @@ app.factory('DrawFactory', function() {
     factory.playerRivalDrawing = undefined;
     factory.playerRivalSprites = [];
 
+    // TODO: remove this following once testing is complete.
+    window.pmd = factory.playerMeDrawing;
+    window.pms = factory.playerMeSprites;
+    window.prd = factory.playerRivalDrawing;
+    window.prs = factory.playerRivalSprites;
+
     factory.initialize = function() {
         factory.playerMeDrawing = $('#playerMeDrawing');
-        window.pmd = factory.playerMeDrawing;
         factory.playerRivalDrawing = $('#playerRivalDrawing');
-        // window.prd = factory.playerRivalDrawing;
     };
 
     factory.updatePositions = function() {
@@ -37,25 +41,38 @@ app.factory('DrawFactory', function() {
         move(factory.playerRivalSprites);
     };
 
-    factory.removeExpired = function(callback) {
-        let remove = function(sprites) {
-            sprites.forEach(function(s) {
-                let elemTop = s.posDiv.position().top;
-                let elemHeight = s.posDiv.height();
-                let elemParentHeight = s.posDiv.parent().height();
-                if (elemTop >= (elemParentHeight - elemHeight)) {
-                    s.posDiv.remove();
-                    s = undefined;
-                    if (callback) {
-                        callback();
-                    }
-                }
-            });
-        };
+    let removeExpired = function(sprites, callback) {
+        let needToTrim = false;
+        for (let i = 0; i < sprites.length; i++) {
+            let sTop = sprites[i].posDiv.position().top;
+            let sHeight = sprites[i].posDiv.height();
+            let sParentHeight = sprites[i].posDiv.parent().height();
+            if (sTop >= (sParentHeight - sHeight)) {
+                sprites[i].posDiv.remove();
+                sprites[i] = undefined;
+                needToTrim = true;
+                if (callback) callback();
+            }
+        }
 
-        remove(factory.playerMeSprites);
-        remove(factory.playerRivalSprites);
+        if (sprites.length === 0 || !needToTrim) return;
+
+        sprites.sort();
+        let newlen = sprites.length;
+        while (!sprites[newlen - 1] && newlen > 0) {
+            newlen--;
+        }
+        sprites.length = newlen;
+
     };
+
+    factory.removeExpiredMe = function(callback) {
+        removeExpired(factory.playerMeSprites, callback);
+    }
+
+    factory.removeExpiredRival = function(callback) {
+        removeExpired(factory.playerRivalSprites, callback);
+    }
 
     factory.addWordMe = function(text, duration, xoffset) {
         let s = new Sprite(factory.playerMeDrawing);
@@ -82,7 +99,12 @@ function Sprite(drawing) {
 
 Sprite.prototype.initialize = function(text, duration, xoffset) {
     this.txtDiv.html(text);
-    this.posDiv.css('left', (xoffset * 90) + '%');
+    // Prevent words from spawning off the page on the right.
+    let sParentWidth = this.posDiv.parent().width();
+    if ((xoffset * sParentWidth) + this.posDiv.width() > sParentWidth) {
+        xoffset = (sParentWidth - this.posDiv.width()) / sParentWidth;
+    }
+    this.posDiv.css('left', (xoffset * 95) + '%');
     // TODO: remove Math.random() after server starts varying duration.
-    this.speed = 1 / duration;
+    this.speed = Math.random() * (1 / duration) + 0.025;
 };

@@ -29,7 +29,24 @@ module.exports = function(server) {
     // io.use(sharedsession(session));
     io.on('connection', function(socket) {
         // Create event handlers for this socket
-        console.log(dictionaryUtils.wordOutput(1))
+        // dictionaryUtils.wordOutput(1)
+        
+        socket.on('readyForActiveWords', function(payload) {
+            const player1Words = dictionaryUtils.wordOutput(payload.level)
+            const player2Words = dictionaryUtils.wordOutput(payload.level)
+            console.log(player1Words,"WOOT")
+            //emit to specfic id
+            socket.emit('activeWords', {player1Words: player1Words, player2Words: player2Words})
+
+        })
+
+
+        socket.on('forArray', function(payload) {
+            let levelWordsKeysMe = Object.keys(payload.playerMe)
+             let levelWordsKeysRival = Object.keys(payload.playerRival)
+             socket.emit('makeArray', {playerMe123: levelWordsKeysMe, playerRival123: levelWordsKeysRival})
+        })
+
         console.log(chalk.magenta(socket.id + ' has connected'));
         const eventHandlers = {
             match: new Match(app, socket, io),

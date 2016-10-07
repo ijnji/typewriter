@@ -31,6 +31,8 @@ function randomMatch() {
         const room = openRooms.shift();
         this.socket.join(room);
         this.socket.currGame = room;
+        const player1Words = dictionaryUtils.wordOutput(1)
+        const player2Words = dictionaryUtils.wordOutput(1)
         this.io.sockets.in(room).emit('gameStart', { room: room });
     } else {
         const room = shortid.generate();

@@ -25,6 +25,7 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
     };
 
     Socket.on('gameStart', function(payload) {
+         console.log(payload)
         $state.go('game', { gameId: payload.room });
     });
 

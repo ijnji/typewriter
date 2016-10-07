@@ -2,6 +2,9 @@
 
 app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
+    let correctWordsTyped = 0;
+    let totalWordsTyped = 0;
+
     const Player = function(socketId) {
         this.difficulty = 0;
         this.id = socketId;
@@ -26,23 +29,22 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     }
 
     Player.prototype.validateInput = function(){
-        console.log('active words', this.activeWords);
+        totalWordsTyped++;
         for (var i = 0; i < this.activeWords.length; i++){
             if (this.activeWords[i].text === this.word) {
-                console.log('word found', this.word);
+                correctWordsTyped++;
                  this.activeWords[this.word[0]] = null;
-            } else {
-                console.log('word not found', this.word)
             }
         }
-        // let targetWord = this.activeWords[this.word[0]];
-        // if (targetWord && targetWord === this.word) {
-        //     this.activeWords[this.word[0]] = null;
-        // }
         this.clearWord();
     }
     Player.prototype.clearWord = function(){
         this.word = '';
+    }
+
+    Player.prototype.showAccuracy = function () {
+        let accuracy = (correctWordsTyped / totalWordsTyped).toFixed(2);
+        console.log(accuracy * 100);
     }
 
     return {

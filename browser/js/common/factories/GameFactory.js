@@ -12,6 +12,7 @@ app.factory('GameFactory', function(Socket) {
     }
 
     Game.handleGameOver = function(playerMe, loserId) {
+        console.log('game should be over');
         if (playerMe.id === loserId) {
             playerMe.win = false;
         } else {

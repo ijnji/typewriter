@@ -9,11 +9,14 @@ app.factory('DrawFactory', function() {
     factory.playerRivalDrawing = undefined;
     factory.playerRivalSprites = [];
 
+    window.pmd = factory.playerMeDrawing;
+    window.pms = factory.playerMeSprites;
+    window.prd = factory.playerRivalDrawing;
+    window.prs = factory.playerRivalSprites;
+
     factory.initialize = function() {
         factory.playerMeDrawing = $('#playerMeDrawing');
-        window.pmd = factory.playerMeDrawing;
         factory.playerRivalDrawing = $('#playerRivalDrawing');
-        // window.prd = factory.playerRivalDrawing;
     };
 
     factory.updatePositions = function() {
@@ -39,18 +42,27 @@ app.factory('DrawFactory', function() {
 
     factory.removeExpired = function(callback) {
         let remove = function(sprites) {
-            sprites.forEach(function(s) {
-                let elemTop = s.posDiv.position().top;
-                let elemHeight = s.posDiv.height();
-                let elemParentHeight = s.posDiv.parent().height();
-                if (elemTop >= (elemParentHeight - elemHeight)) {
-                    s.posDiv.remove();
-                    s = undefined;
-                    if (callback) {
-                        callback();
-                    }
+            let needToTrim = false;
+            for (let i = 0; i < sprites.length; i++) {
+                let sTop = sprites[i].posDiv.position().top;
+                let sHeight = sprites[i].posDiv.height();
+                let sParentHeight = sprites[i].posDiv.parent().height();
+                if (sTop >= (sParentHeight - sHeight)) {
+                    sprites[i].posDiv.remove();
+                    sprites[i] = undefined;
+                    needToTrim = true;
+                    if (callback) callback();
                 }
-            });
+            }
+
+            if (sprites.length === 0 || !needToTrim) return;
+
+            sprites.sort();
+            let newlen = sprites.length;
+            while (!sprites[newlen - 1] && newlen > 0) {
+                newlen--;
+            }
+            sprites.length = newlen;
         };
 
         remove(factory.playerMeSprites);

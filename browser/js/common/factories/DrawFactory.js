@@ -13,8 +13,8 @@ app.factory('DrawFactory', function() {
         factory.playerMeDrawing = $('#playerMeDrawing');
         window.pmd = factory.playerMeDrawing;
         factory.playerRivalDrawing = $('#playerRivalDrawing');
-        window.prd = factory.playerRivalDrawing;
-    }
+        // window.prd = factory.playerRivalDrawing;
+    };
 
     factory.updatePositions = function() {
         if (!factory.timestamp) {
@@ -37,12 +37,25 @@ app.factory('DrawFactory', function() {
         move(factory.playerRivalSprites);
     };
 
-    factory.removeExpired = function() {
-    };
+    factory.removeExpired = function(callback) {
+        let remove = function(sprites) {
+            sprites.forEach(function(s) {
+                let elemTop = s.posDiv.position().top;
+                let elemHeight = s.posDiv.height();
+                let elemParentHeight = s.posDiv.parent().height();
+                if (elemTop >= (elemParentHeight - elemHeight)) {
+                    s.posDiv.remove();
+                    s = undefined;
+                    if (callback) {
+                        callback();
+                    }
+                }
+            });
+        };
 
-        // s.posDiv.style.left = (xoffset * 100) + '%';
-        // s.posDiv.style.top = 0 + '%';
-        // s.speed = duration / 10; // Percentage of height per millisecond.
+        remove(factory.playerMeSprites);
+        remove(factory.playerRivalSprites);
+    };
 
     factory.addWordMe = function(text, duration, xoffset) {
         let s = new Sprite(factory.playerMeDrawing);
@@ -71,5 +84,5 @@ Sprite.prototype.initialize = function(text, duration, xoffset) {
     this.txtDiv.html(text);
     this.posDiv.css('left', (xoffset * 90) + '%');
     // TODO: remove Math.random() after server starts varying duration.
-    this.speed = Math.random() * (duration / 100);
+    this.speed = 1 / duration;
 };

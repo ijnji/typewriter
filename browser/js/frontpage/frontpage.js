@@ -8,7 +8,7 @@ app.config(function($stateProvider) {
 
 app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 
-    Socket.emit('addGuest');
+    // Socket.emit('addGuest');
 
     $scope.testMatch = function() {
         $state.go('test');

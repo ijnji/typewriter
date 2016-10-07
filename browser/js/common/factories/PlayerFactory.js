@@ -7,14 +7,16 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         this.id = socketId;
         this.word = '';
         this.levelWords = {}
-        this.activeWords = {};
+        this.activeWords = [];
+
         UtilityFactory.ALPHABET.forEach(letter => {
             this.activeWords[letter] = null;
         });
     }
 
     Player.prototype.addWord = function(text, duration) {
-        this.activeWords[text[0]] = new WordFactory.Word(text, duration);
+        //this.activeWords[text[0]] = new WordFactory.Word(text, duration);
+        this.activeWords.push(new WordFactory.Word(text, duration));
     }
 
     Player.prototype.newChar = function(char) {
@@ -26,11 +28,13 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     }
 
     Player.prototype.validateInput = function(){
-        let targetWord = this.activeWords[this.word[0]];
-        console.log(targetWord);
-        if (targetWord && targetWord === this.word) {
-            this.activeWords[this.word[0]] = null;
-        }
+        // Commenting out validate for now.
+        // Need to rewrite in light of activeWords being an array.
+        //
+        // let targetWord = this.activeWords[this.word[0]];
+        // if (targetWord && targetWord === this.word) {
+        //     this.activeWords[this.word[0]] = null;
+        // }
         this.clearWord();
     }
     Player.prototype.clearWord = function(){

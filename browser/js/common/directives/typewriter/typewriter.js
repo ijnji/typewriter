@@ -8,6 +8,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
     directive.templateUrl = 'js/common/directives/typewriter/typewriter.html';
 
     directive.link = function(scope) {
+
         InputFactory.watchKeys();
         let gameTime = 0
         var levelWordsKeysMe = []
@@ -78,6 +79,13 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         Socket.emit('readyForActiveWords',{level:1})
 
+
+        $(document).ready(function() {
+            DrawFactory.initialize();
+            InputFactory.watchKeys();
+        });
+
+
         let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
         let playerRival = new PlayerFactory.Player();
         let theGame = new GameFactory.Game();
@@ -113,9 +121,13 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             scope.$digest();
         });
 
-        Socket.on('eveSrvWord', function(event) {
-            playerMe.addWord(event.word, 5);
-            playerRival.addWord(event.word, 5);
+        Socket.on('eveSrvWord', function(payload) {
+            playerMe.addWord(payload.text, payload.duration);
+            DrawFactory.addWordMe(payload.text, payload.duration, payload.xoffset);
+
+            playerRival.addWord(payload.text, payload.duration);
+            DrawFactory.addWordRival(payload.text, payload.duration, payload.xoffset);
+
             scope.$digest();
         });
 
@@ -135,6 +147,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         // Main game loop.
         function gameLoop() {
             DrawFactory.updatePositions();
+            DrawFactory.removeExpiredMe(function() { });
+            DrawFactory.removeExpiredRival(function() { });
             requestAnimationFrame(gameLoop);
             // For loss, use the following.
             //theGame.emitGameOver();

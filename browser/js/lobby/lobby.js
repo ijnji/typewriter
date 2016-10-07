@@ -10,6 +10,7 @@ app.controller('LobbyCtrl', function ($scope, Socket){
 
   $scope.waiting = true;
 
+
   $scope.initModals = function() {
     $('.modal-trigger').leanModal(); // Initialize the modals
   }

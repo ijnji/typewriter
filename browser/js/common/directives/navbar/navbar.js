@@ -40,15 +40,16 @@ app.directive('navbar', function($rootScope, $state, AuthService, AUTH_EVENTS, S
             //     });
             // };
 
+
             var removeUser = function() {
                 scope.loggedUser = null;
             };
 
-            // setUser();
+            setUser();
 
-            // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
-            // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
-            // $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
+            $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
+            $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
+            $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
 
         }
 

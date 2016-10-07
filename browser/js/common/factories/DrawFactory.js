@@ -9,6 +9,7 @@ app.factory('DrawFactory', function() {
     factory.playerRivalDrawing = undefined;
     factory.playerRivalSprites = [];
 
+    // TODO: remove this following once testing is complete.
     window.pmd = factory.playerMeDrawing;
     window.pms = factory.playerMeSprites;
     window.prd = factory.playerRivalDrawing;

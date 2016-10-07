@@ -76,6 +76,7 @@ module.exports = function(server) {
             socket.handshake.session.save();
             activeUsers.push({id: socket.id, username: username, playing: false})
             console.log(activeUsers);
+            console.log(socket.handshake.session);
         }
 
         //send user to frontend

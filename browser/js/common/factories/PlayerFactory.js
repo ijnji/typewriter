@@ -26,9 +26,15 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     }
 
     Player.prototype.validateInput = function(){
-        // Commenting out validate for now.
-        // Need to rewrite in light of activeWords being an array.
-        //
+        console.log('active words', this.activeWords);
+        for (var i = 0; i < this.activeWords.length; i++){
+            if (this.activeWords[i].text === this.word) {
+                console.log('word found', this.word);
+                 this.activeWords[this.word[0]] = null;
+            } else {
+                console.log('word not found', this.word)
+            }
+        }
         // let targetWord = this.activeWords[this.word[0]];
         // if (targetWord && targetWord === this.word) {
         //     this.activeWords[this.word[0]] = null;

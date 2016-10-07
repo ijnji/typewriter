@@ -1,16 +1,16 @@
-'use strict';
+// 'use strict';
 
-app.factory('AccuracyFactory', function(Socket) {
+// app.factory('AccuracyFactory', function(Socket) {
 
-    let factory = factory;
+//     let factory = factory;
 
-    return factory;
+//     return factory;
 
-    // let watchKeys = function() {
-    //     $(window).keydown(event => {
-    //         Socket.emit('keypress', {key: event.key, id: Socket.id});
-    //     })
-    // }
+//     // let watchKeys = function() {
+//     //     $(window).keydown(event => {
+//     //         Socket.emit('keypress', {key: event.key, id: Socket.id});
+//     //     })
+//     // }
 
 
-});
+// });

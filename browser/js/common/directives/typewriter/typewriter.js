@@ -52,7 +52,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             DrawFactory.addWordMe(payload.text, payload.duration, payload.xoffset);
 
             playerRival.addWord(payload.text, payload.duration);
-            DrawFactory.addWordRival(payload.text, payload.duration, payload.xoffset);
+            //DrawFactory.addWordRival(payload.text, payload.duration, payload.xoffset);
 
             scope.$digest();
         });

@@ -94,7 +94,12 @@ function Sprite(drawing) {
 
 Sprite.prototype.initialize = function(text, duration, xoffset) {
     this.txtDiv.html(text);
-    this.posDiv.css('left', (xoffset * 90) + '%');
+    // Prevent words from spawning off the page on the right.
+    let sParentWidth = this.posDiv.parent().width();
+    if ((xoffset * sParentWidth) + this.posDiv.width() > sParentWidth) {
+        xoffset = (sParentWidth - this.posDiv.width()) / sParentWidth;
+    }
+    this.posDiv.css('left', (xoffset * 100) + '%');
     // TODO: remove Math.random() after server starts varying duration.
-    this.speed = 1 / duration;
+    this.speed = Math.random() * (1 / duration);
 };

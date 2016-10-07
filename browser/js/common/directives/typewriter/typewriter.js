@@ -73,7 +73,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         // Main game loop.
         function gameLoop() {
             DrawFactory.updatePositions();
-            DrawFactory.removeExpired();
+            DrawFactory.removeExpiredMe(function() { });
+            DrawFactory.removeExpiredRival(function() { });
             requestAnimationFrame(gameLoop);
             // For loss, use the following.
             //theGame.emitGameOver();

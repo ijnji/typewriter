@@ -40,34 +40,38 @@ app.factory('DrawFactory', function() {
         move(factory.playerRivalSprites);
     };
 
-    factory.removeExpired = function(callback) {
-        let remove = function(sprites) {
-            let needToTrim = false;
-            for (let i = 0; i < sprites.length; i++) {
-                let sTop = sprites[i].posDiv.position().top;
-                let sHeight = sprites[i].posDiv.height();
-                let sParentHeight = sprites[i].posDiv.parent().height();
-                if (sTop >= (sParentHeight - sHeight)) {
-                    sprites[i].posDiv.remove();
-                    sprites[i] = undefined;
-                    needToTrim = true;
-                    if (callback) callback();
-                }
+    let removeExpired = function(sprites, callback) {
+        let needToTrim = false;
+        for (let i = 0; i < sprites.length; i++) {
+            let sTop = sprites[i].posDiv.position().top;
+            let sHeight = sprites[i].posDiv.height();
+            let sParentHeight = sprites[i].posDiv.parent().height();
+            if (sTop >= (sParentHeight - sHeight)) {
+                sprites[i].posDiv.remove();
+                sprites[i] = undefined;
+                needToTrim = true;
+                if (callback) callback();
             }
+        }
 
-            if (sprites.length === 0 || !needToTrim) return;
+        if (sprites.length === 0 || !needToTrim) return;
 
-            sprites.sort();
-            let newlen = sprites.length;
-            while (!sprites[newlen - 1] && newlen > 0) {
-                newlen--;
-            }
-            sprites.length = newlen;
-        };
+        sprites.sort();
+        let newlen = sprites.length;
+        while (!sprites[newlen - 1] && newlen > 0) {
+            newlen--;
+        }
+        sprites.length = newlen;
 
-        remove(factory.playerMeSprites);
-        remove(factory.playerRivalSprites);
     };
+
+    factory.removeExpiredMe = function(callback) {
+        removeExpired(factory.playerMeSprites, callback);
+    }
+
+    factory.removeExpiredRival = function(callback) {
+        removeExpired(factory.playerRivalSprites, callback);
+    }
 
     factory.addWordMe = function(text, duration, xoffset) {
         let s = new Sprite(factory.playerMeDrawing);

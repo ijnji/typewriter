@@ -8,7 +8,6 @@ app.config(function($stateProvider) {
 
 app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 
-    // Socket.emit('addGuest');
 
     $scope.testMatch = function() {
         $state.go('test');
@@ -28,4 +27,12 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
         $state.go('game', { gameId: payload.room });
     });
 
+});
+
+
+$(function(){
+    $(".element").typed({
+        strings: ["TypeRightr"],
+        typeSpeed: 0
+    });
 });

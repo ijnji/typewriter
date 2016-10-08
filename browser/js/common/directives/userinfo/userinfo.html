@@ -1,0 +1,10 @@
+<div id="userinfo">
+    <div ng-show="!loggedUser" class="welcome">
+        <span>Welcome, {{ user }}!</span>
+        <button ui-sref="login" class="waves-effect waves-light btn">Login</button>
+    </div>
+    <div ng-show="loggedUser" class="welcome">
+        <span>Welcome, {{ user }}!</span>
+        <a ng-click="logout()">Logout</a>
+    </div>
+</div>

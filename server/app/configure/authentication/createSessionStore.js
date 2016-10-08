@@ -11,7 +11,7 @@ module.exports = function (db) {
     });
 
     middleware = session({
-        secret: 'Optimus Prime is my real dad',
+        secret: 'Optimus Prime is my real mom',
         store: store,
         resave: true,
         saveUninitialized: true

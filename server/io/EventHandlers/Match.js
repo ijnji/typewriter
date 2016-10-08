@@ -47,21 +47,17 @@ function randomMatch() {
 
 
 function gameOver(){
-    console.log('CALLING GAME OVER');
     if (this.socket.currGame) {
-        console.log('currGame exists');
         const room = this.socket.currGame;
         delete this.socket.currGame;
         clearInterval(this.roomToWordInterval[room]);
         delete this.roomToWordInterval[room];
     //     var self = this;
-    //     console.log(this.activeUsers);
     //     var idx = _.findIndex(this.activeUsers, function (el){
     //     return el.id === self.socket.id;
     // });
-        // this.activeUsers[this.socket.id].playing = false;
+    //     this.activeUsers[this.socket.id].playing = false;
         this.io.to(room).emit('endGame', { loserId: this.socket.id });
-        console.log('ended game');
 
     }
 }

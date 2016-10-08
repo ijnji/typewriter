@@ -16,6 +16,7 @@ const Match = function(app, socket, io, activeUsers){
 }
 
 const openRooms = [];
+let noMoreGame = false;
 
 function testMatch() {
     const self = this;
@@ -24,7 +25,7 @@ function testMatch() {
     setInterval(function() {
         self.io.to('test').emit('eveSrvWord', {
             text: dictionaryUtils.randomWord(),
-            duration: 20,
+            duration: 40,
             xoffset: Math.random()
         });
     }, 5000);

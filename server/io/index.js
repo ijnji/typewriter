@@ -3,10 +3,10 @@ const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
 const Lobby = require('./EventHandlers/Lobby');
 const Game = require('./EventHandlers/Game');
-//const passportSocketIo = require('passport.socketio');
+const passportSocketIo = require('passport.socketio');
 const chalk = require('chalk');
 const _ = require('lodash');
-//const sharedsession = require("express-socket.io-session");
+const sharedsession = require("express-socket.io-session");
 
 const cookieParser = require('cookie-parser');
 const db = require('../db');
@@ -41,15 +41,14 @@ module.exports = function(server) {
 
     let session = createSessionStore();
 
-    //io.use(sharedsession(session));
+    io.use(sharedsession(session));
     //implement socket sessions soon
     // io.use(sharedsession(session));
     io.on('connection', function(socket) {
         // Create event handlers for this socket
         console.log(chalk.magenta(socket.id + ' has connected'));
         console.log(activeUsers);
-        //let username = socket.handshake.session.username;
-        let username = "sadT"
+        let username = socket.handshake.session.username;
 
         //make sure socketid matches user
         if(username) {
@@ -77,7 +76,6 @@ module.exports = function(server) {
             socket.handshake.session.save();
             activeUsers.push({id: socket.id, username: username, playing: false})
             console.log(activeUsers);
-            console.log(socket.handshake.session);
         }
 
         //send user to frontend

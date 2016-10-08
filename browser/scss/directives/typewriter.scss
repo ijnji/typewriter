@@ -26,3 +26,9 @@
     font-size: 1.5rem;
 }
 
+.gameover {
+  opacity: .5;
+  pointer-events: none;
+  transition: opacity .75s ease-out;
+  background: rgba(0,0,0,.75);
+}

@@ -1,6 +1,6 @@
 const shortid = require('shortid');
 const dictionaryUtils = require('../../dictionary');
-const _ = require('lodash');
+//const _ = require('lodash');
 
 const Match = function(app, socket, io, activeUsers){
     this.app = app;
@@ -16,7 +16,6 @@ const Match = function(app, socket, io, activeUsers){
 }
 
 const openRooms = [];
-let noMoreGame = false;
 
 function testMatch() {
     const self = this;

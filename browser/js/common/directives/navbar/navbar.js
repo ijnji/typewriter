@@ -8,7 +8,7 @@ app.directive('navbar', function($rootScope, $state, AuthService, AUTH_EVENTS, S
 
 
             scope.items = [
-                { label: 'Home', state: '/' },
+                { label: 'Home', state: 'frontpage' },
                 { label: 'Lobby', state: 'lobby' }
             ];
 
@@ -30,22 +30,25 @@ app.directive('navbar', function($rootScope, $state, AuthService, AUTH_EVENTS, S
                 scope.$digest();
             })
 
-            // var setUser = function() {
-            //     console.log('setUser');
-            //     AuthService.getLoggedInUser().then(function(user) {
-            //         scope.user = user;
-            //     });
-            // };
+            var setUser = function() {
+
+                AuthService.getLoggedInUser().then(function(user) {
+                    $rootScope.loggedUser = user;
+                    $rootScope.user = user.username;
+                    scope.user = $rootScope.user;
+                });
+            };
 
             var removeUser = function() {
-                scope.user = null;
+                scope.loggedUser = null;
+                $rootScope.loggedUser = null;
             };
 
             // setUser();
 
-            // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
-            // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
-            // $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
+            $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
+            $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
+            $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
 
         }
 

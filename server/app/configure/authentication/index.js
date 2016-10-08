@@ -1,10 +1,8 @@
 'use strict';
 var path = require('path');
-var session = require('express-session');
 var passport = require('passport');
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var createdSessionMiddleware = require('./createSessionStore');
-
+// var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var ENABLED_AUTH_STRATEGIES = [
     'local'
     // 'facebook',

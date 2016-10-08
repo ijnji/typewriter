@@ -37,7 +37,7 @@ const loginUser = function (payload) {
         var idx = _.findIndex(this.activeUsers, function (el){
         return el.id === self.socket.id;
     });
-        this.activeUsers.splice(i, 1);
+        this.activeUsers.splice(idx, 1);
     }
     this.socket.handshake.session.username = payload.username;
     this.socket.handshake.session.save();

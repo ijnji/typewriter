@@ -179,7 +179,7 @@ const sendWordObjects = function(secAndWords,level) {
          secAndWords[numbers[rand]].forEach(word => {
             
              let duration =  (numbers[rand]) / (word.length)
-              duration = Math.ceil(duration + (duration * rangeNumber))
+              duration = Math.ceil(duration + (duration * rangeNumber) +word.length)
                
              let wordObj = {text: word, duration: duration}
              numberObjects.push(wordObj)

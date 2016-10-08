@@ -41,31 +41,36 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
              levelWordsKeysRival = payload.playerRival123
              playerMe.activeWords = playerMe.levelWords[levelWordsKeysMe[0]]
             playerRival.activeWords = playerRival.levelWords[levelWordsKeysRival[0]]
-              console.log("look at me",levelWordsKeysMe)
+              console.log("look at me",playerMe.activeWords)
              let counter = 0
             
             let nextMiniWave = levelWordsKeysMe[counter]
             console.log("MINI WAVE", nextMiniWave)
             let wordsInterval = setInterval(function() {
-                gameTime++
+                gameTime = gameTime + 2
                 console.log(gameTime, nextMiniWave)
-                if(gameTime > 60) {
+                if(gameTime > 20) {
                     
                     gameTime = 0
                     scope.level++
                     nextMiniWave = 0
-                    console.log(scope.level)
+                    console.log("SHIT",scope.level)
                     clearInterval(wordsInterval)
                     Socket.emit('readyForActiveWords', {level: scope.level})
                 }
 
                 else if(gameTime > nextMiniWave) {
                     console.log("COUNTER",levelWordsKeysMe[counter], nextMiniWave)
-                    console.log(playerMe.activeWords)
+                    // console.log(playerMe.activeWords)
                     counter++
                     nextMiniWave = parseInt(nextMiniWave) + parseInt(levelWordsKeysMe[counter])
+                    playerMe.levelWords[levelWordsKeysMe[counter]].forEach(value => {
+                        playerMe.activeWords.push(value)
+                        playerMe.addWord(value.text, value.duration);
+                        DrawFactory.addWordMe(value.text, value.duration, Math.random());
+                    })
                     
-                    playerMe.activeWords[nextMiniWave] = playerMe.levelWords[levelWordsKeysMe[counter]]
+                    console.log("hello",playerMe.activeWords)
                 }
 
                 // console.log(playerMe.activeWords)
@@ -122,8 +127,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         });
 
         Socket.on('eveSrvWord', function(payload) {
-            playerMe.addWord(payload.text, payload.duration);
-            DrawFactory.addWordMe(payload.text, payload.duration, payload.xoffset);
+            // playerMe.addWord(payload.text, payload.duration);
+            // DrawFactory.addWordMe(payload.text, payload.duration, payload.xoffset);
 
             playerRival.addWord(payload.text, payload.duration);
             DrawFactory.addWordRival(payload.text, payload.duration, payload.xoffset);

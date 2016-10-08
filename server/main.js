@@ -8,7 +8,9 @@ var server = require('http').createServer();
 var createApplication = function () {
     var app = require('./app')(db);
     server.on('request', app); // Attach the Express application.
+    
     require('./io')(server);   // Attach socket.io.
+    
 };
 
 var startServer = function () {
@@ -17,6 +19,7 @@ var startServer = function () {
 
     server.listen(PORT, function () {
         console.log(chalk.blue('Server started on port', chalk.magenta(PORT)));
+        // console.log(dictionaryUtils.wordOutput(1))
     });
 
 };

@@ -6,7 +6,9 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         this.difficulty = 0;
         this.id = socketId;
         this.word = '';
+        this.levelWords = {}
         this.activeWords = [];
+
         UtilityFactory.ALPHABET.forEach(letter => {
             this.activeWords[letter] = null;
         });

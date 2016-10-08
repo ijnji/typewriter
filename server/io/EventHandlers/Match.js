@@ -18,6 +18,7 @@ const Match = function(app, socket, io, activeUsers){
 const openRooms = [];
 
 function testMatch() {
+   
     const self = this;
     this.socket.join('test');
     this.socket.currGame = 'test';
@@ -35,6 +36,8 @@ function randomMatch() {
         const room = openRooms.shift();
         this.socket.join(room);
         this.socket.currGame = room;
+        const player1Words = dictionaryUtils.wordOutput(1)
+        const player2Words = dictionaryUtils.wordOutput(1)
         this.io.sockets.in(room).emit('gameStart', { room: room });
     } else {
         const room = shortid.generate();

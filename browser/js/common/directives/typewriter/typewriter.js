@@ -62,12 +62,9 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         Socket.on('endGame', function(payload) {
             GameFactory.Game.handleGameOver(playerMe, payload.loserId);
-            playerMe.showAccuracy();
-            console.log('about to cancel');
+            //playerMe.showAccuracy();
             cancelAnimationFrame(continueGame);
             scope.gameover = true;
-            var el = angular.element( document.querySelector( '.game-over' ) );
-            el.append('Hi<br/>');
         });
         Socket.on('playerLeave', function() {
             playerMe.win = true;

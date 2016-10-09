@@ -15,6 +15,10 @@
       <label>Me</label>
     </div>
     <div class="col s6">
+        <div ng-show="gameover">
+         <div id="losingMessage" ng-show="player-me.win">Loser!</div>
+          <div id="winningMessage" ng-show="!player-me.win">Winner!</div>
+        </div>
       <div class="gameContainerDrawing z-depth-1" id="playerRivalDrawing" ng-class="{ 'gameover': gameover}">
         <!-- <div ng-repeat="word in rival.activeWords">{{ word.text }}</div> -->
       </div>

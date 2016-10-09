@@ -33,6 +33,6 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 $(function(){
     $(".element").typed({
         strings: ["TypeRightr"],
-        typeSpeed: 0
+        typeSpeed: 45
     });
 });

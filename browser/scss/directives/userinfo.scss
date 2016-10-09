@@ -1,4 +1,20 @@
 #userinfo {
     padding: 20px;
-    text-align: right;
+    white-space: nowrap;
+
+    .siteicon {
+        display: inline;
+        float: left;
+    }
+
+    .info {
+        margin: 5px;
+        float: right;
+        display: inline;
+        white-space: nowrap;
+    }
+    img {
+        width: 50px;
+        align: left;
+    }
 }

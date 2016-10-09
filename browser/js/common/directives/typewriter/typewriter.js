@@ -7,7 +7,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
     directive.templateUrl = 'js/common/directives/typewriter/typewriter.html';
 
     directive.link = function(scope) {
-        InputFactory.watchKeys();
+
+        $(document).ready(function() {
+            DrawFactory.initialize();
+            InputFactory.watchKeys();
+        });
 
         let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
         let playerRival = new PlayerFactory.Player();
@@ -66,6 +70,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         // Main game loop.
         function gameLoop() {
             DrawFactory.updatePositions();
+            DrawFactory.removeExpired();
             requestAnimationFrame(gameLoop);
             // For loss, use the following.
             //theGame.emitGameOver();

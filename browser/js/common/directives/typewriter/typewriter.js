@@ -28,18 +28,17 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         Socket.on('newKey', function(payload) {
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter') {
-                    console.log(payload.key);
-                    playerMe.validateInput(payload.key);
+                    playerMe.validateInput(DrawFactory.removeWordMe);
                 } else if (payload.key === 'Backspace'){
-                    playerMe.removeChar(payload.key);
+                    playerMe.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
                     playerMe.newChar(payload.key);
                 }
             } else {
                 if (payload.key === 'Enter') {
-                    playerRival.validateInput(payload.key);
+                    playerRival.validateInput(DrawFactory.removeWordRival);
                 } else if (payload.key === 'Backspace') {
-                    playerRival.removeChar(payload.key);
+                    playerRival.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
                     playerRival.newChar(payload.key);
                 }
@@ -73,8 +72,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         // Main game loop.
         function gameLoop() {
             DrawFactory.updatePositions();
-            DrawFactory.removeExpiredMe(function() { });
-            DrawFactory.removeExpiredRival(function() { });
+            DrawFactory.removeTimedoutMe(function() { });
+            DrawFactory.removeTimedoutRival(function() { });
             requestAnimationFrame(gameLoop);
             // For loss, use the following.
             //theGame.emitGameOver();

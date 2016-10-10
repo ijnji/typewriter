@@ -1,23 +1,32 @@
 'use strict';
 
 app.factory('DrawFactory', function() {
+
     let factory = {};
 
     factory.timestamp = undefined;
+
+    // Div container for sprites.
     factory.playerMeDrawing = undefined;
-    factory.playerMeSprites = [];
     factory.playerRivalDrawing = undefined;
+
+    // All sprite objects.
+    // Their positions are changed each game loop to implement
+    // the following animation.
+    factory.playerMeSprites = [];
     factory.playerRivalSprites = [];
 
-    // TODO: remove this following once testing is complete.
-    window.pmd = factory.playerMeDrawing;
-    window.pms = factory.playerMeSprites;
-    window.prd = factory.playerRivalDrawing;
-    window.prs = factory.playerRivalSprites;
+    // Words may need to play an animation before they
+    // disappear on a word hit.
+    factory.playerMeSpritesHit = [];
+    factory.playerRivalSpritesHit = [];
 
     factory.initialize = function() {
         factory.playerMeDrawing = $('#playerMeDrawing');
         factory.playerRivalDrawing = $('#playerRivalDrawing');
+
+        window.pms = factory.playerMeSprites;
+        window.prs = factory.playerRivalSprites;
     };
 
     factory.updatePositions = function() {
@@ -29,7 +38,7 @@ app.factory('DrawFactory', function() {
         let delta = Date.now() - factory.timestamp;
         factory.timestamp = Date.now();
 
-        let move = function(sprites) {
+        const move = function(sprites) {
             sprites.forEach(function(s) {
                 let top = s.posDiv.position().top;
                 top += s.speed * delta;
@@ -41,8 +50,19 @@ app.factory('DrawFactory', function() {
         move(factory.playerRivalSprites);
     };
 
-    let removeExpired = function(sprites, callback) {
-        let needToTrim = false;
+    // Removes any undefined entries in given sprite array.
+    const trim = function(sprites) {
+        sprites.sort();
+        let newlen = sprites.length;
+        while (!sprites[newlen - 1] && newlen > 0) {
+            newlen--;
+        }
+        sprites.length = newlen;
+    };
+
+    const removeTimedout = function(sprites, callback) {
+        if (sprites.length === 0) return;
+        let toTrim = false;
         for (let i = 0; i < sprites.length; i++) {
             let sTop = sprites[i].posDiv.position().top;
             let sHeight = sprites[i].posDiv.height();
@@ -50,28 +70,19 @@ app.factory('DrawFactory', function() {
             if (sTop >= (sParentHeight - sHeight)) {
                 sprites[i].posDiv.remove();
                 sprites[i] = undefined;
-                needToTrim = true;
+                toTrim = true;
                 if (callback) callback();
             }
         }
-
-        if (sprites.length === 0 || !needToTrim) return;
-
-        sprites.sort();
-        let newlen = sprites.length;
-        while (!sprites[newlen - 1] && newlen > 0) {
-            newlen--;
-        }
-        sprites.length = newlen;
-
+        if (toTrim) trim(sprites);
     };
 
-    factory.removeExpiredMe = function(callback) {
-        removeExpired(factory.playerMeSprites, callback);
+    factory.removeTimedoutMe = function(callback) {
+        removeTimedout(factory.playerMeSprites, callback);
     }
 
-    factory.removeExpiredRival = function(callback) {
-        removeExpired(factory.playerRivalSprites, callback);
+    factory.removeTimedoutRival = function(callback) {
+        removeTimedout(factory.playerRivalSprites, callback);
     }
 
     factory.addWordMe = function(text, duration, xoffset) {
@@ -86,7 +97,42 @@ app.factory('DrawFactory', function() {
         factory.playerRivalSprites.push(s);
     };
 
+    const removeWord = function(sprites, hitting, text) {
+        let idx = -1;
+        for (let i = 0; i < sprites.length; i++) {
+            if (sprites[i].txtDiv.html() === text) {
+                idx = i;
+                // TODO: To support removal animations, push into hitting array,
+                // and handle after animation finishes.
+                //hitting.push(sprites[i]);
+                sprites[i].posDiv.remove();
+            }
+        }
+        if (idx > -1) {
+            sprites.splice(idx, 1);
+        }
+        console.log(sprites);
+        console.log(hitting);
+    };
+
+    factory.removeWordMe = function(text) {
+        removeWord(
+            factory.playerMeSprites,
+            factory.playerMeSpritesHit,
+            text
+        );
+    };
+
+    factory.removeWordRival = function(text) {
+        removeWord(
+            factory.playerRivalSprites,
+            factory.playerRivalSpritesHit,
+            text
+        );
+    };
+
     return factory;
+
 });
 
 // Drawing is expected to be a jQuery element.

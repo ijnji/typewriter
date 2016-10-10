@@ -4,8 +4,8 @@
     <div class="col s6">
         <div ng-show="gameover">
          <div id="winningMessage" ng-if="player-me.win">Winner!
-         <p>Words entered: <span></span></p>
-         <p>Accuracy: <span></span></p>
+         <!-- <p>Words entered: <span></span></p>
+         <p>Accuracy: <span></span></p> -->
          </div>
           <div id="losingMessage" ng-if="!player-me.win">
           Loser!
@@ -22,7 +22,7 @@
     </div>
     <div class="col s6">
         <div ng-if="gameover">
-         <div id="losingMessage" ng-if="player-me.win">Loser!</div>
+          <div id="losingMessage" ng-if="player-me.win">Loser!</div>
           <div id="winningMessage" ng-if="!player-me.win">Winner!</div>
         </div>
       <div class="gameContainerDrawing z-depth-1" id="playerRivalDrawing" ng-class="{ 'gameover': gameover}">

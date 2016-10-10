@@ -12,7 +12,7 @@ function wordEmitterMaker (minChar, maxChar, minDur, maxDur) {
         console.log('emitting a word');
         const word = getRandomWordByLength(_.random(minChar,maxChar));
         const duration = _.random(minDur,maxDur);
-        io.to(room).emit('newWord', {text: word, duration: duration });
+        io.to(room).emit('newWord', {text: word, duration: duration, xoffset: Math.random() });
     }
 }
 

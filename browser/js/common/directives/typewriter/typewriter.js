@@ -65,6 +65,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             //playerMe.showAccuracy();
             cancelAnimationFrame(continueGame);
             scope.gameover = true;
+            console.log('GAME OVER');
         });
         Socket.on('playerLeave', function() {
             playerMe.win = true;
@@ -89,3 +90,4 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
     return directive;
 
 });
+

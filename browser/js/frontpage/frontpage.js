@@ -1,5 +1,6 @@
 app.config(function($stateProvider) {
     $stateProvider.state('frontpage', {
+        cache: false,
         url: '/',
         templateUrl: 'js/frontpage/frontpage.html',
         controller: 'FrontpageCtrl'
@@ -13,9 +14,9 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
         $state.go('test');
     };
 
-    document.onkeydown = function () {
-        AudioFactory.play('singletype');
-    };
+    // document.onkeydown = function () {
+    //     AudioFactory.play('singletype');
+    // };
 
     $scope.randomMatch = function() {
         console.log('request randomMatch');
@@ -27,12 +28,14 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
         $state.go('game', { gameId: payload.room });
     });
 
+
+    $scope.runLogo = function(){
+        $(".element").typed({
+            strings: ["TypeRightr"],
+            typeSpeed: 50
+        });
+    }
+
 });
 
 
-$(function(){
-    $(".element").typed({
-        strings: ["TypeRightr"],
-        typeSpeed: 45
-    });
-});

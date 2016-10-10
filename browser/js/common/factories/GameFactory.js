@@ -12,7 +12,8 @@ app.factory('GameFactory', function(Socket) {
     }
 
     Game.handleGameOver = function(playerMe, loserId) {
-        if (playerMe.id === loserId) {
+        const playerMeId = '/#' + playerMe.id
+        if (playerMeId === loserId) {
             playerMe.win = false;
         } else {
             playerMe.win = true;

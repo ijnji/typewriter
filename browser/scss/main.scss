@@ -1,8 +1,9 @@
 $color-font-normal: #d8b384;
-$color-font-dark: #5e454b;
-$color-bgh-normal: #cee5d0;
-$color-bgh-light: #f3f0d7;
-$color-bgh-dark: #3fab9b;
+$color-font-dark: black;
+$color-bgh-normal: #93DEFF;
+$color-bgh-light: #ffffff;
+$color-bgh-dark: #FFDA44;
+
 
 
 @font-face {
@@ -37,6 +38,13 @@ body {
     clear: both;
   }
 }
+
+.btn {
+  background: $color-bgh-dark;
+  color: $color-bgh-light;
+
+}
+
 
 
 @import 'directives/main';

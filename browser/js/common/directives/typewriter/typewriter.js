@@ -16,13 +16,9 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
         let playerRival = new PlayerFactory.Player();
         let theGame = new GameFactory.Game();
-        let interval = setInterval(function() {
-            this.gameTime++
-        }, 1000)
 
         scope.me = playerMe;
         scope.rival = playerRival;
-        const timeStart = Date.now();
         requestAnimationFrame(gameLoop);
 
         Socket.on('newKey', function(payload) {
@@ -48,10 +44,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         });
 
         Socket.on('newWord', function(event) {
-            console.log(event);
-            // playerMe.addWord(event.word, 5);
-            // playerRival.addWord(event.word, 5);
-            // scope.$digest();
+            // console.log(event);
+            playerMe.addWord(event.text, event.duration);
+            playerRival.addWord(event.text, event.duration);
+            DrawFactory.addWordMe(event.text, event.duration, Math.random());
+            DrawFactory.addWordRival(event.text, event.duration, Math.random());
         });
 
         Socket.on('endGame', function(payload) {

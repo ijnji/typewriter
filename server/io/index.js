@@ -3,12 +3,11 @@ const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
 const Lobby = require('./EventHandlers/Lobby');
 const Game = require('./EventHandlers/Game');
-const passportSocketIo = require('passport.socketio');
 const chalk = require('chalk');
 const _ = require('lodash');
-const sharedsession = require("express-socket.io-session");
-
-const cookieParser = require('cookie-parser');
+const sharedsession = require('express-socket.io-session');
+// const passportSocketIo = require('passport.socketio');
+//const cookieParser = require('cookie-parser');
 const db = require('../db');
 const createSessionStore = require('../app/configure/authentication/createSessionStore');
 
@@ -16,7 +15,7 @@ let io = null;
 
 const adjectives = require('adjectives');
 
-    let socketToRoom = {};
+//let socketToRoom = {};
 
 const activeUsers = [];
 
@@ -39,7 +38,7 @@ module.exports = function(server) {
     if (io) return io;
     io = socketio(server);
 
-    let session = createSessionStore();
+    let session = createSessionStore(db);
 
     io.use(sharedsession(session));
     //implement socket sessions soon
@@ -51,8 +50,8 @@ module.exports = function(server) {
         let username = socket.handshake.session.username;
 
         //make sure socketid matches user
-        if(username) {
-            var idx = _.findIndex(activeUsers, function (el){
+        if (username) {
+            var idx = _.findIndex(activeUsers, function (el) {
                 return el.username === username;
             });
             if (idx > -1) {
@@ -66,7 +65,7 @@ module.exports = function(server) {
         }
 
         //set a username for guest
-        if(!username){
+        if (!username) {
             console.log('adding username for guest');
             let newUser = nameGenerator();
             while (_.isMatch(this.activeUsers, {username: username})){
@@ -81,8 +80,6 @@ module.exports = function(server) {
         //send user to frontend
 
         socket.emit('setUsername', {username: username});
-
-
 
         const eventHandlers = {
             match: new Match(app, socket, io),
@@ -113,10 +110,10 @@ module.exports = function(server) {
                 io.to(room).emit('playerLeave');
             }
 
-                var idx = _.findIndex(activeUsers, function (el){
+                var i = _.findIndex(activeUsers, function (el){
                     return el.id === socket.id;
                 });
-                activeUsers.splice(idx, 1);
+                activeUsers.splice(i, 1);
         });
         return io;
 

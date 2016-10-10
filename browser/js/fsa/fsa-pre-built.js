@@ -49,14 +49,9 @@
     });
 
     app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, $q) {
- let count = 0;
         function onSuccessfulLogin(response) {
-            count++;
-            console.log(count);
-            console.log(response.data.user);
             var user = response.data.user;
             Session.create(user);
-            //console.log(Session.user);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
             return user;
         }

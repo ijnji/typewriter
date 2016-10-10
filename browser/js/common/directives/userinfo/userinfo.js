@@ -1,18 +1,11 @@
-app.directive('navbar', function($rootScope, $state, AuthService, AUTH_EVENTS, Socket) {
+app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS, Socket) {
 
     return {
         restrict: 'E',
         scope: {},
-        templateUrl: 'js/common/directives/navbar/navbar.html',
+        templateUrl: 'js/common/directives/userinfo/userinfo.html',
         link: function(scope) {
 
-
-            scope.items = [
-                { label: 'Home', state: 'frontpage' },
-                { label: 'Lobby', state: 'lobby' }
-            ];
-
-            scope.user = null;
 
             scope.isLoggedIn = function() {
                 return AuthService.isAuthenticated();

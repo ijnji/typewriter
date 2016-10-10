@@ -2,6 +2,9 @@
 
 app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
+    let correctWordsTyped = 0;
+    let totalWordsTyped = 0;
+
     const Player = function(socketId) {
         this.difficulty = 0;
         this.id = socketId;
@@ -26,17 +29,22 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     }
 
     Player.prototype.validateInput = function(){
-        // Commenting out validate for now.
-        // Need to rewrite in light of activeWords being an array.
-        //
-        // let targetWord = this.activeWords[this.word[0]];
-        // if (targetWord && targetWord === this.word) {
-        //     this.activeWords[this.word[0]] = null;
-        // }
+        totalWordsTyped++;
+        for (var i = 0; i < this.activeWords.length; i++){
+            if (this.activeWords[i].text === this.word) {
+                correctWordsTyped++;
+                 this.activeWords[this.word[0]] = null;
+            }
+        }
         this.clearWord();
     }
     Player.prototype.clearWord = function(){
         this.word = '';
+    }
+
+    Player.prototype.showAccuracy = function () {
+        let accuracy = (correctWordsTyped / totalWordsTyped).toFixed(2);
+        console.log(accuracy * 100);
     }
 
     return {

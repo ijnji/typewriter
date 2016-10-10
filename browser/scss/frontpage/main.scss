@@ -1,9 +1,7 @@
 #title {
     font-family: SketchBlock;
     .btn {
-        background: #76B3FA;
         border-radius: 50px;
-        color: #fff;
         text-decoration: none;
         font-size: 4em;
         width: 7em;
@@ -15,6 +13,28 @@
     .header {
         font-size: 100px;
         margin: 10vh 5vw;
-        animation-iteration-count: infinite;
     }
+
+}
+
+.typed-cursor{
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
 }

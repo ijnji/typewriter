@@ -1,8 +1,9 @@
 $color-font-normal: #d8b384;
 $color-font-dark: #5e454b;
 $color-bgh-normal: #cee5d0;
-$color-bgh-light: #f3f0d7;
+$color-bgh-light: #ffffff;
 $color-bgh-dark: #3fab9b;
+
 
 
 @font-face {
@@ -36,6 +37,12 @@ body {
     display: table;
     clear: both;
   }
+}
+
+.btn {
+  background: $color-bgh-dark;
+  color: $color-bgh-light;
+
 }
 
 

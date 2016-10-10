@@ -24,7 +24,7 @@ app.controller('LobbyCtrl', function ($scope, Socket){
 
   $scope.challengeUser = function (user){
     Socket.emit('challengeUser', {id: user.id});
-    $scope.opponent = socket;
+    $scope.opponent = user;
     $('#waitingForUser').openModal();
     $scope.$evalAsync();
   }

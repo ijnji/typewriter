@@ -1,28 +1,59 @@
-.gameContainerDrawing {
-    width: 80%;
-    height: 80vh;
-    margin: 0 auto;
-    position: relative;
-
-    background-color: #ffffff;
-    background-image:
-    linear-gradient(#eee .1em, transparent .1em);
-    background-size: 100% 2.5rem;
-}
-
-.gameContainerSprite {
+#typewriter {
     position: absolute;
-}
+    top: 15vh;
+    left: 12vh;
+    width: 100%;
 
-#playerMeInput, #playerRivalInput {
-    margin: 0 auto;
-    height: 42px;
-    width: 90%;
-    display: block;
-    text-align: center;
-    background-color: $color-bgh-dark;
-    border-radius: 5px;
-    color: #ffffff;
-    font-size: 1.5rem;
-}
+    .gameContainerDrawing {
+        width: 80%;
+        height: 80vh;
+        margin: 0 auto;
+        position: relative;
 
+        background-color: #ffffff;
+        background-image:
+        linear-gradient(#eee .1em, transparent .1em);
+        background-size: 100% 2.5rem;
+    }
+
+    .gameContainerSprite {
+        position: absolute;
+    }
+
+    #playerMeInput, #playerRivalInput {
+        margin: 0 auto;
+        height: 42px;
+        width: 90%;
+        display: block;
+        text-align: center;
+        background-color: $color-bgh-dark;
+        border-radius: 5px;
+        color: #ffffff;
+        font-size: 1.5rem;
+    }
+
+    #winningMessage, #losingMessage {
+        background: white;
+        position: relative;
+        top: 4.7em;
+        width: 50%;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    #winningMessage {
+        color: green;
+    }
+
+    #losingMessage {
+        color: red;
+    }
+    .gameover {
+        z-index: -5;
+        opacity: .5;
+        pointer-events: none;
+      // transition: opacity .75s ease-out;
+      background: rgba(0,0,0,.75);
+      transition: all 0.5s;
+    }
+}

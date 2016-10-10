@@ -19,9 +19,12 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         let interval = setInterval(function() {
             this.gameTime++
         }, 1000)
+        let continueGame;
 
         scope.me = playerMe;
         scope.rival = playerRival;
+        scope.gameover = false;
+
         const timeStart = Date.now();
         requestAnimationFrame(gameLoop);
 
@@ -57,7 +60,10 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         });
 
         Socket.on('endGame', function(payload) {
-            GameFactory.handleGameOver(playerMe, payload.loserId);
+            GameFactory.Game.handleGameOver(playerMe, payload.loserId);
+            //playerMe.showAccuracy();
+            cancelAnimationFrame(continueGame);
+            scope.gameover = true;
         });
         Socket.on('playerLeave', function() {
             playerMe.win = true;
@@ -68,13 +74,12 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         })
 
-
         // Main game loop.
         function gameLoop() {
             DrawFactory.updatePositions();
-            DrawFactory.removeTimedoutMe(function() { });
-            DrawFactory.removeTimedoutRival(function() { });
-            requestAnimationFrame(gameLoop);
+            DrawFactory.removeExpiredMe(GameFactory.Game.emitGameOver);
+            DrawFactory.removeExpiredRival(function() { });
+            continueGame = requestAnimationFrame(gameLoop);
             // For loss, use the following.
             //theGame.emitGameOver();
         }

@@ -1,8 +1,8 @@
 $color-font-normal: #d8b384;
-$color-font-dark: #5e454b;
-$color-bgh-normal: #cee5d0;
+$color-font-dark: black;
+$color-bgh-normal: #93DEFF;
 $color-bgh-light: #ffffff;
-$color-bgh-dark: #3fab9b;
+$color-bgh-dark: #FFDA44;
 
 
 
@@ -44,6 +44,7 @@ body {
   color: $color-bgh-light;
 
 }
+
 
 
 @import 'directives/main';

@@ -39,8 +39,8 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
             this.activeWords.splice(idx, 1);
             console.log('calling drawfactory callback');
             callback(this.word);
-            this.clearWord();
         }
+        this.clearWord();
     }
     Player.prototype.clearWord = function(){
         this.word = '';

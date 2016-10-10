@@ -41,6 +41,7 @@ app.factory('DrawFactory', function() {
         const move = function(sprites) {
             sprites.forEach(function(s) {
                 let top = s.posDiv.position().top;
+                console.log(s.speed, delta);
                 top += s.speed * delta;
                 s.posDiv.css('top', top);
             });
@@ -151,6 +152,5 @@ Sprite.prototype.initialize = function(text, duration, xoffset) {
         xoffset = (sParentWidth - this.posDiv.width()) / sParentWidth;
     }
     this.posDiv.css('left', (xoffset * 95) + '%');
-    // TODO: remove Math.random() after server starts varying duration.
-    this.speed = Math.random() * (1 / duration) + 0.025;
+    this.speed = (1 / duration);
 };

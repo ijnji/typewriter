@@ -53,8 +53,9 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         Socket.on('endGame', function(payload) {
             GameFactory.Game.handleGameOver(playerMe, payload.loserId);
-            cancelAnimationFrame(continueGame);
+            //cancelAnimationFrame(continueGame);
             scope.gameover = true;
+            scope.$evalAsync();
         });
         Socket.on('playerLeave', function() {
             playerMe.win = true;
@@ -68,13 +69,15 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         // Main game loop.
         function gameLoop() {
-            DrawFactory.updatePositions();
-            DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver);
-            // DrawFactory.removeTimedoutMe();
-            DrawFactory.removeTimedoutRival();
-            continueGame = requestAnimationFrame(gameLoop);
-            // For loss, use the following.
-            //theGame.emitGameOver();
+            if (!scope.gameover) {
+                DrawFactory.updatePositions();
+                DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver);
+                // DrawFactory.removeTimedoutMe();
+                DrawFactory.removeTimedoutRival();
+                continueGame = requestAnimationFrame(gameLoop);
+                // For loss, use the following.
+                //theGame.emitGameOver();
+            }
         }
     };
 

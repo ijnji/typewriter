@@ -1,6 +1,7 @@
 const adjectives = require('adjectives');
 const _ = require('lodash');
 const shortid = require('shortid');
+const wordEmitter = require('../wordEmitter');
 
 
 const animals =  ['alpaca', 'bunny', 'cat', 'dog', 'elephant', 'fox', 'gorilla', 'hippo', 'iguana', 'jackalope', 'kangaroo', 'kakapo', 'lemur', 'monkey', 'octopus', 'penguin', 'quail', 'racoon', 'sloth', 'tiger', 'vulture', 'walrus', 'xenon', 'yak', 'zebra' ];
@@ -74,6 +75,7 @@ const challengeAccepted = function(payload){
     this.activeUsers[challengerIdx].playing = true;
     challenger.currGame = room;
     this.io.in(room).emit('gameStart', { room: room });
+    wordEmitter.emitWords(room, this.io);
 
 }
 

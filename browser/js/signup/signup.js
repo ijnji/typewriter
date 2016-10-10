@@ -36,9 +36,7 @@ app.controller('SignupCtrl', function ($scope, $state, $log, AuthService, UserFa
                   })
                 .then(function(){
                   Socket.emit('addUser');
-                })
-                .then(function() {
-                  $state.go('home');
+                   $state.go('frontpage');
                 })
                 .catch($log.error);
     };

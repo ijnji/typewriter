@@ -28,15 +28,22 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         this.word = this.word.substring(0, this.word.length - 1 );
     }
 
-    Player.prototype.validateInput = function(){
+    Player.prototype.validateInput = function(callback){
+        let idx = -1;
         totalWordsTyped++;
         for (var i = 0; i < this.activeWords.length; i++){
             if (this.activeWords[i].text === this.word) {
                 correctWordsTyped++;
-                 this.activeWords[this.word[0]] = null;
+                idx = i;
+                break;
             }
         }
-        this.clearWord();
+        if (idx > -1) {
+            this.activeWords.splice(idx, 1);
+            console.log('calling drawfactory callback');
+            callback(this.word);
+            this.clearWord();
+        }
     }
     Player.prototype.clearWord = function(){
         this.word = '';

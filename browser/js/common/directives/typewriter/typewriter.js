@@ -31,6 +31,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         Socket.on('newKey', function(payload) {
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter') {
+                    console.log('received enter key');
                     playerMe.validateInput(DrawFactory.removeWordMe);
                 } else if (payload.key === 'Backspace'){
                     playerMe.removeChar();
@@ -78,8 +79,9 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         // Main game loop.
         function gameLoop() {
             DrawFactory.updatePositions();
-            DrawFactory.removeExpiredMe(GameFactory.Game.emitGameOver);
-            DrawFactory.removeExpiredRival(function() { });
+            // DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver);
+            DrawFactory.removeTimedoutMe();
+            DrawFactory.removeTimedoutRival();
             continueGame = requestAnimationFrame(gameLoop);
             // For loss, use the following.
             //theGame.emitGameOver();

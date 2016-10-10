@@ -24,6 +24,9 @@ app.factory('DrawFactory', function() {
     factory.initialize = function() {
         factory.playerMeDrawing = $('#playerMeDrawing');
         factory.playerRivalDrawing = $('#playerRivalDrawing');
+
+        window.pms = factory.playerMeSprites;
+        window.prs = factory.playerRivalSprites;
     };
 
     factory.updatePositions = function() {
@@ -94,22 +97,28 @@ app.factory('DrawFactory', function() {
         factory.playerRivalSprites.push(s);
     };
 
-    const removeWord = function(sprites, animating, text) {
-        let toTrim = false;
+    const removeWord = function(sprites, hitting, text) {
+        let idx = -1;
         for (let i = 0; i < sprites.length; i++) {
-            if (sprites[i].html === text) {
-                animating.push(sprites[i]);
-                sprites[i] = undefined;
-                toTrim = true;
+            if (sprites[i].txtDiv.html() === text) {
+                idx = i;
+                // TODO: To support removal animations, push into hitting array,
+                // and handle after animation finishes.
+                //hitting.push(sprites[i]);
+                sprites[i].posDiv.remove();
             }
         }
-        if (toTrim) trim(sprites);
+        if (idx > -1) {
+            sprites.splice(idx, 1);
+        }
+        console.log(sprites);
+        console.log(hitting);
     };
 
     factory.removeWordMe = function(text) {
         removeWord(
             factory.playerMeSprites,
-            factory.playerMeSpritesAnimating,
+            factory.playerMeSpritesHit,
             text
         );
     };
@@ -117,7 +126,7 @@ app.factory('DrawFactory', function() {
     factory.removeWordRival = function(text) {
         removeWord(
             factory.playerRivalSprites,
-            factory.playerRivalSpritesAnimating,
+            factory.playerRivalSpritesHit,
             text
         );
     };

@@ -19,41 +19,45 @@ function wordEmitterMaker (minChar, maxChar, minDur, maxDur) {
 
 
 const levels = [
-    {fn: wordEmitterMaker(3, 5, 10, 15), freqRange: [1000, 2000]}, //level 1...
-    {fn: wordEmitterMaker(3, 6, 10, 15), freqRange: [450, 1900]},
-    {fn: wordEmitterMaker(4, 6, 10, 15), freqRange: [440, 2000]},
-    {fn: wordEmitterMaker(4, 6, 10, 15), freqRange: [430, 1900]},
-    {fn: wordEmitterMaker(2, 5, 10, 15), freqRange: [420, 2000]},
-    {fn: wordEmitterMaker(2, 5, 10, 15), freqRange: [410, 1900]},
-    {fn: wordEmitterMaker(2, 5, 10, 15), freqRange: [400, 2000]},
-    {fn: wordEmitterMaker(2, 5, 10, 15), freqRange: [390, 1900]}, //level 8...
+    {fn: wordEmitterMaker(3, 5, 10, 15), freqRange: [1000, 2000]},//level 1...
+    {fn: wordEmitterMaker(3, 6, 9, 15), freqRange: [450, 1900]},
+    {fn: wordEmitterMaker(4, 6, 8, 15), freqRange: [440, 2000]},
+    {fn: wordEmitterMaker(4, 7, 7, 15), freqRange: [430, 1900]},
+    {fn: wordEmitterMaker(5, 7, 6, 15), freqRange: [420, 2000]},
+    {fn: wordEmitterMaker(6, 8, 5, 15), freqRange: [410, 1900]},
+    {fn: wordEmitterMaker(7, 8, 10, 15), freqRange: [400, 2000]},
+    {fn: wordEmitterMaker(8, 8, 10, 15), freqRange: [390, 1900]}, //level 8...
 ];
 
 const levelDurationMiliseconds = 1000;
 function emitWords(room, io) {
-let counter =0;
-    let totalWait = 0
-    while(totalWait < 15000){
-        counter ++;
-        console.log("new loop");
-        totalWait += _.random(levels[0].freqRange[0], levels[0].freqRange[1]);
-        setTimeout(function(){
-            levels[0].fn(room, io);
-        }, totalWait);
+    let totalWait = 0;
+    for (let i = 0; i < levels.length; i++) {
+        let levelWait = 0;
+        console.log(levels[i]);
+        while (levelWait < 5000) {
+            let randomTime = _.random(levels[i].freqRange[0], levels[i].freqRange[1]);
+            levelWait += randomTime;
+            totalWait += randomTime;
+            setTimeout(function(){
+                levels[i].fn(room, io);
+            }, totalWait);
+        }
     }
-    // console.log('In emitWords', room, io);
-    // levels.forEach(level => {
-    //     console.log('level', level);
-    //     const levelStart = Date.now();
-    //     console.log(levelStart + levelDurationMiliseconds, Date.now());
-    //     while (levelStart + levelDurationMiliseconds >= Date.now()) {
-    //         // console.log('In while');
-    //         setTimeout(function(){
-    //             level.fn(room, io);
-    //         }, 1000);
-    //     }
-    // });
 }
+
+// console.log('In emitWords', room, io);
+// levels.forEach(level => {
+//     console.log('level', level);
+//     const levelStart = Date.now();
+//     console.log(levelStart + levelDurationMiliseconds, Date.now());
+//     while (levelStart + levelDurationMiliseconds >= Date.now()) {
+//         // console.log('In while');
+//         setTimeout(function(){
+//             level.fn(room, io);
+//         }, 1000);
+//     }
+// });
 
 
 // _.random(level.freqRange[0], level.freqRange[1]);

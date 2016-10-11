@@ -24,6 +24,7 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
     };
 
     Socket.on('gameStart', function(payload) {
+        $scope.searching = false;
         $state.go('game', { gameId: payload.room });
     });
 

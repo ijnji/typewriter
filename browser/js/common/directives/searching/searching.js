@@ -28,4 +28,3 @@ app.directive('searching', function () {
         }
     }
 })
-

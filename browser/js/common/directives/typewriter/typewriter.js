@@ -24,7 +24,13 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         Socket.on('newKey', function(payload) {
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter' || payload.key === ' ') {
-                    playerMe.validateInput(DrawFactory.removeWordMe);
+                    const hit = playerMe.validateInput(DrawFactory.removeWordMe);
+                    if(hit){
+                        Socket.emit('wordHit');
+                    }
+                    else{
+                        Socket.emit('wordMiss');
+                    }
                 } else if (payload.key === 'Backspace'){
                     playerMe.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
@@ -36,7 +42,13 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 } else if (payload.key === 'Backspace') {
                     playerRival.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
-                    playerRival.newChar(payload.key);
+                    const hit = playerRival.newChar(payload.key);
+                    if(hit){
+                        Socket.emit('rivalWordHit');
+                    }
+                    else{
+                        Socket.emit('rivalWordMiss');
+                    }
                 }
             }
             scope.$digest();

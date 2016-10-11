@@ -27,20 +27,23 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
     Player.prototype.validateInput = function(callback){
         let idx = -1;
-        totalWordsTyped++;
+        // totalWordsTyped++;
+        let hit = false;
         for (var i = 0; i < this.activeWords.length; i++){
             if (this.activeWords[i].text === this.word) {
-                correctWordsTyped++;
+                // correctWordsTyped++;
                 idx = i;
                 break;
             }
         }
         if (idx > -1) {
+            hit = true;
             this.activeWords.splice(idx, 1);
             console.log('calling drawfactory callback');
             callback(this.word);
         }
         this.clearWord();
+        return hit;
     }
     Player.prototype.clearWord = function(){
         this.word = '';

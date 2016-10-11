@@ -23,8 +23,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         Socket.on('newKey', function(payload) {
             if (playerMe.id === payload.id) {
-                if (payload.key === 'Enter') {
-                    console.log('received enter key');
+                if (payload.key === 'Enter' || payload.key === ' ') {
                     playerMe.validateInput(DrawFactory.removeWordMe);
                 } else if (payload.key === 'Backspace'){
                     playerMe.removeChar();
@@ -32,7 +31,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                     playerMe.newChar(payload.key);
                 }
             } else {
-                if (payload.key === 'Enter') {
+                if (payload.key === 'Enter' || payload.key === ' ') {
                     playerRival.validateInput(DrawFactory.removeWordRival);
                 } else if (payload.key === 'Backspace') {
                     playerRival.removeChar();

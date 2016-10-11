@@ -9,7 +9,6 @@ app.config(function($stateProvider) {
 
 app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 
-
     $scope.testMatch = function() {
         $state.go('test');
     };
@@ -25,6 +24,7 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
     };
 
     Socket.on('gameStart', function(payload) {
+        $scope.searching = false;
         $state.go('game', { gameId: payload.room });
     });
 

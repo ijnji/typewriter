@@ -82,7 +82,7 @@ module.exports = function(server) {
         socket.emit('setUsername', {username: username});
 
         const eventHandlers = {
-            match: new Match(app, socket, io),
+            match: new Match(app, socket, io, activeUsers),
             lobby: new Lobby(app, socket, io, activeUsers),
             game: new Game(app, socket, io)
 

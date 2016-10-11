@@ -41,7 +41,6 @@ app.factory('DrawFactory', function() {
         const move = function(sprites) {
             sprites.forEach(function(s) {
                 let top = s.posDiv.position().top;
-                console.log(s.speed, delta);
                 top += s.speed * delta;
                 s.posDiv.css('top', top);
             });

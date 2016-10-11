@@ -12,12 +12,10 @@ app.factory('GameFactory', function(Socket) {
     }
 
     Game.handleGameOver = function(playerMe, loserId) {
-        console.log('playerMe.id: ', playerMe.id);
-        console.log('loserId: ', loserId);
-        if (playerMe.id[0] === '/') {
-            playerMe.id = playerMe.id.splice(0, 2);
+        if (loserId[0] === '/') {
+            loserId = loserId.slice(2, loserId.length);
         }
-        playerMe.win = playerMe.id === loserId;
+        playerMe.win = !(playerMe.id === loserId);
     }
 
     return {

@@ -8,7 +8,8 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
 
 
             scope.isLoggedIn = function() {
-                return AuthService.isAuthenticated();
+                var loggedIn = AuthService.isAuthenticated();
+                return loggedIn;
             };
 
             scope.logout = function() {
@@ -24,8 +25,8 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
             })
 
             var setUser = function() {
-
-                AuthService.getLoggedInUser().then(function(user) {
+                AuthService.getLoggedInUser()
+                .then(function(user) {
                     $rootScope.loggedUser = user;
                     $rootScope.user = user.username;
                     scope.user = $rootScope.user;
@@ -35,10 +36,10 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
             var removeUser = function() {
                 scope.user = null;
                 $rootScope.loggedUser = null;
-                scope.digest();
+                scope.$digest();
             };
 
-            // setUser();
+            setUser();
 
             $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);

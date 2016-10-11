@@ -3,12 +3,14 @@ const fs = require('fs');
 const _ = require('lodash');
 const path = require('path');
 const dictionaryPath = path.join(__dirname, '/dictionary.txt');
-const DICT = fs.readFileSync(dictionaryPath).toString().toLowerCase()
-            .split('\n');
+const DICT = fs.readFileSync(dictionaryPath).toString()
+            .split('\n').filter(function(el) {
+                if (el) return el[0] !== el[0].toUpperCase();
+            });
 const dictObj = _.groupBy(DICT, value => value.length)
 const BaseCharLength = 50;
 
-
+console.log(DICT);
 const findChar = function(diff) {
     return BaseCharLength + (BaseCharLength * diff)
 }

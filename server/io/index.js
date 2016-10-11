@@ -107,7 +107,6 @@ module.exports = function(server) {
                     return el.id === socket.id;
                 });
                 activeUsers.splice(i, 1);
-                console.log(activeUsers);
         });
         return io;
 

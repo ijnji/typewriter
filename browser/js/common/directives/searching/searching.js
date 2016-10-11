@@ -6,9 +6,7 @@ app.directive('searching', function () {
         link: function (scope, el, attr){
             console.log(scope.searching);
             const dots = $("#waiting").text();
-            let i  = 0, setDots;
-             // if (scope.searching) {
-                console.log(scope.searching);
+            let i  = 0;
                 setInterval(function() {
 
                 $("#waiting").append(".");
@@ -21,10 +19,6 @@ app.directive('searching', function () {
                 }
 
             }, 500);
-        // }
-        //     else {
-        //         clearInterval(setDots);
-        //     }
         }
     }
 })

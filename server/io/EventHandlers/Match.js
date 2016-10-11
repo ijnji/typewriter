@@ -46,7 +46,6 @@ function randomMatch() {
     }
 }
 
-
 function gameOver(){
     if (this.socket.currGame) {
         const room = this.socket.currGame;

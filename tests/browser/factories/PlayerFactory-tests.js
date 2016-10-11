@@ -22,7 +22,6 @@ describe ('PlayerFactory', function () {
 
   })
 
-console.log('wtf mate')
   afterEach(function(){
     try {
       //verifies all the requests via expect were made

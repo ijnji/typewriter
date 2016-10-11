@@ -102,18 +102,12 @@ module.exports = function(server) {
         //everything below this should be in it's own EventHandler (except disconnect)
         socket.on('disconnect', function() {
             console.log(chalk.magenta(socket.id + ' has disconnected'));
-            if (socket.currGame) {
-                const room = socket.currGame;
-                delete socket.currGame;
-                // clearInterval(Match.roomToWordInterval[room]);
-                // delete roomToWordInterval[room];
-                io.to(room).emit('playerLeave');
-            }
 
                 var i = _.findIndex(activeUsers, function (el){
                     return el.id === socket.id;
                 });
                 activeUsers.splice(i, 1);
+                console.log(activeUsers);
         });
         return io;
 

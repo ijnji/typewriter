@@ -10,7 +10,6 @@ const DICT = fs.readFileSync(dictionaryPath).toString()
 const dictObj = _.groupBy(DICT, value => value.length)
 const BaseCharLength = 50;
 
-console.log(DICT);
 const findChar = function(diff) {
     return BaseCharLength + (BaseCharLength * diff)
 }

@@ -9,7 +9,6 @@ app.config(function($stateProvider) {
 
 app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
 
-
     $scope.testMatch = function() {
         $state.go('test');
     };

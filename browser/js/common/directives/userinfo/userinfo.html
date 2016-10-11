@@ -2,14 +2,14 @@
     <div class="siteicon">
         <a ui-sref="frontpage"><img src = "img/logo.svg"></a>
     </div>
-    <div class="info"  ng-show="!loggedUser">
+    <div class="info"  ng-show="!isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
         <button ui-sref="login" class="waves-effect waves-light btn">Login</button>
          <button ui-sref="signup" class="waves-effect waves-light btn">Sign Up</button>
     </div>
             <!-- </div> -->
-    <div class="info" ng-show="loggedUser">
+    <div class="info" ng-show="isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
-        <a ng-click="logout()">Logout</a>
+        <button ng-click="logout()" class="waves-effect waves-light btn">Logout</button>
     </div>
 </div>

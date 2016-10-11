@@ -9,8 +9,8 @@ const sharedsession = require('express-socket.io-session');
 const passportSocketIo = require('passport.socketio');
 const cookieParser = require('cookie-parser');
 const db = require('../db');
-// const createSessionStore = require('../app/configure/authentication/createSessionStore');
 const createSessionStorePassport = require('../app/configure/authentication/createSessionStorePassport');
+
 let io = null;
 
 const adjectives = require('adjectives');
@@ -41,7 +41,6 @@ module.exports = function(server) {
     let sessionStore = createSessionStorePassport(db);
 
     io.use(passportSocketIo.authorize({
-        cookieParser: cookieParser,
         secret: 'Optimus Prime is my real dad',
         key: 'connect.sid',
         store: sessionStore,
@@ -50,25 +49,20 @@ module.exports = function(server) {
     }));
 
     function onAuthorizeSuccess(data, accept) {
-        console.log('A user connected');
+        console.log('user found');
         accept();
     }
 
     function onAuthorizeFail(data, message, error, accept) {
-        console.log('error', error);
-        console.log('A guest connected');
-        // console.log(sessionStore);
-        if (error) {
-            accept(new Error(message));
-        }
+        console.log('No user found');
+        accept();
     }
 
-    //implement soon
+    //implement socket sessions soon
     // io.use(sharedsession(session));
-
     io.on('connection', function(socket) {
         // Create event handlers for this socket
-        console.log('This is the passport user', socket.request.user);
+        console.log('user object in socket', socket.request.user);
         console.log(chalk.magenta(socket.id + ' has connected'));
         console.log(activeUsers);
         //make sure socketid matches user
@@ -125,3 +119,4 @@ module.exports = function(server) {
     });
 }
     // implement socket sessions soon
+    // io.use(sharedsession(session));

@@ -6,9 +6,11 @@ module.exports = function (db) {
 
     if (store) return store;
 
-    let store = new SequelizeStore({
+    store = new SequelizeStore({
         db: db
     });
+
+    store.sync();
 
     return store;
 

@@ -7,7 +7,8 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
+app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, SocketService) {
+
 
     $scope.testMatch = function() {
         $state.go('test');
@@ -18,12 +19,15 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
     // };
 
     $scope.randomMatch = function() {
-        console.log('request randomMatch');
         $scope.searching = true;
+
+        console.log('request randomMatch');
         Socket.emit('randomMatch');
     };
 
     Socket.on('gameStart', function(payload) {
+        $('#waiting').closeModal();
+        console.log(payload);
         $scope.searching = false;
         $state.go('game', { gameId: payload.room });
     });
@@ -35,6 +39,15 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory) {
             typeSpeed: 50
         });
     }
+
+    $(document).ready(function(){
+            $('.trigger-searching').leanModal({
+            complete: function () {
+                $scope.searching = false;
+                Socket.emit('stopMatch');
+            }
+        });
+  });
 
 });
 

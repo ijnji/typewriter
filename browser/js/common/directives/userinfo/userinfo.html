@@ -4,8 +4,8 @@
     </div>
     <div class="info"  ng-show="!loggedUser">
         <span>Welcome, {{ user }}!</span>
-        <button ui-sref="login" class="waves-effect waves-light btn">Login</button>
-         <button ui-sref="signup" class="waves-effect waves-light btn">Sign Up</button>
+        <button ui-sref="login" class="waves-effect waves-light btn" ng-click="removeGame()">Login</button>
+         <button ui-sref="signup" class="waves-effect waves-light btn" ng-click="removeGame()">Sign Up</button>
     </div>
             <!-- </div> -->
     <div class="info" ng-show="loggedUser">

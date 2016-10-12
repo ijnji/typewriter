@@ -1,4 +1,4 @@
-app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket) {
+app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket, SocketService) {
 
     let directive = {};
     directive.restrict = 'E';
@@ -18,6 +18,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         scope.me = playerMe;
         scope.rival = playerRival;
         scope.gameover = false;
+        scope.rivalUser = SocketService.getRival();
         requestAnimationFrame(gameLoop);
         let continueGame;
 

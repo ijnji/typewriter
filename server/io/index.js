@@ -47,39 +47,19 @@ module.exports = function(server) {
         // Create event handlers for this socket
         console.log(chalk.magenta(socket.id + ' has connected'));
         console.log(activeUsers);
-        let username = socket.handshake.session.username;
-
         //make sure socketid matches user
-        if (username) {
-            var idx = _.findIndex(activeUsers, function (el) {
-                return el.username === username;
-            });
-            if (idx > -1) {
-                console.log('changing socketid');
-                activeUsers[idx].id = socket.id;
-            } else {
-                console.log('adding user again');
-                activeUsers.push({id: socket.id, username: username, playing: false});
-                console.log(activeUsers);
-            }
+        console.log('adding username for guest');
+        let newUser = nameGenerator();
+        while (_.isMatch(this.activeUsers, {username: newUser})){
+            newUser = nameGenerator();
         }
 
-        //set a username for guest
-        if (!username) {
-            console.log('adding username for guest');
-            let newUser = nameGenerator();
-            while (_.isMatch(this.activeUsers, {username: username})){
-                newUser = nameGenerator();
-            }
-            username = newUser;
-            socket.handshake.session.save();
-            activeUsers.push({id: socket.id, username: username, playing: false})
-            console.log(activeUsers);
-        }
+        activeUsers.push({id: socket.id, username: newUser, playing: false})
+        console.log(activeUsers);
 
         //send user to frontend
 
-        socket.emit('setUsername', {username: username});
+        socket.emit('setUsername', {username: newUser});
 
         const eventHandlers = {
             match: new Match(app, socket, io, activeUsers),
@@ -107,10 +87,12 @@ module.exports = function(server) {
                     return el.id === socket.id;
                 });
                 activeUsers.splice(i, 1);
-
+                
                 if (socket.currGame) {
                     const room = socket.currGame;
+                    console.log("this is a room",room)
                     delete socket.currGame;
+
                     // clearInterval(Match.roomToWordInterval[room]);
                     // delete roomToWordInterval[room];
                     io.to(room).emit('playerLeave');

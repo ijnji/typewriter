@@ -23,16 +23,15 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         scope.gameover = false;
         scope.rivalUser = SocketService.getRival();
         requestAnimationFrame(gameLoop);
-        let continueGame;
 
-        Socket.on('newKey', function(payload) {
+        Socket.on('newKey', function (payload) {
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter' || payload.key === ' ') {
                     const hit = playerMe.validateInput(DrawFactory.removeWordMe);
                     if (hit) {
                         Socket.emit('wordHit');
                     }
-                    else{
+                    else {
                         Socket.emit('wordMiss');
                     }
                 } else if (payload.key === 'Backspace'){
@@ -42,11 +41,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 }
             } else {
                 if (payload.key === 'Enter' || payload.key === ' ') {
-                    playerRival.validateInput(DrawFactory.removeWordRival);
+                    const hit = playerRival.validateInput(DrawFactory.removeWordRival);
                     if (hit) {
                         Socket.emit('wordHit');
                     }
-                    else{
+                    else {
                         Socket.emit('wordMiss');
                     }
                 } else if (payload.key === 'Backspace') {
@@ -59,7 +58,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         });
 
         Socket.on('newWord', function(event) {
-            if(scope.gameover) return;
+            if (scope.gameover) return;
             playerMe.addWord(event.text, event.duration);
             playerRival.addWord(event.text, event.duration);
             DrawFactory.addWordMe(event.text, event.duration, event.xoffset);
@@ -71,7 +70,9 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             GameFactory.Game.handleGameOver(playerMe, payload.loserId);
             scope.gameover = true;
             scope.$evalAsync();
+
         });
+
         Socket.on('playerLeave', function() {
             playerMe.win = true;
             scope.$digest();
@@ -116,13 +117,15 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver);
                 // DrawFactory.removeTimedoutMe();
                 DrawFactory.removeTimedoutRival();
-                continueGame = requestAnimationFrame(gameLoop);
+                requestAnimationFrame(gameLoop);
             } else {
                 endTime = Date.now();
                 totalTime = endTime - startTime;
-                let wpm = playerMe.wordsPerMinute(totalTime);
-                let accuracy = playerMe.showAccuracy();
-                console.log('wpm', wpm, 'accuracy', accuracy)
+                scope.myWpm = playerMe.wordsPerMinute(totalTime);
+                scope.myAccuracy = playerMe.showAccuracy();
+                scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
+                scope.rivalAccuracy = playerRival.showAccuracy();
+                console.log(scope.wpm, scope.accuracy);
             }
         }
     };

@@ -16,11 +16,7 @@ app.factory('GameFactory', function(Socket, UtilityFactory) {
         playerMe.win = !(playerMe.id === loserId);
         console.log(playerMe)
     }
-
-
-
     return {
         Game: Game
     }
-
 });

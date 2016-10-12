@@ -1,18 +1,6 @@
-const adjectives = require('adjectives');
 const _ = require('lodash');
 const shortid = require('shortid');
 const wordEmitter = require('../wordEmitter');
-
-
-const animals =  ['alpaca', 'bunny', 'cat', 'dog', 'elephant', 'fox', 'gorilla', 'hippo', 'iguana', 'jackalope', 'kangaroo', 'kakapo', 'lemur', 'monkey', 'octopus', 'penguin', 'quail', 'racoon', 'sloth', 'tiger', 'vulture', 'walrus', 'xenon', 'yak', 'zebra' ];
-
-const nameGenerator = function(){
-        const adj = _.sample(adjectives);
-        const animal = _.sample(animals);
-        const guestName = adj + _.capitalize(animal);
-        return guestName;
-    }
-
 
 const loginUser = function (payload) {
     const self = this;

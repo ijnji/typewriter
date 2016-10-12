@@ -59,13 +59,13 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
     //as a percentage
     Player.prototype.showAccuracy = function () {
-        let accuracy = (correctWordsTyped / totalWordsTyped).toFixed(2);
+        let accuracy = (correctWordsTyped / totalWordsTyped).toFixed(2) * 100;
         return accuracy;
     }
 
     Player.prototype.wordsPerMinute = function (time) {
         let wpm = Math.round((60000 * correctWordsTyped) / time);
-        console.log(wpm);
+        return wpm;
     }
 
     return {

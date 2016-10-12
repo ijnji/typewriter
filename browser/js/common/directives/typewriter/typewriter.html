@@ -1,15 +1,15 @@
-<div class="container" id="typewriter">
+<div id="typewriter" class="center-align">
 
-  <div class="row">
+  <div class="row center-align">
     <div class="col s6">
     You: {{$root.user}}
         <div ng-show="gameover">
          <div id="winningMessage" ng-if="player-me.win">Winner!
-         <!-- <p>Words entered: <span></span></p>
-         <p>Accuracy: <span></span></p> -->
+         <my-stats></my-stats>
          </div>
           <div id="losingMessage" ng-if="!player-me.win">
           Loser!
+          <my-stats></my-stats>
           </div>
         </div>
       <div class="gameContainerDrawing z-depth-1" id="playerMeDrawing" ng-class="{ 'gameover': gameover}">
@@ -24,8 +24,14 @@
     <div class="col s6">
     Rival: {{rivalUser}}
         <div ng-if="gameover">
-          <div id="losingMessage" ng-if="player-me.win">Loser!</div>
-          <div id="winningMessage" ng-if="!player-me.win">Winner!</div>
+          <div id="losingMessage" ng-if="player-me.win">
+          Loser!
+          <rival-stats></rival-stats>
+          </div>
+          <div id="winningMessage" ng-if="!player-me.win">
+          Winner!
+          <rival-stats></rival-stats>
+          </div>
         </div>
       <div class="gameContainerDrawing z-depth-1" id="playerRivalDrawing" ng-class="{ 'gameover': gameover}">
         <!-- <div ng-repeat="word in rival.activeWords">{{ word.text }}</div> -->
@@ -37,4 +43,5 @@
       streak {{rival.streak}}
     </div>
   </div>
+
 </div>

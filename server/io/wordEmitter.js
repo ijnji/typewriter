@@ -3,25 +3,21 @@ const _ = require('lodash');
 
 function getRandomWordByLength(length){
     const sameLengthWordArray = dictionaryUtils.dictObj[length];
-    return sameLengthWordArray[ _.random(0, sameLengthWordArray.length -1 ) ];
+    return sameLengthWordArray[ _.random(0, sameLengthWordArray.length - 1 ) ];
 }
 
 
 function wordEmitterMaker (minChar, maxChar, minDur, maxDur) {
     return function(room, io) {
         console.log('emitting a word');
-        const word = getRandomWordByLength(_.random(minChar,maxChar));
-        const duration = _.random(minDur,maxDur);
+        const word = getRandomWordByLength(_.random(minChar, maxChar));
+        const duration = _.random(minDur, maxDur);
         io.to(room).emit('newWord', {text: word, duration: duration, xoffset: Math.random() });
     }
 }
 
-
-
-
-
 const levels = [
-    {fn: wordEmitterMaker(3, 5, 12, 15), freqRange: [1900, 2000]},//level 1...
+    {fn: wordEmitterMaker(3, 5, 12, 15), freqRange: [1900, 2000]}, //level 1...
     {fn: wordEmitterMaker(3, 6, 11, 14), freqRange: [1000, 1200]},
     {fn: wordEmitterMaker(4, 6, 10, 14), freqRange: [1400, 1900]},
     {fn: wordEmitterMaker(4, 7, 9, 13), freqRange: [1500, 1800]},

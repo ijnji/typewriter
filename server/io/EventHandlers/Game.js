@@ -1,10 +1,5 @@
 const dictionaryUtils = require('../../dictionary');
 
-const randomWord = dictionaryUtils.randomWord;
-const orgLength = dictionaryUtils.orgLength
-const DictObj = dictionaryUtils.DictObj
-const WordOutput = dictionaryUtils.wordOutput
-
 const Game = function(app, socket, io){
     this.app = app;
     this.socket = socket;

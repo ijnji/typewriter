@@ -87,10 +87,10 @@ module.exports = function(server) {
                     return el.id === socket.id;
                 });
                 activeUsers.splice(i, 1);
-                
+
                 if (socket.currGame) {
                     const room = socket.currGame;
-                    console.log("this is a room",room)
+                    console.log('this is a room', room)
                     delete socket.currGame;
 
                     // clearInterval(Match.roomToWordInterval[room]);

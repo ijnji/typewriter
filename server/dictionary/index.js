@@ -4,7 +4,8 @@ const _ = require('lodash');
 const path = require('path');
 const dictionaryPath = path.join(__dirname, '/dictionary.txt');
 const DICT = fs.readFileSync(dictionaryPath).toString()
-            .split('\n').filter(function(el) {
+            .split('\n')
+            .filter(function(el) {
                 if (el) return el[0] !== el[0].toUpperCase();
             });
 const dictObj = _.groupBy(DICT, value => value.length)
@@ -43,7 +44,7 @@ const wordOutput = function(diff) {
         let counter = charLimit[key]
 
         while (counter > 0) {
-            words.push(DictObj[key][Math.floor(Math.random() * DictObj[key].length)])
+            words.push(dictObj[key][Math.floor(Math.random() * dictObj[key].length)])
             counter = counter - key
 
         }

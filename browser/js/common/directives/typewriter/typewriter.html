@@ -2,12 +2,12 @@
 
   <div class="row center-align">
     <div class="col s6">
-    You: {{$root.user}}
+      <h5>You: {{$root.user}}</h5>
         <div ng-show="gameover">
-         <div id="winningMessage" ng-if="player-me.win">Winner!
+         <div class="animated infinite bounce" id="winningMessage" ng-if="player-me.win">Winner!
          <!-- <my-stats></my-stats> -->
          </div>
-          <div id="losingMessage" ng-if="!player-me.win">
+          <div class="animated infinite bounce" id="losingMessage" ng-if="!player-me.win">
           Loser!
           <!-- <my-stats></my-stats> -->
           </div>
@@ -18,17 +18,16 @@
       <div id="playerMeInput">
         {{me.word}}
       </div>
-      <label>Me</label>
       streak {{me.streak}}
     </div>
     <div class="col s6">
-    Rival: {{rivalUser}}
+      <h5>Rival: {{rivalUser}}</h5>
         <div ng-if="gameover">
-          <div id="losingMessage" ng-if="player-me.win">
+          <div class="animated infinite bounce" id="losingMessage" ng-if="player-me.win">
           Loser!
           <!-- <rival-stats></rival-stats> -->
           </div>
-          <div id="winningMessage" ng-if="!player-me.win">
+          <div class="animated infinite bounce" id="winningMessage" ng-if="!player-me.win">
           Winner!
           <!-- <rival-stats></rival-stats> -->
           </div>
@@ -39,7 +38,6 @@
       <div id="playerRivalInput">
         {{rival.word}}
       </div>
-      <label>Rival</label>
       streak {{rival.streak}}
     </div>
   </div>

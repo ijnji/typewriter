@@ -19,6 +19,7 @@
 
     .gameContainerSprite {
         position: absolute;
+        font-size: 1.5rem;
     }
 
     #playerMeInput, #playerRivalInput {
@@ -29,18 +30,19 @@
         text-align: center;
         background-color: $color-bgh-dark;
         border-radius: 5px;
-        color: #ffffff;
+        color: black;
         font-size: 1.5rem;
     }
 
     #winningMessage, #losingMessage {
         background: $color-bgh-light;
         opacity: 0.7;
-        position: relative;
-        top: 14.7em;
+        position: absolute;
+        top: 50%;
         width: 50%;
         text-align: center;
         margin: 0 auto;
+        font-size: 3rem;
     }
 
     #winningMessage {

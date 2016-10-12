@@ -16,6 +16,7 @@ app.factory('GameFactory', function(Socket) {
             loserId = loserId.slice(2, loserId.length);
         }
         playerMe.win = !(playerMe.id === loserId);
+        console.log(playerMe)
     }
 
     return {

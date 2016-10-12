@@ -18,31 +18,42 @@ function wordEmitterMaker (minChar, maxChar, minDur, maxDur) {
 
 
 
+
+
 const levels = [
-    {fn: wordEmitterMaker(3, 5, 10, 15), freqRange: [1000, 2000]},//level 1...
-    {fn: wordEmitterMaker(3, 6, 9, 15), freqRange: [450, 1900]},
-    {fn: wordEmitterMaker(4, 6, 8, 15), freqRange: [440, 2000]},
-    {fn: wordEmitterMaker(4, 7, 7, 15), freqRange: [430, 1900]},
-    {fn: wordEmitterMaker(5, 7, 6, 15), freqRange: [420, 2000]},
-    {fn: wordEmitterMaker(6, 8, 5, 15), freqRange: [410, 1900]},
-    {fn: wordEmitterMaker(7, 8, 10, 15), freqRange: [400, 2000]},
-    {fn: wordEmitterMaker(8, 8, 10, 15), freqRange: [390, 1900]}, //level 8...
+    {fn: wordEmitterMaker(3, 5, 12, 15), freqRange: [1900, 2000]},//level 1...
+    {fn: wordEmitterMaker(3, 6, 11, 14), freqRange: [1700, 1900]},
+    {fn: wordEmitterMaker(4, 6, 10, 14), freqRange: [1600, 19000]},
+    {fn: wordEmitterMaker(4, 7, 9, 13), freqRange: [1500, 1800]},
+    {fn: wordEmitterMaker(5, 7, 8, 15), freqRange: [1400, 1700]},
+    {fn: wordEmitterMaker(6, 8, 7, 15), freqRange: [1350, 1600]},
+    {fn: wordEmitterMaker(7, 8, 7, 15), freqRange: [1350, 1500]},
+    {fn: wordEmitterMaker(8, 8, 7, 15), freqRange: [1300, 1400]}, //level 8...
 ];
 
+let timeOuts = []
 const levelDurationMiliseconds = 1000;
 function emitWords(room, io) {
     let totalWait = 0;
+    let endLevel = false
     for (let i = 0; i < levels.length; i++) {
         let levelWait = 0;
         console.log(levels[i]);
-        while (levelWait < 5000) {
+        while (levelWait < 10000) {
             let randomTime = _.random(levels[i].freqRange[0], levels[i].freqRange[1]);
             levelWait += randomTime;
             totalWait += randomTime;
-            setTimeout(function(){
+            let timer = setTimeout(function(){
                 levels[i].fn(room, io);
             }, totalWait);
+            timeOuts.push(timer)
         }
+    }
+}
+
+function stopWords() {
+    for (let i = 0; i < timeOuts.length; i++) {
+        clearTimeout(timeOuts[i])
     }
 }
 
@@ -61,4 +72,4 @@ function emitWords(room, io) {
 
 
 // _.random(level.freqRange[0], level.freqRange[1]);
-module.exports = {emitWords: emitWords}
+module.exports = {emitWords: emitWords, stopWords: stopWords}

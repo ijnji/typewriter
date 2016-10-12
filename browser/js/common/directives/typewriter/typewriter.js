@@ -6,8 +6,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
     directive.templateUrl = 'js/common/directives/typewriter/typewriter.html';
 
     directive.link = function(scope) {
-
         $(document).ready(function() {
+            scope.gameover = false;
             DrawFactory.initialize();
             InputFactory.watchKeys();
         });
@@ -17,7 +17,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         let theGame = new GameFactory.Game();
         scope.me = playerMe;
         scope.rival = playerRival;
-        scope.gameover = false;
+        console.log("playerMe", playerMe.win)
+         scope.gameover = false;
         requestAnimationFrame(gameLoop);
         let continueGame;
 
@@ -52,8 +53,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         });
 
         Socket.on('endGame', function(payload) {
+
             GameFactory.Game.handleGameOver(playerMe, payload.loserId);
-            //cancelAnimationFrame(continueGame);
             scope.gameover = true;
             scope.$evalAsync();
         });

@@ -27,7 +27,6 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, S
 
     Socket.on('gameStart', function(payload) {
         $('#waiting').closeModal();
-        console.log(payload);
         $scope.searching = false;
         $state.go('game', { gameId: payload.room });
     });

@@ -46,7 +46,23 @@ function randomMatch() {
         const room = openRooms.shift();
         this.socket.join(room);
         this.socket.currGame = room;
-        this.io.sockets.in(room).emit('gameStart', { room: room });
+        let players = this.io.sockets.adapter.rooms[room].sockets;
+        let usersArr = [];
+        _.forOwn(players, function (v, k) {
+            usersArr.push(k);
+        })
+        var player1 = _.find(this.activeUsers, function (user) {
+           return user.id === usersArr[0];
+        });
+        var player2 = _.find(this.activeUsers, function (user) {
+           return user.id === usersArr[1];
+        });
+        console.log(player1, player2);
+        // let user1i = _.findIndex(this.activeUsers, function (el){
+        //     return el.id === usersArr[0].id;
+        // });
+        //console.log(player1, player2);
+        this.io.sockets.in(room).emit('gameStart', { room: room, player1: player1, player2: player2 });
         console.log('gameStart emitted', room);
         wordEmitter.emitWords(room, this.io);
     } else {

@@ -40,16 +40,16 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, U
             } else {
                 if (payload.key === 'Enter' || payload.key === ' ') {
                     playerRival.validateInput(DrawFactory.removeWordRival);
-                } else if (payload.key === 'Backspace') {
-                    playerRival.removeChar();
-                } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
-                    const hit = playerRival.newChar(payload.key);
                     if (hit) {
                         Socket.emit('wordHit');
                     }
                     else{
                         Socket.emit('wordMiss');
                     }
+                } else if (payload.key === 'Backspace') {
+                    playerRival.removeChar();
+                } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
+                    playerRival.newChar(payload.key);
                 }
             }
             scope.$digest();
@@ -79,12 +79,14 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, U
         });
 
         Socket.on('wordHit', function(payload){
-            console.log(payload.playerId, playerMe.id);
+            console.log('SOMEONE HIT HIT')
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
             if (playerId ===  playerMe.id) {
+                console.log('I HIT');
                 playerMe.incrementStreak();
             }
             else {
+                console.log('RIVAL HIT');
                 playerRival.incrementStreak();
             }
             scope.$digest();
@@ -93,9 +95,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, U
         Socket.on('wordMiss', function(payload){
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
             if (playerId === playerMe.id) {
+                console.log('I MISS');
                 playerMe.resetStreak();
             }
             else {
+                console.log('RIVAL MISS');
                 playerRival.resetStreak();
             }
             scope.$digest();

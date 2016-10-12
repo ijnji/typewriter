@@ -11,7 +11,7 @@ app.factory('AnimationFactory', function() {
         sprite.efxDiv.append(ani);
         ani.css('position', 'absolute');
         ani.css('left', '-25%');
-        ani.css('transform', 'rotate(' + Math.random() * 10 + 'deg)');
+        ani.css('transform', 'rotate(' + (Math.random() * 20 - 10) + 'deg)');
         ani.css('width', '0%');
         ani.css('border-top', '5px solid black');
         ani.css('top', '50%');

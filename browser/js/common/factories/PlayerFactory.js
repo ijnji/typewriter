@@ -35,11 +35,11 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
     Player.prototype.validateInput = function(callback){
         let idx = -1;
-        // totalWordsTyped++;
+        totalWordsTyped++;
         let hit = false;
         for (var i = 0; i < this.activeWords.length; i++){
             if (this.activeWords[i].text === this.word) {
-                // correctWordsTyped++;
+                correctWordsTyped++;
                 idx = i;
                 break;
             }
@@ -57,9 +57,15 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         this.word = '';
     }
 
+    //as a percentage
     Player.prototype.showAccuracy = function () {
         let accuracy = (correctWordsTyped / totalWordsTyped).toFixed(2);
-        console.log(accuracy * 100);
+        return accuracy;
+    }
+
+    Player.prototype.wordsPerMinute = function (time) {
+        let wpm = Math.round((60000 * correctWordsTyped) / time);
+        console.log(wpm);
     }
 
     return {

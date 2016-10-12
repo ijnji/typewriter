@@ -6,10 +6,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
     directive.templateUrl = 'js/common/directives/typewriter/typewriter.html';
 
     directive.link = function(scope) {
-
+        let startTime, endTime, totalTime;
         $(document).ready(function() {
             DrawFactory.initialize();
             InputFactory.watchKeys();
+            startTime = Date.now();
         });
 
         let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
@@ -110,8 +111,12 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 // DrawFactory.removeTimedoutMe();
                 DrawFactory.removeTimedoutRival();
                 continueGame = requestAnimationFrame(gameLoop);
-                // For loss, use the following.
-                //theGame.emitGameOver();
+            } else {
+                endTime = Date.now();
+                totalTime = endTime - startTime;
+                let wpm = playerMe.wordsPerMinute(totalTime);
+                let accuracy = playerMe.showAccuracy();
+                console.log('wpm', wpm, 'accuracy', accuracy)
             }
         }
     };

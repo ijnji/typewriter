@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, UtilityFactory, DrawFactory, Socket) {
-=======
-app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket, SocketService) {
->>>>>>> master
+app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket, SocketService, UtilityFactory) {
 
     let directive = {};
     directive.restrict = 'E';

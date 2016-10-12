@@ -17,6 +17,7 @@ function wordEmitterMaker (minChar, maxChar, minDur, maxDur) {
 }
 
 const levels = [
+
     {fn: wordEmitterMaker(3, 5, 12, 15), freqRange: [1900, 2000]}, //level 1...
     {fn: wordEmitterMaker(3, 6, 11, 14), freqRange: [1000, 1200]},
     {fn: wordEmitterMaker(4, 6, 10, 14), freqRange: [1400, 1900]},

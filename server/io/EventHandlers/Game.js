@@ -11,12 +11,22 @@ const Game = function(app, socket, io){
     this.io = io;
     this.roomToWordInterval = {};
     this.handler = {
-        keypress: keypress.bind(this)
+        keypress: keypress.bind(this),
+        wordHit: wordHit.bind(this),
+        wordMiss: wordMiss.bind(this)
     }
 }
 
 function keypress(payload){
     this.io.to(this.socket.currGame).emit('newKey', payload);
+}
+
+function wordHit(){
+    this.io.to(this.socket.currGame).emit('wordHit', {playerId: this.socket.id});
+}
+
+function wordMiss(){
+    this.io.to(this.socket.currGame).emit('wordMiss', {playerId: this.socket.id});
 }
 
 module.exports = Game;

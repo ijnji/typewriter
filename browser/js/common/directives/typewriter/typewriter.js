@@ -25,7 +25,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter' || payload.key === ' ') {
                     const hit = playerMe.validateInput(DrawFactory.removeWordMe);
-                    if(hit){
+                    if (hit) {
                         Socket.emit('wordHit');
                     }
                     else{
@@ -43,11 +43,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                     playerRival.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
                     const hit = playerRival.newChar(payload.key);
-                    if(hit){
-                        Socket.emit('rivalWordHit');
+                    if (hit) {
+                        Socket.emit('wordHit');
                     }
                     else{
-                        Socket.emit('rivalWordMiss');
+                        Socket.emit('wordMiss');
                     }
                 }
             }
@@ -75,6 +75,27 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         Socket.on('eventDiff', function(event) {
             console.log('Event Words', event.words)
 
+        });
+
+        Socket.on('wordHit', function(payload){
+            if(payload.playerId === '/#' + playerMe.id){
+                console.log('I HIT');
+                playerMe.incrementStreak();
+            }
+            else{
+                playerRival.incrementStreak();
+            }
+            scope.$digest();
+        })
+
+        Socket.on('wordMiss', function(payload){
+            if(payload.playerId === '/#' + playerMe.id){
+                playerMe.resetStreak();
+            }
+            else{
+                playerRival.resetStreak();
+            }
+            scope.$digest();
         })
 
 

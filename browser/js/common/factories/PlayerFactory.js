@@ -6,8 +6,8 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     let totalWordsTyped = 0;
 
     const Player = function(socketId) {
-        this.difficulty = 0;
         this.id = socketId;
+        this.streak = 0;
         this.word = '';
         this.activeWords = [];
     }
@@ -15,6 +15,14 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     Player.prototype.addWord = function(text, duration) {
         this.activeWords.push(new WordFactory.Word(text, duration));
         JSON.stringify(this.activeWords);
+    }
+
+    Player.prototype.incrementStreak = function(){
+        this.streak++;
+    }
+
+    Player.prototype.resetStreak = function(){
+        this.streak = 0;
     }
 
     Player.prototype.newChar = function(char) {

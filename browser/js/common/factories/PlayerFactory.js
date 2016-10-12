@@ -2,14 +2,14 @@
 
 app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
-    let correctWordsTyped = 0;
-    let totalWordsTyped = 0;
 
     const Player = function(socketId) {
         this.id = socketId;
         this.streak = 0;
         this.word = '';
         this.activeWords = [];
+        this.totalWordsTyped = 0;
+        this.correctWordsTyped = 0;
     }
 
     Player.prototype.addWord = function(text, duration) {
@@ -35,11 +35,11 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
     Player.prototype.validateInput = function(callback){
         let idx = -1;
-        totalWordsTyped++;
+        this.totalWordsTyped++;
         let hit = false;
         for (var i = 0; i < this.activeWords.length; i++){
             if (this.activeWords[i].text === this.word) {
-                correctWordsTyped++;
+                this.correctWordsTyped++;
                 idx = i;
                 break;
             }
@@ -59,12 +59,15 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
     //as a percentage
     Player.prototype.showAccuracy = function () {
-        let accuracy = (correctWordsTyped / totalWordsTyped).toFixed(2) * 100;
+        let accuracy = (this.correctWordsTyped / this.totalWordsTyped).toFixed(2) * 100;
+        if (isNaN(accuracy)) {
+            accuracy = 0;
+        }
         return accuracy;
     }
 
     Player.prototype.wordsPerMinute = function (time) {
-        let wpm = Math.round((60000 * correctWordsTyped) / time);
+        let wpm = Math.round((60000 * this.correctWordsTyped) / time);
         return wpm;
     }
 

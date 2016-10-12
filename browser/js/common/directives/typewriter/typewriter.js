@@ -41,13 +41,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 }
             } else {
                 if (payload.key === 'Enter' || payload.key === ' ') {
-                    const hit = playerRival.validateInput(DrawFactory.removeWordRival);
-                    if (hit) {
-                        Socket.emit('wordHit');
-                    }
-                    else {
-                        Socket.emit('wordMiss');
-                    }
+                    playerRival.validateInput(DrawFactory.removeWordRival);
                 } else if (payload.key === 'Backspace') {
                     playerRival.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {

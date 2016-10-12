@@ -5,11 +5,11 @@
     You: {{$root.user}}
         <div ng-show="gameover">
          <div id="winningMessage" ng-if="player-me.win">Winner!
-         <my-stats></my-stats>
+         <!-- <my-stats></my-stats> -->
          </div>
           <div id="losingMessage" ng-if="!player-me.win">
           Loser!
-          <my-stats></my-stats>
+          <!-- <my-stats></my-stats> -->
           </div>
         </div>
       <div class="gameContainerDrawing z-depth-1" id="playerMeDrawing" ng-class="{ 'gameover': gameover}">
@@ -26,11 +26,11 @@
         <div ng-if="gameover">
           <div id="losingMessage" ng-if="player-me.win">
           Loser!
-          <rival-stats></rival-stats>
+          <!-- <rival-stats></rival-stats> -->
           </div>
           <div id="winningMessage" ng-if="!player-me.win">
           Winner!
-          <rival-stats></rival-stats>
+          <!-- <rival-stats></rival-stats> -->
           </div>
         </div>
       <div class="gameContainerDrawing z-depth-1" id="playerRivalDrawing" ng-class="{ 'gameover': gameover}">

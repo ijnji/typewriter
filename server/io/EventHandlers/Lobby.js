@@ -57,6 +57,8 @@ const challengeAccepted = function(payload){
     challenger.join(room);
     player2.playing = true;
     challenger.currGame = room;
+    // Ran: Hotfix for lingering modal background when challenging users.
+    this.io.in(room).emit('closeModals');
     this.io.in(room).emit('gameStart', { room: room, player1: player1, player2: player2 });
     wordEmitter.emitWords(room, this.io);
 

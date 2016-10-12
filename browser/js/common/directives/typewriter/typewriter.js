@@ -1,4 +1,4 @@
-app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket, SocketService) {
+app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, UtilityFactory, DrawFactory, Socket, SocketService) {
 
     let directive = {};
     directive.restrict = 'E';
@@ -80,21 +80,22 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         Socket.on('wordHit', function(payload){
             console.log(payload.playerId, playerMe.id);
-            if(payload.playerId === '/#' + playerMe.id){
-                console.log('I HIT');
+            const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
+            if (playerId ===  playerMe.id) {
                 playerMe.incrementStreak();
             }
-            else{
+            else {
                 playerRival.incrementStreak();
             }
             scope.$digest();
         })
 
         Socket.on('wordMiss', function(payload){
-            if(payload.playerId === '/#' + playerMe.id){
+            const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
+            if (playerId === playerMe.id) {
                 playerMe.resetStreak();
             }
-            else{
+            else {
                 playerRival.resetStreak();
             }
             scope.$digest();

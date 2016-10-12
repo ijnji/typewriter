@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('DrawFactory', function() {
+app.factory('DrawFactory', function(AnimationFactory) {
 
     let factory = {};
 
@@ -18,8 +18,8 @@ app.factory('DrawFactory', function() {
 
     // Words may need to play an animation before they
     // disappear on a word hit.
-    factory.playerMeSpritesHit = [];
-    factory.playerRivalSpritesHit = [];
+    factory.playerMeSpritesExpiring = [];
+    factory.playerRivalSpritesExpiring = [];
 
     factory.initialize = function() {
         factory.playerMeDrawing = $('#playerMeDrawing');
@@ -97,28 +97,25 @@ app.factory('DrawFactory', function() {
         factory.playerRivalSprites.push(s);
     };
 
-    const removeWord = function(sprites, hitting, text) {
+    const removeWord = function(sprites, expiring, text) {
         let idx = -1;
         for (let i = 0; i < sprites.length; i++) {
             if (sprites[i].txtDiv.html() === text) {
                 idx = i;
-                // TODO: To support removal animations, push into hitting array,
-                // and handle after animation finishes.
-                //hitting.push(sprites[i]);
-                sprites[i].posDiv.remove();
+                AnimationFactory.addStrikethrough(sprites[i]);
+                expiring.push(sprites[i]);
+                //sprites[i].posDiv.remove();
             }
         }
         if (idx > -1) {
             sprites.splice(idx, 1);
         }
-        console.log(sprites);
-        console.log(hitting);
     };
 
     factory.removeWordMe = function(text) {
         removeWord(
             factory.playerMeSprites,
-            factory.playerMeSpritesHit,
+            factory.playerMeSpritesExpiring,
             text
         );
     };
@@ -126,9 +123,30 @@ app.factory('DrawFactory', function() {
     factory.removeWordRival = function(text) {
         removeWord(
             factory.playerRivalSprites,
-            factory.playerRivalSpritesHit,
+            factory.playerRivalSpritesExpiring,
             text
         );
+    };
+
+    factory.removeExpired = function(expiring) {
+        let idx = -1;
+        for (let i = 0; i < expiring.length; i++) {
+            if (expiring[i].expired) {
+                idx = i;
+                expiring[i].posDiv.remove();
+            }
+        }
+        if (idx > -1) {
+            expiring.splice(idx, 1);
+        }
+    };
+
+    factory.removeExpiredMe = function() {
+        factory.removeExpired(factory.playerMeSpritesExpiring);
+    };
+
+    factory.removeExpiredRival = function() {
+        factory.removeExpired(factory.playerRivalSpritesExpiring);
     };
 
     return factory;
@@ -137,6 +155,7 @@ app.factory('DrawFactory', function() {
 
 // Drawing is expected to be a jQuery element.
 function Sprite(drawing) {
+    this.expired = false;
     this.posDiv = $('<div class="gameContainerSprite"></div>');
     drawing.append(this.posDiv);
     this.efxDiv = this.posDiv.append('<div></div>');

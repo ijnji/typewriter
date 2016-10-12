@@ -13,23 +13,6 @@ const nameGenerator = function(){
         return guestName;
     }
 
-const addGuest = function () {
-    const self = this;
-    if (_.findIndex(this.activeUsers, function (el){
-        return el.id === self.socket.id;
-    }) > -1){
-        return ;
-    } else {
-        let username = nameGenerator();
-        while (_.isMatch(this.activeUsers, {username: username})){
-            username = nameGenerator();
-        }
-        this.activeUsers.push({id: this.socket.id, username: username, playing: false})
-        this.socket.handshake.session.username = username;
-        console.log(this.socket.handshake.session);
-    }
-    console.log(this.activeUsers);
-};
 
 const loginUser = function (payload) {
     const self = this;
@@ -59,20 +42,22 @@ const challengeUser = function(payload){
 const challengeAccepted = function(payload){
     const challenger = this.io.sockets.connected[payload.id];
     const self = this;
-    var opponentIdx = _.findIndex(this.activeUsers, function (el){
+    const opponentIdx = _.findIndex(this.activeUsers, function (el){
         return el.id === self.socket.id;
     });
-    var challengerIdx = _.findIndex(this.activeUsers, function (el){
+    const challengerIdx = _.findIndex(this.activeUsers, function (el){
         return el.id === payload.id;
     });
+    const player1 = this.activeUsers[opponentIdx];
+    const player2 = this.activeUsers[challengerIdx];
     const room = shortid.generate();
     this.socket.join(room);
-    this.activeUsers[opponentIdx].playing = true;
+    player1.playing = true;
     this.socket.currGame = room;
     challenger.join(room);
-    this.activeUsers[challengerIdx].playing = true;
+    player2.playing = true;
     challenger.currGame = room;
-    this.io.in(room).emit('gameStart', { room: room });
+    this.io.in(room).emit('gameStart', { room: room, player1: player1, player2: player2 });
     wordEmitter.emitWords(room, this.io);
 
 }
@@ -88,7 +73,6 @@ const Lobby = function(app, socket, io, activeUsers){
     this.socket = socket;
     this.io = io;
     this.handler = {
-        addGuest: addGuest.bind(this),
         loginUser: loginUser.bind(this),
         getUsers: getUsers.bind(this),
         challengeUser: challengeUser.bind(this),

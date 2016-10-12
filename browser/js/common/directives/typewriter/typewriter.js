@@ -72,11 +72,10 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             if (!scope.gameover) {
                 DrawFactory.updatePositions();
                 DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver);
-                // DrawFactory.removeTimedoutMe();
                 DrawFactory.removeTimedoutRival();
+                DrawFactory.removeExpiredMe();
+                DrawFactory.removeExpiredRival();
                 continueGame = requestAnimationFrame(gameLoop);
-                // For loss, use the following.
-                //theGame.emitGameOver();
             }
         }
     };

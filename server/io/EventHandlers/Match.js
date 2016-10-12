@@ -102,12 +102,14 @@ function gameOver(){
         const room = this.socket.currGame;
         delete (this.socket.rooms[room]);
         delete this.socket.currGame;
-        var self = this;
-        var idx = _.findIndex(this.activeUsers, function (el){
+        let self = this;
+        let idx = _.findIndex(this.activeUsers, function (el){
             return el.id === self.socket.id;
         });
         this.activeUsers[idx].playing = false;
+        wordEmitter.stopWords();
         this.io.to(room).emit('endGame', { loserId: this.socket.id });
+
     }
 }
 

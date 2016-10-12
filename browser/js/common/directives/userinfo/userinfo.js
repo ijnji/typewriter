@@ -13,7 +13,7 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
 
             scope.logout = function() {
                 AuthService.logout().then(function() {
-                    $state.go('home');
+                    $state.go('frontpage');
                 });
             };
 
@@ -33,8 +33,9 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
             };
 
             var removeUser = function() {
-                scope.loggedUser = null;
+                scope.user = null;
                 $rootScope.loggedUser = null;
+                scope.digest();
             };
 
             // setUser();

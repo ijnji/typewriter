@@ -23,8 +23,6 @@ const loginUser = function (payload) {
     });
         this.activeUsers.splice(idx, 1);
     }
-    this.socket.handshake.session.username = payload.username;
-    this.socket.handshake.session.save();
     this.activeUsers.push({id: this.socket.id, username: payload.username, playing: false});
     };
 

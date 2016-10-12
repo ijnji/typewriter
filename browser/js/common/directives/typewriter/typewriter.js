@@ -78,6 +78,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         });
 
         Socket.on('wordHit', function(payload){
+            console.log(payload.playerId, playerMe.id);
             if(payload.playerId === '/#' + playerMe.id){
                 console.log('I HIT');
                 playerMe.incrementStreak();

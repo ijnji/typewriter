@@ -2,6 +2,7 @@
 
   <div class="row">
     <div class="col s6">
+    You: {{$root.user}}
         <div ng-show="gameover">
          <div id="winningMessage" ng-if="player-me.win">Winner!
          <!-- <p>Words entered: <span></span></p>
@@ -18,9 +19,10 @@
         {{me.word}}
       </div>
       <label>Me</label>
-      <progress max='100' value='75'></progress>
+      streak {{me.streak}}
     </div>
     <div class="col s6">
+    Rival: {{rivalUser}}
         <div ng-if="gameover">
           <div id="losingMessage" ng-if="player-me.win">Loser!</div>
           <div id="winningMessage" ng-if="!player-me.win">Winner!</div>
@@ -32,6 +34,7 @@
         {{rival.word}}
       </div>
       <label>Rival</label>
+      streak {{rival.streak}}
     </div>
   </div>
 </div>

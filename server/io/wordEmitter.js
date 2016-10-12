@@ -22,10 +22,10 @@ function wordEmitterMaker (minChar, maxChar, minDur, maxDur) {
 
 const levels = [
     {fn: wordEmitterMaker(3, 5, 12, 15), freqRange: [1900, 2000]},//level 1...
-    {fn: wordEmitterMaker(3, 6, 11, 14), freqRange: [1700, 1900]},
-    {fn: wordEmitterMaker(4, 6, 10, 14), freqRange: [1600, 19000]},
+    {fn: wordEmitterMaker(3, 6, 11, 14), freqRange: [1000, 1200]},
+    {fn: wordEmitterMaker(4, 6, 10, 14), freqRange: [1400, 1900]},
     {fn: wordEmitterMaker(4, 7, 9, 13), freqRange: [1500, 1800]},
-    {fn: wordEmitterMaker(5, 7, 8, 15), freqRange: [1400, 1700]},
+    {fn: wordEmitterMaker(5, 7, 8, 15), freqRange: [500, 500]},
     {fn: wordEmitterMaker(6, 8, 7, 15), freqRange: [1350, 1600]},
     {fn: wordEmitterMaker(7, 8, 7, 15), freqRange: [1350, 1500]},
     {fn: wordEmitterMaker(8, 8, 7, 15), freqRange: [1300, 1400]}, //level 8...
@@ -39,7 +39,7 @@ function emitWords(room, io) {
     for (let i = 0; i < levels.length; i++) {
         let levelWait = 0;
         console.log(levels[i]);
-        while (levelWait < 10000) {
+        while (levelWait < 7000) {
             let randomTime = _.random(levels[i].freqRange[0], levels[i].freqRange[1]);
             levelWait += randomTime;
             totalWait += randomTime;

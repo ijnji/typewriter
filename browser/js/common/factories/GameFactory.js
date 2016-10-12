@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('GameFactory', function(Socket) {
+app.factory('GameFactory', function(Socket, UtilityFactory) {
 
     let Game = function() {
         this.difficulty = 1
@@ -12,12 +12,12 @@ app.factory('GameFactory', function(Socket) {
     }
 
     Game.handleGameOver = function(playerMe, loserId) {
-        if (loserId[0] === '/') {
-            loserId = loserId.slice(2, loserId.length);
-        }
+        loserId = UtilityFactory.stripSocketIdPrefix(loserId);
         playerMe.win = !(playerMe.id === loserId);
         console.log(playerMe)
     }
+
+
 
     return {
         Game: Game

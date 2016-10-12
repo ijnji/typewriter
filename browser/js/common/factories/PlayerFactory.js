@@ -6,8 +6,8 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     let totalWordsTyped = 0;
 
     const Player = function(socketId) {
-        this.difficulty = 0;
         this.id = socketId;
+        this.streak = 0;
         this.word = '';
         this.activeWords = [];
     }
@@ -15,6 +15,14 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     Player.prototype.addWord = function(text, duration) {
         this.activeWords.push(new WordFactory.Word(text, duration));
         JSON.stringify(this.activeWords);
+    }
+
+    Player.prototype.incrementStreak = function(){
+        this.streak++;
+    }
+
+    Player.prototype.resetStreak = function(){
+        this.streak = 0;
     }
 
     Player.prototype.newChar = function(char) {
@@ -27,20 +35,23 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
 
     Player.prototype.validateInput = function(callback){
         let idx = -1;
-        totalWordsTyped++;
+        // totalWordsTyped++;
+        let hit = false;
         for (var i = 0; i < this.activeWords.length; i++){
             if (this.activeWords[i].text === this.word) {
-                correctWordsTyped++;
+                // correctWordsTyped++;
                 idx = i;
                 break;
             }
         }
         if (idx > -1) {
+            hit = true;
             this.activeWords.splice(idx, 1);
             console.log('calling drawfactory callback');
             callback(this.word);
         }
         this.clearWord();
+        return hit;
     }
     Player.prototype.clearWord = function(){
         this.word = '';

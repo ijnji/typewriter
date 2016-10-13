@@ -3,7 +3,6 @@
         <a ui-sref="frontpage"><img src = "img/logo.svg"></a>
     </div>
     <div>
-        <a ui-sref="users">Users</a>
     </div>
     <div class="info"  ng-show="!isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
@@ -13,6 +12,7 @@
             <!-- </div> -->
     <div class="info" ng-show="isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
+        <a ui-sref="users">User</button>
         <button ng-click="logout()" class="waves-effect waves-light btn">Logout</button>
     </div>
 </div>

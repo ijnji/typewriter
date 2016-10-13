@@ -26,6 +26,7 @@ var _ = require('lodash');
 var Chance = require('chance');
 var chance = new Chance();
 var adj = require('adjectives');
+var faker = require('faker');
 
 var numUsers = 50;
 var numMatches = 200;
@@ -53,7 +54,7 @@ function randUser () {
     return User.build({
         email: emails.pop(),
         password: chance.word(),
-        avatar: chance.avatar(),
+        avatar: faker.image.avatar(),
         username: usernames.pop(),
         longestStreak: _.random(1, 84),
         wins: _.random(0, 100),

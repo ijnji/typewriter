@@ -116,7 +116,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             }
 
             else {
-                    playerRival.addWord(payload.text, payload.duration)
+                    playerMe.addWord(payload.text, payload.duration)
                     DrawFactory.addWordMe(payload.text, payload.duration, Math.random())
                 }
         })

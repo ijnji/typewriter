@@ -7,8 +7,9 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon --watch server -e js,html server/start.js",
-    "postinstall": "gulp build",
-    "browser-test": "karma start ./tests/browser/karma.conf.js"
+    "test": "karma start ./tests/browser/karma.conf.js",
+    "postinstall": "gulp build"
+    
   },
   "engines": {
     "node": ">=4.0.0"

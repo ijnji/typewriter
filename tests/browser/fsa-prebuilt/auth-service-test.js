@@ -1,6 +1,6 @@
 // describe('AuthService', function () {
 
-//     beforeEach(module('fsaPreBuilt'));
+//     beforeEach(module('TypeWriterApp'));
 
 //     var $httpBackend;
 //     var $rootScope;

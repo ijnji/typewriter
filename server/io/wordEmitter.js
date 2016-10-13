@@ -40,6 +40,10 @@ const levels = [
     {fn: wordEmitterMaker(3, 5, 6, 13), freqRange: [400, 500]} //level x...
 ];
 
+const pressurelevels = [
+    {fn: wordEmitterMaker(10, 10, 12, 15)}
+]
+
 let roomToTimeouts = {};
 function emitWords(room, io) {
     roomToTimeouts[room] = [];
@@ -59,12 +63,18 @@ function emitWords(room, io) {
     }
 }
 
+
+
+
 function stopWords(room) {
     const roomTimeouts = roomToTimeouts[room];
     for (let i = 0; i < roomTimeouts.length; i++) {
         clearTimeout(roomTimeouts[i]);
     }
 }
+
+
+
 
 // console.log('In emitWords', room, io);
 // levels.forEach(level => {

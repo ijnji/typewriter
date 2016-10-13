@@ -3,6 +3,7 @@ const shortid = require('shortid');
 const wordEmitter = require('../wordEmitter');
 
 const loginUser = function (payload) {
+    console.log('the user', this.socket.request.user)
     const self = this;
     console.log(this.socket.username, this.activeUsers);
     if (_.isMatch(this.activeUsers, {id: this.socket.id})) {

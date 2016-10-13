@@ -23,6 +23,15 @@ router.get('/:userId', function (req, res, next) {
   .catch(next);
 });
 
+//get all matches for a specific user
+router.get('/:userid/matches', function(req, res, next){
+    User.findOne({
+        where: {id: req.params.userId}
+    })
+    .then(foundUser => foundUser.getMatches())
+    .then(matches => res.send(matches));
+});
+
 
 //sign up: create new user
 router.post('/', function (req, res, next) {

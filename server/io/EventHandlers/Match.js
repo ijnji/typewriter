@@ -107,7 +107,7 @@ function gameOver(){
             return el.id === self.socket.id;
         });
         this.activeUsers[idx].playing = false;
-        wordEmitter.stopWords();
+        wordEmitter.stopWords(room);
         this.io.to(room).emit('endGame', { loserId: this.socket.id });
 
     }

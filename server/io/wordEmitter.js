@@ -40,11 +40,10 @@ const levels = [
     {fn: wordEmitterMaker(3, 5, 6, 13), freqRange: [400, 500]} //level x...
 ];
 
-let timeOuts = []
-const levelDurationMiliseconds = 1000;
+let roomToTimeouts = {};
 function emitWords(room, io) {
+    roomToTimeouts[room] = [];
     let totalWait = 0;
-    let endLevel = false
     for (let i = 0; i < levels.length; i++) {
         let levelWait = 0;
         console.log(levels[i]);
@@ -52,17 +51,18 @@ function emitWords(room, io) {
             let randomTime = _.random(levels[i].freqRange[0], levels[i].freqRange[1]);
             levelWait += randomTime;
             totalWait += randomTime;
-            let timer = setTimeout(function(){
+            let timeout = setTimeout(function(){
                 levels[i].fn(room, io);
             }, totalWait);
-            timeOuts.push(timer)
+            roomToTimeouts[room].push(timeout);
         }
     }
 }
 
-function stopWords() {
-    for (let i = 0; i < timeOuts.length; i++) {
-        clearTimeout(timeOuts[i])
+function stopWords(room) {
+    const roomTimeouts = roomToTimeouts[room];
+    for (let i = 0; i < roomTimeouts.length; i++) {
+        clearTimeout(roomTimeouts[i]);
     }
 }
 

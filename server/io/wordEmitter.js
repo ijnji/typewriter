@@ -22,10 +22,22 @@ const levels = [
     {fn: wordEmitterMaker(3, 6, 11, 14), freqRange: [1000, 1200]},
     {fn: wordEmitterMaker(4, 6, 10, 14), freqRange: [1400, 1900]},
     {fn: wordEmitterMaker(4, 7, 9, 13), freqRange: [1500, 1800]},
-    {fn: wordEmitterMaker(5, 7, 8, 15), freqRange: [500, 500]},
-    {fn: wordEmitterMaker(6, 8, 7, 15), freqRange: [1350, 1600]},
-    {fn: wordEmitterMaker(7, 8, 7, 15), freqRange: [1350, 1500]},
-    {fn: wordEmitterMaker(8, 8, 7, 15), freqRange: [1300, 1400]}, //level 8...
+    {fn: wordEmitterMaker(5, 7, 8, 13), freqRange: [1400, 1800]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1350, 1600]},
+    {fn: wordEmitterMaker(7, 8, 7, 13), freqRange: [1350, 1500]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1300, 1400]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1300, 1400]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1100, 1400]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1000, 1000]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1000, 1000]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1000, 1000]},
+    {fn: wordEmitterMaker(3, 5, 6, 13), freqRange: [400, 500]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1000, 1000]},
+    {fn: wordEmitterMaker(3, 5, 6, 13), freqRange: [400, 500]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1000, 1000]},
+    {fn: wordEmitterMaker(3, 5, 6, 13), freqRange: [400, 500]},
+    {fn: wordEmitterMaker(6, 8, 7, 13), freqRange: [1000, 1000]},
+    {fn: wordEmitterMaker(3, 5, 6, 13), freqRange: [400, 500]} //level x...
 ];
 
 let timeOuts = []

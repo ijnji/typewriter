@@ -2,8 +2,9 @@
 var crypto = require('crypto');
 var _ = require('lodash');
 var Sequelize = require('sequelize');
-
+var Match = require('./match');
 var db = require('../_db');
+
 
 module.exports = db.define('user', {
     email: {
@@ -12,8 +13,24 @@ module.exports = db.define('user', {
     username: {
         type: Sequelize.STRING
     },
+    longestStreak: {
+        type: Sequelize.INTEGER
+    },
+    wins: {
+        type: Sequelize.INTEGER
+    },
+    losses: {
+        type: Sequelize.INTEGER
+    },
+    averageAccuracy: {
+        type: Sequelize.FLOAT
+    },
     password: {
         type: Sequelize.STRING
+    },
+    avatar: {
+      type: Sequelize.STRING,
+      defaultValue: 'http://worldartsme.com/images/snoopy-typing-clipart-1.jpg'
     },
     salt: {
         type: Sequelize.STRING
@@ -34,6 +51,18 @@ module.exports = db.define('user', {
         },
         correctPassword: function (candidatePassword) {
             return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
+        },
+        getMatches: function () {
+            return Match.findAll({
+                where: {
+                    $or: [{
+                        winnerId: this.id
+                    }, {
+                        loserId: this.id
+                    }]
+                },
+                include: [{model: this.Model, as: 'winner'}, {model: this.Model, as: 'loser'}]
+            })
         }
     },
     classMethods: {

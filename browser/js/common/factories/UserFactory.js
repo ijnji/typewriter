@@ -11,6 +11,14 @@ app.factory('UserFactory', function($http) {
             .then(formatData);
     };
 
+    UserFactory.getAll = function(){
+        return $http.get(path)
+            .then(formatData)
+    };
+    UserFactory.getById = function(id){
+        return $http.get(`${path}/${id}`)
+            .then(formatData)
+    }
     return UserFactory;
 
 });

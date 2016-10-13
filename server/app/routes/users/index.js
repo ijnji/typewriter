@@ -23,7 +23,6 @@ router.get('/:userId', function (req, res, next) {
   .catch(next);
 });
 
-
 //sign up: create new user
 router.post('/', function (req, res, next) {
   User.create(req.body)

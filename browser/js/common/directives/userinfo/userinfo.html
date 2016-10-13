@@ -9,10 +9,10 @@
         <button ui-sref="login" class="waves-effect waves-light btn">Login</button>
          <button ui-sref="signup" class="waves-effect waves-light btn">Sign Up</button>
     </div>
+    <a ui-sref="users">User</button>
             <!-- </div> -->
     <div class="info" ng-show="isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
-        <a ui-sref="users">User</button>
         <button ng-click="logout()" class="waves-effect waves-light btn">Logout</button>
     </div>
 </div>

@@ -1,6 +1,6 @@
 // describe('Session Service', function () {
 
-//     beforeEach(module('fsaPreBuilt'));
+//     beforeEach(module('TypeWriterApp'));
 
 //     var $rootScope;
 //     beforeEach(inject(function (_$rootScope_) {

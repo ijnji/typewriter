@@ -37,7 +37,7 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         let idx = -1;
         this.totalWordsTyped++;
         let hit = false;
-        for (var i = 0; i < this.activeWords.length; i++){
+        for (let i = 0; i < this.activeWords.length; i++){
             if (this.activeWords[i].text === this.word) {
                 this.correctWordsTyped++;
                 idx = i;

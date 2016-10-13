@@ -33,8 +33,8 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, S
 
 
     $scope.runLogo = function(){
-        $(".element").typed({
-            strings: ["TypeRightr"],
+        $('.element').typed({
+            strings: ['TypeRightr'],
             typeSpeed: 50
         });
     }
@@ -49,5 +49,3 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, S
   });
 
 });
-
-

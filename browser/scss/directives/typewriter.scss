@@ -1,12 +1,13 @@
 #typewriter {
     position: absolute;
     top: 15vh;
-    left: 12vh;
+    // left: 12vh;
     width: 100%;
+
 
     .gameContainerDrawing {
         width: 80%;
-        height: 80vh;
+        height: 70vh;
         margin: 0 auto;
         position: relative;
 
@@ -18,6 +19,7 @@
 
     .gameContainerSprite {
         position: absolute;
+        font-size: 1.5rem;
     }
 
     #playerMeInput, #playerRivalInput {
@@ -28,18 +30,19 @@
         text-align: center;
         background-color: $color-bgh-dark;
         border-radius: 5px;
-        color: #ffffff;
+        color: black;
         font-size: 1.5rem;
     }
 
     #winningMessage, #losingMessage {
         background: $color-bgh-light;
         opacity: 0.7;
-        position: relative;
-        top: 4.7em;
+        position: absolute;
+        top: 50%;
         width: 50%;
         text-align: center;
         margin: 0 auto;
+        font-size: 3rem;
     }
 
     #winningMessage {
@@ -54,6 +57,5 @@
         opacity: 0.5;
         pointer-events: none;
         transition : opacity 1s ease-out;
-        background: rgba(0,0,0,.75);
-    }
+        background: rgba(0,0,0,.75);    }
 }

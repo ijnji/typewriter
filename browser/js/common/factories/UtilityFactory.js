@@ -6,8 +6,8 @@ app.factory('UtilityFactory', function() {
     ];
 
     function stripSocketIdPrefix(socketId){
-        if(socketId[0] === '/'){
-            return socketId.slice(2,socketId.length);
+        if (socketId[0] === '/'){
+            return socketId.slice(2, socketId.length);
         }
         return socketId;
     }

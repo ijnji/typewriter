@@ -14,12 +14,9 @@ app.factory('GameFactory', function(Socket, UtilityFactory) {
     Game.handleGameOver = function(playerMe, loserId) {
         loserId = UtilityFactory.stripSocketIdPrefix(loserId);
         playerMe.win = !(playerMe.id === loserId);
+        console.log(playerMe)
     }
-
-
-
     return {
         Game: Game
     }
-
 });

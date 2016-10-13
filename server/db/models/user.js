@@ -12,6 +12,18 @@ module.exports = db.define('user', {
     username: {
         type: Sequelize.STRING
     },
+    longestStreak: {
+        type: Sequelize.INTEGER
+    },
+    wins: {
+        type: Sequelize.INTEGER
+    },
+    losses: {
+        type: Sequelize.INTEGER
+    },
+    averageAccuracy: {
+        type: Sequelize.FLOAT
+    },
     password: {
         type: Sequelize.STRING
     },

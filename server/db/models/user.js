@@ -2,6 +2,7 @@
 var crypto = require('crypto');
 var _ = require('lodash');
 var Sequelize = require('sequelize');
+var Match = require('./match');
 
 var db = require('../_db');
 
@@ -46,6 +47,15 @@ module.exports = db.define('user', {
         },
         correctPassword: function (candidatePassword) {
             return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
+        },
+        getMatches: function () {
+            return Match.findAll({where: {
+                $or: [{
+                    winnerId: this.id
+                }, {
+                    loserId: this.id
+                }]
+            }})
         }
     },
     classMethods: {

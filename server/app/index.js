@@ -32,6 +32,7 @@ module.exports = function (db) {
     });
 
     app.get('/*', function (req, res) {
+        console.log('req.user', req.user);
         res.sendFile(app.get('indexHTMLPath'));
     });
 

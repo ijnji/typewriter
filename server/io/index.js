@@ -6,10 +6,10 @@ const Game = require('./EventHandlers/Game');
 const chalk = require('chalk');
 const _ = require('lodash');
 const sharedsession = require('express-socket.io-session');
-// const passportSocketIo = require('passport.socketio');
-//const cookieParser = require('cookie-parser');
+const passportSocketIo = require('passport.socketio');
+const cookieParser = require('cookie-parser');
 const db = require('../db');
-const createSessionStore = require('../app/configure/authentication/createSessionStore');
+const createSessionStorePassport = require('../app/configure/authentication/createSessionStorePassport');
 
 let io = null;
 
@@ -38,13 +38,31 @@ module.exports = function(server) {
     if (io) return io;
     io = socketio(server);
 
-    let session = createSessionStore(db);
+    let sessionStore = createSessionStorePassport(db);
 
-    io.use(sharedsession(session));
+    io.use(passportSocketIo.authorize({
+        secret: 'Optimus Prime is my real dad',
+        key: 'connect.sid',
+        store: sessionStore,
+        success: onAuthorizeSuccess,
+        fail: onAuthorizeFail
+    }));
+
+    function onAuthorizeSuccess(data, accept) {
+        console.log('user found');
+        accept();
+    }
+
+    function onAuthorizeFail(data, message, error, accept) {
+        console.log('No user found');
+        accept();
+    }
+
     //implement socket sessions soon
     // io.use(sharedsession(session));
     io.on('connection', function(socket) {
         // Create event handlers for this socket
+        console.log('user object in socket', socket.request.user);
         console.log(chalk.magenta(socket.id + ' has connected'));
         console.log(activeUsers);
         //make sure socketid matches user
@@ -102,23 +120,5 @@ module.exports = function(server) {
 
     });
 }
-    //implement socket sessions soon
+    // implement socket sessions soon
     // io.use(sharedsession(session));
-    // io.use(passportSocketIo.authorize({
-    //     cookieParser: cookieParser,
-    //     secret: 'Optimus Prime is my real dad',
-    //     store: createSessionStore(),
-    //     success: onAuthorizeSuccess,
-    //     fail: onAuthorizeFail
-    // }));
-
-    // function onAuthorizeSuccess(data, accept) {
-    //     accept();
-    // }
-
-    // function onAuthorizeFail(data, message, error, accept) {
-    //     console.log('failed');
-    //     if (error) {
-    //         accept(new Error(message));
-    //     }
-    // }

@@ -50,8 +50,10 @@
 
     app.service('AuthService', function ($http, Session, $rootScope, AUTH_EVENTS, $q) {
         function onSuccessfulLogin(response) {
+
             var user = response.data.user;
             Session.create(user);
+            console.log('Session.user', Session.user);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
             return user;
         }

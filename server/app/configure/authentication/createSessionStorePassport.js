@@ -10,6 +10,8 @@ module.exports = function (db) {
         db: db
     });
 
+    store.sync();
+    
     return store;
 
 };

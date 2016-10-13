@@ -30,16 +30,24 @@ function wordMiss(){
 
 function streakWord (payload) {
     let numberOfWords = payload.streak/5
-    let conunt = numberOfWords
-    while(conunt > 0) {
-        conunt-=1
+    let count = 0
+    let funcIO = this.io
+    let funcSock = this.socket
+    let countWords = 0
+    while(count < numberOfWords) {
+        countWords+= 2000
+        let timeout = setTimeout(function() {
             const sameLengthWordArray = dictionaryUtils.dictObj[10];
             let word = sameLengthWordArray[ _.random(0, sameLengthWordArray.length - 1 ) ];
+            console.log("here")
             console.log(word)
-            this.io.to(this.socket.currGame).emit('streak', {playerId: this.socket.id, streak: numberOfWords, text: word, duration: 10})
+            funcIO.to(funcSock.currGame).emit('streak', {playerId: funcSock.id, streak: numberOfWords, text: word, duration: 10})
+            console.log(countWords)
+        }, countWords);  
+        count+=1 
     }
-}
     
  
+}
 
 module.exports = Game;

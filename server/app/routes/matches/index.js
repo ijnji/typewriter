@@ -4,6 +4,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../../db');
 const Match = db.model('match');
+const User = db.model('user');
+
 
 //get all matches
 
@@ -22,6 +24,13 @@ router.get('/:matchId', function (req, res, next) {
   .catch(next);
 });
 
+router.get('/user/:userid', function(req, res, next){
+    User.findOne({
+        where: {id: req.params.userId}
+    })
+    .then(foundUser => foundUser.getMatches())
+    .then(matches => res.send(matches));
+});
 
 //create new match
 router.post('/', function (req, res, next) {

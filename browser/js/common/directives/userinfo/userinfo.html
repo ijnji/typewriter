@@ -2,6 +2,9 @@
     <div class="siteicon">
         <a ui-sref="frontpage"><img src = "img/logo.svg"></a>
     </div>
+    <div>
+        <a ui-sref="users">Users</a>
+    </div>
     <div class="info"  ng-show="!isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
         <button ui-sref="login" class="waves-effect waves-light btn">Login</button>

@@ -28,6 +28,10 @@ module.exports = db.define('user', {
     password: {
         type: Sequelize.STRING
     },
+    avatar: {
+      type: Sequelize.STRING,
+      defaultValue: 'http://worldartsme.com/images/snoopy-typing-clipart-1.jpg'
+    },
     salt: {
         type: Sequelize.STRING
     },

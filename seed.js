@@ -20,13 +20,64 @@ name in the environment files.
 var chalk = require('chalk');
 var db = require('./server/db');
 var User = db.model('user');
+var Match = db.model('match');
 var Promise = require('sequelize').Promise;
 var _ = require('lodash');
+var Chance = require('chance');
+var chance = new Chance();
+var adj = require('adjectives');
 
-var seedUsers = function () {
+var numUsers = 50;
+var numMatches = 200;
 
-    var users = [
-        {
+var emails = chance.unique(chance.email, numUsers);
+var usernames = chance.unique(generateUsername, numUsers);
+
+
+function generateUsername () {
+    var part1 = _.sample(adj)
+    var part2 = chance.first();
+    var name = part1 + part2;
+    return name;
+}
+function doTimes (n, fn) {
+  var results = [];
+  while (n--) {
+    results.push(fn());
+  }
+  return results;
+}
+
+
+function randUser () {
+    return User.build({
+        email: emails.pop(),
+        password: chance.word(),
+        avatar: chance.avatar(),
+        username: usernames.pop(),
+        longestStreak: _.random(1, 84),
+        wins: _.random(0, 100),
+        losses: _.random(0, 100),
+        averageAccuracy: chance.floating({min: 0, max:1, fixed: 4})
+    })
+}
+
+
+function randMatch () {
+    return Match.build({
+        winnerId: _.random(1, 25),
+        winnerAccuracy: chance.floating({min: 0, max:1, fixed: 4}),
+        winnerStreak: _.random(1, 84),
+        loserId: _.random(26, 50),
+        loserAccuracy: chance.floating({min: 0, max:1, fixed: 4}),
+        loserStreak: _.random(1, 70),
+        gameDuration: _.random (10000, 1000000)
+    })
+}
+
+function generateUsers () {
+    var users = doTimes(numUsers, randUser);
+    users.push(User.build({
             email: 'testing@fsa.com',
             password: 'password',
             username: 'fsa',
@@ -34,8 +85,8 @@ var seedUsers = function () {
             wins: 75,
             losses: 25,
             averageAccuracy: .7362
-        },
-        {
+        }));
+    users.push(User.build(        {
             email: 'obama@gmail.com',
             password: 'potus',
             username: 'obama',
@@ -43,178 +94,38 @@ var seedUsers = function () {
             wins: 200,
             losses: 0,
             averageAccuracy: 1
-        }
-    ];
+        }));
+    return users;
+}
 
-    var creatingUsers = users.map(function (userObj) {
-        return User.create(userObj);
-    });
-
-    return Promise.all(creatingUsers);
-
-};
-
-
-function randMatch () {
-    return Match.build({
-        winnerId: 2,
-        winnerAccuracy: _.random(1, true),
-        winnerStreak: _.random(1, 84),
-        loserId: 1,
-        loserAccuracy: _.random(1, true),
-        loserStreak: _.random(1, 70)
-    })
+function generateMatches () {
+    return doTimes(numMatches, randMatch);
 }
 
 
 
-var seedMatches = function () {
-    var matches = [{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },{
-        winnerId: 2,
-        winnerAccuracy: 1,
-        winnerStreak: 1,
-        loserId: 1,
-        loserAccuracy: .6,
-        loserStreak: .8,
-    },
-    ]
+function createUsers () {
+  return Promise.map(generateUsers(), function (user) {
+    return user.save();
+  });
 }
+
+function createMatches () {
+  return Promise.map(generateMatches(), function (match) {
+    return match.save();
+  });
+}
+
+function seed () {
+  return createUsers()
+  .then(function () {
+    return createMatches();
+  });
+}
+
 db.sync({ force: true })
     .then(function () {
-        return seedUsers();
+        return seed();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));

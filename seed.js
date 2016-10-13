@@ -21,6 +21,7 @@ var chalk = require('chalk');
 var db = require('./server/db');
 var User = db.model('user');
 var Promise = require('sequelize').Promise;
+var _ = require('lodash');
 
 var seedUsers = function () {
 
@@ -28,12 +29,20 @@ var seedUsers = function () {
         {
             email: 'testing@fsa.com',
             password: 'password',
-            username: 'fsa'
+            username: 'fsa',
+            longestStreak: 100,
+            wins: 75,
+            losses: 25,
+            averageAccuracy: .7362
         },
         {
             email: 'obama@gmail.com',
             password: 'potus',
-            username: 'obama'
+            username: 'obama',
+            longestStreak: 999,
+            wins: 200,
+            losses: 0,
+            averageAccuracy: 1
         }
     ];
 
@@ -45,6 +54,164 @@ var seedUsers = function () {
 
 };
 
+
+function randMatch () {
+    return Match.build({
+        winnerId: 2,
+        winnerAccuracy: _.random(1, true),
+        winnerStreak: _.random(1, 84),
+        loserId: 1,
+        loserAccuracy: _.random(1, true),
+        loserStreak: _.random(1, 70)
+    })
+}
+
+
+
+var seedMatches = function () {
+    var matches = [{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },{
+        winnerId: 2,
+        winnerAccuracy: 1,
+        winnerStreak: 1,
+        loserId: 1,
+        loserAccuracy: .6,
+        loserStreak: .8,
+    },
+    ]
+}
 db.sync({ force: true })
     .then(function () {
         return seedUsers();

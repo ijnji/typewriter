@@ -8,6 +8,7 @@ app.config(function($stateProvider) {
                 return UserFactory.getById($stateParams.id);
             },
             matches: function(MatchFactory, $stateParams){
+                // return 'matches';
                 return MatchFactory.getAllForUser($stateParams.id);
             }
         }
@@ -15,7 +16,7 @@ app.config(function($stateProvider) {
 });
 
 app.controller('UserCtrl', function($scope, UserFactory, user, matches){
+    console.log(matches);
     $scope.user = user;
     $scope.matches = matches;
-
 });

@@ -1,6 +1,6 @@
 app.config(function($stateProvider) {
     $stateProvider.state('users', {
-        url: '/users/',
+        url: '/users',
         templateUrl: 'js/user/users.html',
         controller: 'UsersCtrl',
         resolve: {
@@ -11,6 +11,6 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('UserCtrl', function($scope){
+app.controller('UsersCtrl', function($scope, users){
     $scope.users = users;
 });

@@ -16,6 +16,6 @@ app.factory('MatchFactory', function($http) {
             .then(formatData)
     };
 
-    return UserFactory;
+    return MatchFactory;
 
 });

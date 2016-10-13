@@ -18,13 +18,14 @@ router.get('/', function (req, res, next){
 //get specific match
 router.get('/:matchId', function (req, res, next) {
   Match.findOne({
-    where: {id: req.params.matchId}
+    where: {id: req.params.matchId},
+    include: ['winner', 'loser']
   })
   .then(foundMatch => res.send(foundMatch))
   .catch(next);
 });
 
-router.get('/user/:userid', function(req, res, next){
+router.get('/user/:userId', function(req, res, next){
     User.findOne({
         where: {id: req.params.userId}
     })

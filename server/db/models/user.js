@@ -3,8 +3,8 @@ var crypto = require('crypto');
 var _ = require('lodash');
 var Sequelize = require('sequelize');
 var Match = require('./match');
-
 var db = require('../_db');
+
 
 module.exports = db.define('user', {
     email: {
@@ -53,13 +53,16 @@ module.exports = db.define('user', {
             return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
         },
         getMatches: function () {
-            return Match.findAll({where: {
-                $or: [{
-                    winnerId: this.id
-                }, {
-                    loserId: this.id
-                }]
-            }})
+            return Match.findAll({
+                where: {
+                    $or: [{
+                        winnerId: this.id
+                    }, {
+                        loserId: this.id
+                    }]
+                },
+                include: [{model: this.Model, as: 'winner'}, {model: this.Model, as: 'loser'}]
+            })
         }
     },
     classMethods: {

@@ -48,7 +48,9 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
             hit = true;
             this.activeWords.splice(idx, 1);
             console.log('calling drawfactory callback');
-            callback(this.word);
+            if (callback) {
+                callback(this.word)
+            }
         }
         this.clearWord();
         return hit;

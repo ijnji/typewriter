@@ -24,7 +24,7 @@ app.directive('navbar', function($rootScope, $state, AuthService, AUTH_EVENTS, S
                 });
             };
 
-            Socket.on('setUsername', function(payload) {
+            Socket.on('setUsername', function (payload){
                 $rootScope.user = payload.username;
                 scope.user = $rootScope.user;
                 scope.$digest();

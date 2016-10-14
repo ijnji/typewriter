@@ -24,17 +24,17 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         scope.rivalUser = SocketService.getRival();
         requestAnimationFrame(gameLoop);
 
-        Socket.on('newKey', function(payload) {
-            console.log(playerMe.activeWords)
+        Socket.on('newKey', function (payload) {
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter' || payload.key === ' ') {
                     const hit = playerMe.validateInput(DrawFactory.removeWordMe);
                     if (hit) {
                         Socket.emit('wordHit');
-                    } else {
+                    }
+                    else {
                         Socket.emit('wordMiss');
                     }
-                } else if (payload.key === 'Backspace') {
+                } else if (payload.key === 'Backspace'){
                     playerMe.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
                     playerMe.newChar(payload.key);
@@ -76,28 +76,30 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         });
 
-        Socket.on('wordHit', function(payload) {
+        Socket.on('wordHit', function(payload){
             console.log('SOMEONE HIT HIT')
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
-            if (playerId === playerMe.id) {
+            if (playerId ===  playerMe.id) {
                 console.log('I HIT');
                 playerMe.incrementStreak();
                 if (playerMe.streak % 5 === 0) {
-                    Socket.emit('streakWord', { streak: playerMe.streak })
+                    Socket.emit('streakWord', {streak: playerMe.streak})
                 }
-            } else {
+            }
+            else {
                 console.log('RIVAL HIT');
                 playerRival.incrementStreak();
             }
             scope.$digest();
         })
 
-        Socket.on('wordMiss', function(payload) {
+        Socket.on('wordMiss', function(payload){
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
             if (playerId === playerMe.id) {
                 console.log('I MISS');
                 playerMe.resetStreak();
-            } else {
+            }
+            else {
                 console.log('RIVAL MISS');
                 playerRival.resetStreak();
             }
@@ -106,15 +108,17 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         Socket.on('streak', function(payload) {
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
-            if (playerId === playerMe.id) {
+            if(playerId === playerMe.id) {
 
-                playerRival.addWord(payload.text, payload.duration)
-                DrawFactory.addWordRival(payload.text, payload.duration, Math.random())
-                count -= 1
-            } else {
-                playerMe.addWord(payload.text, payload.duration)
-                DrawFactory.addWordMe(payload.text, payload.duration, Math.random())
+                        playerRival.addWord(payload.text, payload.duration)
+                        DrawFactory.addWordRival(payload.text, payload.duration, Math.random())
+                        count-=1
             }
+
+            else {
+                    playerMe.addWord(payload.text, payload.duration)
+                    DrawFactory.addWordMe(payload.text, payload.duration, Math.random())
+                }
         })
 
         // Main game loop.

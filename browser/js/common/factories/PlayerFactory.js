@@ -13,7 +13,6 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
     }
 
     Player.prototype.addWord = function(text, duration) {
-        console.log('add word function, text:', text, 'duration', duration);
         this.activeWords.push(new WordFactory.Word(text, duration));
         JSON.stringify(this.activeWords);
     }

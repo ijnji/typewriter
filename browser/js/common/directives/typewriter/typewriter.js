@@ -25,6 +25,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         requestAnimationFrame(gameLoop);
 
         Socket.on('newKey', function(payload) {
+            console.log(playerMe.activeWords)
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter' || payload.key === ' ') {
                     const hit = playerMe.validateInput(DrawFactory.removeWordMe);

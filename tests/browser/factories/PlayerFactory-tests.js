@@ -19,7 +19,7 @@ describe('PlayerFactory', function() {
         Player1.addWord('hello', 10);
         Player1.addWord('zoo', 4);
         Player1.addWord('elephant', 7);
-
+        console.log(Player1.activeWords);
     })
 
     afterEach(function() {
@@ -41,6 +41,13 @@ describe('PlayerFactory', function() {
         it('is a function', function() {
             expect(Player1.addWord).to.be.a('function');
         });
+
+        it('adds objects with words and time to activeWords', function () {
+          expect(Player1.activeWords).to.be.a('array');
+          expect(Player1.activeWords).to.be.equal([{}])
+          expect(Player2.activeWords).to.deep.equal([]);
+          expect(Player1.activeWords).to.be.equal([{text: 'hello', end: Date.now() + 10000}, {text: 'zoo', end: Date.now() + 4000}, {text: 'elephant', end: Date.now() + 7000}])
+        })
     });
 
    describe('incrementStreak', function() {

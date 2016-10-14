@@ -2,6 +2,7 @@ app.service('SocketService', function($rootScope, Socket) {
     let rival;
 
     Socket.on('gameStart', function(payload) {
+        console.log(payload);
         rival = payload.player1.username === $rootScope.user ? payload.player2.username : payload.player1.username;
     });
 

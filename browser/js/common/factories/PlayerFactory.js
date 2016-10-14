@@ -47,7 +47,9 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         if (idx > -1) {
             hit = true;
             this.activeWords.splice(idx, 1);
-            callback(this.word);
+            if (callback) {
+                callback(this.word)
+            }
         }
         this.clearWord();
         return hit;

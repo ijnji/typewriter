@@ -34,6 +34,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             Socket.removeListener('playerLeave', playerLeaveFunc);
             Socket.removeListener('wordHit', wordHitFunc);
             Socket.removeListener('wordMiss', wordMissFunc);
+            Socket.removeListener('streak', streakFunc);
+            DrawFactory.reset();
         });
 
         Socket.on('newKey', newKeyFunc);
@@ -90,7 +92,6 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         Socket.on('wordHit', wordHitFunc);
         function wordHitFunc(payload) {
-            console.log('SOMEONE HIT HIT')
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
             if (playerId === playerMe.id) {
                 playerMe.incrementStreak();

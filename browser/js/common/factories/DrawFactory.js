@@ -27,6 +27,8 @@ app.factory('DrawFactory', function(AnimationFactory) {
     };
 
     factory.reset = function() {
+        factory.playerMeDrawing.empty();
+        factory.playerRivalDrawing.empty();
         factory.playerMeSprites = [];
         factory.playerRivalSprites = [];
         factory.playerMeSpritesExpiring = [];

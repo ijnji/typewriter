@@ -1,0 +1,14 @@
+<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
+    <!-- <div ng-class="{}"> -->
+    <alert type="danger" ng-show="error">
+        {{ error }}
+    </alert>
+    <div
+    <div class="form-group">
+        <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>

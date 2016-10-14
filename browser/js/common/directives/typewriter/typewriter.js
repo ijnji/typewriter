@@ -26,7 +26,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         scope.gameover = false;
         scope.rivalUser = SocketService.getRival();
 
-        scope.$on('$distroy', function() {
+        scope.$on('$destroy', function() {
             window.cancelAnimationFrame(animationFrameReference);
             Socket.removeListener('newKey', newKeyFunc);
             Socket.removeListener('newWord', newWordFunc);
@@ -43,10 +43,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                     const hit = playerMe.validateInput(DrawFactory.removeWordMe);
                     if (hit) {
                         Socket.emit('wordHit');
-                    } else {
+                    }
+                    else {
                         Socket.emit('wordMiss');
                     }
-                } else if (payload.key === 'Backspace') {
+                } else if (payload.key === 'Backspace'){
                     playerMe.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
                     playerMe.newChar(payload.key);
@@ -94,7 +95,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             if (playerId === playerMe.id) {
                 playerMe.incrementStreak();
                 if (playerMe.streak % 5 === 0) {
-                    Socket.emit('streakWord', { streak: playerMe.streak })
+                    Socket.emit('streakWord', {streak: playerMe.streak})
                 }
             } else {
                 playerRival.incrementStreak();
@@ -124,7 +125,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 DrawFactory.addWordMe(payload.text, payload.duration, Math.random())
             }
         }
-
+     
         // Main game loop.
         function gameLoop() {
             if (!scope.gameover) {

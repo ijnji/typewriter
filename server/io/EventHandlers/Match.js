@@ -57,7 +57,6 @@ function randomMatch() {
         var player2 = _.find(this.activeUsers, function (user) {
            return user.id === usersArr[1];
         });
-        console.log(player1, player2);
         this.io.sockets.in(room).emit('gameStart', { room: room, player1: player1, player2: player2 });
         console.log('gameStart emitted', room);
         wordEmitter.emitWords(room, this.io);

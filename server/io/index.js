@@ -15,22 +15,20 @@ let io = null;
 
 const adjectives = require('adjectives');
 
-//let socketToRoom = {};
-
 const activeUsers = [];
 
 const app = {
     allSockets: []
 }
-const animals =  ['alpaca', 'bunny', 'cat', 'dog', 'elephant', 'fox', 'gorilla', 'hippo', 'iguana', 'jackalope', 'kangaroo', 'kakapo', 'lemur', 'monkey', 'octopus', 'penguin', 'quail', 'racoon', 'sloth', 'tiger', 'vulture', 'walrus', 'xenon', 'yak', 'zebra' ];
+const animals = ['alpaca', 'bunny', 'cat', 'dog', 'elephant', 'fox', 'gorilla', 'hippo', 'iguana', 'jackalope', 'kangaroo', 'kakapo', 'lemur', 'monkey', 'octopus', 'penguin', 'quail', 'racoon', 'sloth', 'tiger', 'vulture', 'walrus', 'xenon', 'yak', 'zebra'];
 
 
-const nameGenerator = function(){
-        const adj = _.sample(adjectives);
-        const animal = _.sample(animals);
-        const guestName = _.capitalize(adj) + _.capitalize(animal);
-        return guestName;
-    }
+const nameGenerator = function() {
+    const adj = _.sample(adjectives);
+    const animal = _.sample(animals);
+    const guestName = _.capitalize(adj) + _.capitalize(animal);
+    return guestName;
+}
 
 
 module.exports = function(server) {
@@ -58,8 +56,6 @@ module.exports = function(server) {
         accept();
     }
 
-    //implement socket sessions soon
-    // io.use(sharedsession(session));
     io.on('connection', function(socket) {
         // Create event handlers for this socket
         console.log('user object in socket', socket.request.user);
@@ -68,16 +64,16 @@ module.exports = function(server) {
         //make sure socketid matches user
         console.log('adding username for guest');
         let newUser = nameGenerator();
-        while (_.isMatch(this.activeUsers, {username: newUser})){
+        while (_.isMatch(this.activeUsers, { username: newUser })) {
             newUser = nameGenerator();
         }
 
-        activeUsers.push({id: socket.id, username: newUser, playing: false})
+        activeUsers.push({ id: socket.id, username: newUser, playing: false })
         console.log(activeUsers);
 
         //send user to frontend
 
-        socket.emit('setUsername', {username: newUser});
+        socket.emit('setUsername', { username: newUser });
 
         const eventHandlers = {
             match: new Match(app, socket, io, activeUsers),
@@ -101,24 +97,21 @@ module.exports = function(server) {
         socket.on('disconnect', function() {
             console.log(chalk.magenta(socket.id + ' has disconnected'));
 
-                var i = _.findIndex(activeUsers, function (el){
-                    return el.id === socket.id;
-                });
-                activeUsers.splice(i, 1);
+            var i = _.findIndex(activeUsers, function(el) {
+                return el.id === socket.id;
+            });
+            activeUsers.splice(i, 1);
 
-                if (socket.currGame) {
-                    const room = socket.currGame;
-                    console.log('this is a room', room)
-                    delete socket.currGame;
+            if (socket.currGame) {
+                const room = socket.currGame;
+                delete socket.currGame;
 
-                    // clearInterval(Match.roomToWordInterval[room]);
-                    // delete roomToWordInterval[room];
-                    io.to(room).emit('playerLeave');
-             }
+                // clearInterval(Match.roomToWordInterval[room]);
+                // delete roomToWordInterval[room];
+                io.to(room).emit('playerLeave');
+            }
         });
         return io;
 
     });
 }
-    // implement socket sessions soon
-    // io.use(sharedsession(session));

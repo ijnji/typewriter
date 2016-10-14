@@ -2,39 +2,37 @@ const _ = require('lodash');
 const shortid = require('shortid');
 const wordEmitter = require('../wordEmitter');
 
-const loginUser = function (payload) {
-    console.log('the user', this.socket.request.user)
+const loginUser = function(payload) {
     const self = this;
-    console.log(this.socket.username, this.activeUsers);
-    if (_.isMatch(this.activeUsers, {id: this.socket.id})) {
-        var idx = _.findIndex(this.activeUsers, function (el){
-        return el.id === self.socket.id;
-    });
+    if (_.isMatch(this.activeUsers, { id: this.socket.id })) {
+        var idx = _.findIndex(this.activeUsers, function(el) {
+            return el.id === self.socket.id;
+        });
         this.activeUsers.splice(idx, 1);
     }
-    this.activeUsers.push({id: this.socket.id, username: payload.username, playing: false});
-    };
+    this.activeUsers.push({ id: this.socket.id, username: payload.username, playing: false });
+};
 
-const getUsers = function(){
-    this.io.emit('users', {users: this.activeUsers});
+const getUsers = function() {
+    this.io.emit('users', { users: this.activeUsers });
 }
 
-const challengeUser = function(payload){
+const challengeUser = function(payload) {
     const id = payload.id;
     const self = this;
-    const challenger = _.find(this.activeUsers, function (user) {
+    const challenger = _.find(this.activeUsers, function(user) {
         return user.id === self.socket.id;
     });
-    this.io.to(id).emit( 'sendingmsg', {sender: challenger} );
+    this.io.to(id).emit('sendingmsg', { sender: challenger });
 }
 
-const challengeAccepted = function(payload){
+const challengeAccepted = function(payload) {
     const challenger = this.io.sockets.connected[payload.id];
     const self = this;
-    const opponentIdx = _.findIndex(this.activeUsers, function (el){
+    const opponentIdx = _.findIndex(this.activeUsers, function(el) {
         return el.id === self.socket.id;
     });
-    const challengerIdx = _.findIndex(this.activeUsers, function (el){
+    const challengerIdx = _.findIndex(this.activeUsers, function(el) {
         return el.id === payload.id;
     });
     const player1 = this.activeUsers[opponentIdx];
@@ -53,12 +51,12 @@ const challengeAccepted = function(payload){
 
 }
 
-const challengeRejected = function(payload){
+const challengeRejected = function(payload) {
     const id = payload.id;
     this.io.to(id).emit('noMatch');
 
 }
-const Lobby = function(app, socket, io, activeUsers){
+const Lobby = function(app, socket, io, activeUsers) {
     this.activeUsers = activeUsers;
     this.app = app;
     this.socket = socket;

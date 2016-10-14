@@ -16,7 +16,6 @@ app.config(function($stateProvider) {
 });
 
 app.controller('UserCtrl', function($scope, UserFactory, user, matches){
-    console.log(matches);
     $scope.user = user;
     $scope.matches = matches;
 });

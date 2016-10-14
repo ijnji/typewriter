@@ -2,14 +2,14 @@
 
   <div class="row center-align">
     <div class="col s6">
-      <h5>You: {{$root.user}}</h5>
+    You: {{$root.user}}
         <div ng-show="gameover">
-         <div class="animated infinite bounce" id="winningMessage" ng-if="player-me.win">Winner!
-         <!-- <my-stats></my-stats> -->
+         <div id="winningMessage" ng-if="player-me.win">Winner!
+         <my-stats></my-stats>
          </div>
-          <div class="animated infinite bounce" id="losingMessage" ng-if="!player-me.win">
+          <div id="losingMessage" ng-if="!player-me.win">
           Loser!
-          <!-- <my-stats></my-stats> -->
+          <my-stats></my-stats>
           </div>
         </div>
       <div class="gameContainerDrawing z-depth-1" id="playerMeDrawing" ng-class="{ 'gameover': gameover}">
@@ -18,18 +18,19 @@
       <div id="playerMeInput">
         {{me.word}}
       </div>
+      <label>Me</label>
       streak {{me.streak}}
     </div>
     <div class="col s6">
-      <h5>Rival: {{rivalUser}}</h5>
+    Rival: {{rivalUser}}
         <div ng-if="gameover">
-          <div class="animated infinite bounce" id="losingMessage" ng-if="player-me.win">
+          <div id="losingMessage" ng-if="player-me.win">
           Loser!
-          <!-- <rival-stats></rival-stats> -->
+          <rival-stats></rival-stats>
           </div>
-          <div class="animated infinite bounce" id="winningMessage" ng-if="!player-me.win">
+          <div id="winningMessage" ng-if="!player-me.win">
           Winner!
-          <!-- <rival-stats></rival-stats> -->
+          <rival-stats></rival-stats>
           </div>
         </div>
       <div class="gameContainerDrawing z-depth-1" id="playerRivalDrawing" ng-class="{ 'gameover': gameover}">
@@ -38,6 +39,7 @@
       <div id="playerRivalInput">
         {{rival.word}}
       </div>
+      <label>Rival</label>
       streak {{rival.streak}}
     </div>
   </div>

@@ -118,8 +118,10 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 totalTime = endTime - startTime;
                 scope.myWpm = playerMe.wordsPerMinute(totalTime);
                 scope.myAccuracy = playerMe.showAccuracy();
+                scope.myLongestStreak = playerMe.longestStreak;
                 scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
                 scope.rivalAccuracy = playerRival.showAccuracy();
+                scope.rivalLongestStreak = playerRival.longestStreak;
                 console.log(scope.wpm, scope.accuracy);
             }
         }

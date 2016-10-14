@@ -165,11 +165,26 @@ describe('PlayerFactory', function() {
         it('is a function', function() {
             expect(Player1.showAccuracy).to.be.a('function');
         });
+        it('provides a percentage of times a player submitted the right words', function() {
+          Player1.correctWordsTyped = 9;
+          Player1.totalWordsTyped = 10;
+          expect(Player1.showAccuracy()).to.equal(90);
+          Player1.correctWordsTyped = 0;
+          Player1.totalWordsTyped = 0;
+          expect(Player1.showAccuracy()).to.equal(0);
+          Player1.correctWordsTyped = 12;
+          Player1.totalWordsTyped = 15;
+          expect(Player1.showAccuracy()).to.equal(80);
+        });
     });
 
    describe('wordsPerMinute', function() {
         it('is a function', function() {
             expect(Player1.wordsPerMinute).to.be.a('function');
+        });
+        it('returns words per minutes based on a given duration (in ms) and correct number of words', function() {
+          Player1.correctWordsTyped = 100;
+          expect(Player1.wordsPerMinute(240000)).to.equal(25);
         });
     });
 });

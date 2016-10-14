@@ -5,31 +5,14 @@ const Lobby = require('./EventHandlers/Lobby');
 const Game = require('./EventHandlers/Game');
 const chalk = require('chalk');
 const _ = require('lodash');
-const sharedsession = require('express-socket.io-session');
 const passportSocketIo = require('passport.socketio');
 const cookieParser = require('cookie-parser');
 const db = require('../db');
 const createSessionStorePassport = require('../app/configure/authentication/createSessionStorePassport');
+const guestTools = require('./guestTools');
+// const sharedsession = require('express-socket.io-session');
 
 let io = null;
-
-const adjectives = require('adjectives');
-
-const activeUsers = [];
-
-const app = {
-    allSockets: []
-}
-const animals = ['alpaca', 'bunny', 'cat', 'dog', 'elephant', 'fox', 'gorilla', 'hippo', 'iguana', 'jackalope', 'kangaroo', 'kakapo', 'lemur', 'monkey', 'octopus', 'penguin', 'quail', 'racoon', 'sloth', 'tiger', 'vulture', 'walrus', 'xenon', 'yak', 'zebra'];
-
-
-const nameGenerator = function() {
-    const adj = _.sample(adjectives);
-    const animal = _.sample(animals);
-    const guestName = _.capitalize(adj) + _.capitalize(animal);
-    return guestName;
-}
-
 
 module.exports = function(server) {
 
@@ -62,11 +45,11 @@ module.exports = function(server) {
         console.log(chalk.magenta(socket.id + ' has connected'));
         console.log(activeUsers);
         //make sure socketid matches user
-        console.log('adding username for guest');
-        let newUser = nameGenerator();
-        while (_.isMatch(this.activeUsers, { username: newUser })) {
-            newUser = nameGenerator();
+        if(socket.request.user.logged_in === false){
+            socket.request.user.username = guestTools.generateUsername(io);
         }
+        console.log('adding username for guest');
+
 
         activeUsers.push({ id: socket.id, username: newUser, playing: false })
         console.log(activeUsers);

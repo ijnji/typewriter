@@ -4,13 +4,13 @@ app.config(function($stateProvider) {
         templateUrl: 'js/user/users.html',
         controller: 'UsersCtrl',
         resolve: {
-            users: function(UserFactory) {
+            users: function(UserFactory){
                 return UserFactory.getAll();
             }
         }
     });
 });
 
-app.controller('UsersCtrl', function($scope, users) {
+app.controller('UsersCtrl', function($scope, users){
     $scope.users = users;
 });

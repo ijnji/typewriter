@@ -3,46 +3,49 @@ $color-font-dark: black;
 $color-bgh-normal: #93DEFF;
 $color-bgh-light: #ffffff;
 $color-bgh-dark: #FFDA44;
+
+
+
 @font-face {
-    font-family: 'BlankSpace';
-    src: url('/img/font/KGBlankSpaceSolid.ttf');
+  font-family: 'BlankSpace';
+  src: url('/img/font/KGBlankSpaceSolid.ttf');
 }
 
 @font-face {
-    font-family: 'SketchBlock';
-    src: url('/img/font/Sketch_Block.ttf');
+  font-family: 'SketchBlock';
+  src: url('/img/font/Sketch_Block.ttf');
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-html,
-body,
-.container,
-.row {
-    margin: 0 auto;
-    padding: 0;
+html, body, .container, .row {
+  margin: 0 auto;
+  padding: 0;
 }
 
 body {
-    background: $color-bgh-normal;
-    font-family: BlankSpace;
-    text-align: center;
+  background: $color-bgh-normal;
+  font-family: BlankSpace;
+  text-align: center;
 }
 
 @mixin clearfix {
-    &:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
 
 .btn {
-    background: $color-bgh-dark;
-    color: $color-bgh-light;
+  background: $color-bgh-dark;
+  color: $color-bgh-light;
+
 }
+
+
 
 @import 'directives/main';
 @import 'home/main';

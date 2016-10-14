@@ -1,4 +1,4 @@
-app.directive('searching', function() {
+app.directive('searching', function () {
     return {
         restrict: 'E',
         templateUrl: 'js/common/directives/searching/searching.html',

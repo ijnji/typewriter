@@ -11,7 +11,7 @@ app.factory('MatchFactory', function($http) {
             .then(formatData)
     };
 
-    MatchFactory.getAll = function() {
+    MatchFactory.getAll = function(){
         return $http.get(path)
             .then(formatData)
     };

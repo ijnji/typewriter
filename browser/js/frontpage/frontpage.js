@@ -20,8 +20,6 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, S
 
     $scope.randomMatch = function() {
         $scope.searching = true;
-
-        console.log('request randomMatch');
         Socket.emit('randomMatch');
     };
 

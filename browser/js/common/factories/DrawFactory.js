@@ -24,9 +24,15 @@ app.factory('DrawFactory', function(AnimationFactory) {
     factory.initialize = function() {
         factory.playerMeDrawing = $('#playerMeDrawing');
         factory.playerRivalDrawing = $('#playerRivalDrawing');
+    };
 
-        window.pms = factory.playerMeSprites;
-        window.prs = factory.playerRivalSprites;
+    factory.reset = function() {
+        factory.playerMeDrawing.empty();
+        factory.playerRivalDrawing.empty();
+        factory.playerMeSprites = [];
+        factory.playerRivalSprites = [];
+        factory.playerMeSpritesExpiring = [];
+        factory.playerRivalSpritesExpiring = [];
     };
 
     factory.updatePositions = function() {

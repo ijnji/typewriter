@@ -13,8 +13,10 @@ var options = {
 describe('Sockets', function () {
     var client1, client2;
 
+
     it('Should broadcast new user to all users', function(done){
           client1 = io.connect(socketURL, options);
+
           console.log('in should broadcast it statement');
           client1.on('setUsername', function(data){
             console.log('here before we do stuff');

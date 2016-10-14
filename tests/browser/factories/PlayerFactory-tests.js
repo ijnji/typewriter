@@ -1,54 +1,193 @@
-describe ('PlayerFactory', function () {
+function mockDateNow() {
+   // mock now = 1462361249717ms = 4th May 2016
+   return 1462361249717;
+}
 
-  var Player1, Player2;
+const originalDateNow = Date.now;
+Date.now = mockDateNow;
 
-  //load our Angular application from scratch
-  beforeEach(module('TypeWriterApp'));
+var ans = [{text: 'hello', end: Date.now() + 10000}, {text: 'zoo', end: Date.now() + 4000}, {text: 'elephant', end: Date.now() + 7000}];
 
-  var $httpBackend, PlayerFactory;
+describe('PlayerFactory', function() {
 
- //TLEE note: clarify how this works with kate
-  beforeEach('Get tools', inject(function (_$httpBackend_, _PlayerFactory_) {
-    $httpBackend = _$httpBackend_;
-    PlayerFactory = _PlayerFactory_;
-  }));
+    var Player1, Player2;
 
-  beforeEach(function () {
-    Player1 = new PlayerFactory.Player('123');
-    Player2 = new PlayerFactory.Player('456');
-    Player1.addWord('hello', 10);
-    Player1.addWord('zoo', 4);
-    Player1.addWord('elephant', 7);
+    //load our Angular application from scratch
+    beforeEach(module('TypeWriterApp'));
 
-  })
+    var $httpBackend, PlayerFactory;
 
-  afterEach(function(){
-    try {
-      //verifies all the requests via expect were made
-      $httpBackend.verifyNoOutstandingExpectation(false);
-      //checks that $httpbackend andled all expected calls
-      $httpBackend.verifyNoOutstandingRequest();
-    } catch (err) {
-      this.test.error(err);
-    }
-  });
-  it("is an object", function () {
-    expect(PlayerFactory).to.be.an('object');
-  });
+    //TLEE note: clarify how this works with kate
+    beforeEach('Get tools', inject(function(_$httpBackend_, _PlayerFactory_) {
+        $httpBackend = _$httpBackend_;
+        PlayerFactory = _PlayerFactory_;
+        //WordFactory = _WordFactory_;
+    }));
 
-  describe("addWord", function (){
-    it("is a function", function() {
-     expect(Player1.addWord).to.be.a('function');
+    beforeEach(function() {
+        Player1 = new PlayerFactory.Player('123');
+        Player2 = new PlayerFactory.Player('456');
+        Player1.addWord('hello', 10);
+        Player1.addWord('zoo', 4);
+        Player1.addWord('elephant', 7);
+    })
+
+    afterEach(function() {
+        try {
+            //verifies all the requests via expect were made
+            $httpBackend.verifyNoOutstandingExpectation(false);
+            //checks that $httpbackend andled all expected calls
+            $httpBackend.verifyNoOutstandingRequest();
+        } catch (err) {
+            this.test.error(err);
+        }
     });
-    it("adds word to player activeWords")
 
+    it('is an object', function() {
+        expect(PlayerFactory).to.be.an('object');
+    });
+
+    describe('addWord', function() {
+        it('is a function', function() {
+            expect(Player1.addWord).to.be.a('function');
+        });
+
+        it('adds objects with words and time to activeWords', function () {
+          expect(Player1.activeWords).to.be.a('array');
+          expect(Player2.activeWords).to.deep.equal([]);
+          console.log(Player1.activeWords);
+          // var ans = [{text: 'hello', end: Date.now() + 10000}, {text: 'zoo', end: Date.now() + 4000}, {text: 'elephant', end: Date.now() + 7000}];
+          // console.log(ans);
+          expect(Player1.activeWords).to.deep.equal([{text: 'hello', end: Date.now() + 10000}, {text: 'zoo', end: Date.now() + 4000}, {text: 'elephant', end: Date.now() + 7000}]);
+        })
+    });
+
+   describe('incrementStreak', function() {
+        it('is a function', function() {
+            expect(Player1.incrementStreak).to.be.a('function');
+        });
+        it('increases the streak number of a player each time it is invoked', function(){
+          expect(Player1.streak).to.equal(0);
+          Player1.incrementStreak();
+          expect(Player1.streak).to.equal(1);
+          Player1.incrementStreak();
+          Player1.incrementStreak();
+          Player1.incrementStreak();
+          expect(Player1.streak).to.equal(4);
+        })
+    });
+
+
+   describe('resetStreak', function() {
+        it('is a function', function() {
+            expect(Player1.resetStreak).to.be.a('function');
+        });
+        it('resets the streak of a player to 0', function() {
+            Player1.incrementStreak();
+            expect(Player1.streak).to.equal(1);
+            Player1.resetStreak();
+            expect(Player1.streak).to.equal(0);
+
+        });
+    });
+
+   describe('newChar', function() {
+        it('is a function', function() {
+            expect(Player1.newChar).to.be.a('function');
+        });
+        it('stores letters to the word key when typed', function() {
+            expect(Player1.word).to.equal('');
+            Player1.newChar('z');
+            expect(Player1.word).to.equal('z');
+            Player1.newChar('o');
+            Player1.newChar('o');
+            expect(Player1.word).to.equal('zoo');
+        });
+    });
+
+   describe('removeChar', function() {
+        it('is a function', function() {
+            expect(Player1.removeChar).to.be.a('function');
+        });
+        it('stores letters to the word key when typed', function() {
+            expect(Player1.word).to.equal('');
+            Player1.newChar('z');
+            Player1.newChar('o');
+            Player1.newChar('o');
+            expect(Player1.word).to.equal('zoo');
+            Player1.removeChar();
+            expect(Player1.word).to.equal('zo');
+            Player1.removeChar();
+            Player1.removeChar();
+            expect(Player1.word).to.equal('');
+        });
+
+    });
+
+   describe('validateInput', function() {
+        it('is a function', function() {
+            expect(Player1.validateInput).to.be.a('function');
+        });
+
+        it('removes the word from the active words array when word key matches any of the words in the array', function () {
+          Player1.word = 'hello';
+          Player1.validateInput();
+          expect(Player1.activeWords).to.deep.equal([{text: 'zoo', end: Date.now() + 4000}, {text: 'elephant', end: Date.now() + 7000}])
+
+
+        })
+        it('leaves the active word array alone if no match is found', function () {
+
+          Player1.word = 'zop';
+          Player1.validateInput();
+          expect(Player1.activeWords).to.deep.equal([{text: 'hello', end: Date.now() + 10000}, {text: 'zoo', end: Date.now() + 4000}, {text: 'elephant', end: Date.now() + 7000}])
+        });
+        it('clears the word regardless of what the word increases', function () {
+
+        })
+    });
+
+   describe('clearWord', function() {
+        it('is a function', function() {
+            expect(Player1.clearWord).to.be.a('function');
+        });
+        it('sets the word key to an empty string', function() {
+            Player1.newChar('z');
+            Player1.newChar('o');
+            Player1.newChar('o');
+            expect(Player1.word).to.equal('zoo');
+            Player1.clearWord();
+            expect(Player1.word).to.equal('');
+        });
+    });
+
+   describe('showAccuracy', function() {
+        it('is a function', function() {
+            expect(Player1.showAccuracy).to.be.a('function');
+        });
+        it('provides a percentage of times a player submitted the right words', function() {
+          Player1.correctWordsTyped = 9;
+          Player1.totalWordsTyped = 10;
+          expect(Player1.showAccuracy()).to.equal(90);
+          Player1.correctWordsTyped = 0;
+          Player1.totalWordsTyped = 0;
+          expect(Player1.showAccuracy()).to.equal(0);
+          Player1.correctWordsTyped = 12;
+          Player1.totalWordsTyped = 15;
+          expect(Player1.showAccuracy()).to.equal(80);
+        });
+    });
+
+   describe('wordsPerMinute', function() {
+        it('is a function', function() {
+            expect(Player1.wordsPerMinute).to.be.a('function');
+        });
+        it('returns words per minutes based on a given duration (in ms) and correct number of words', function() {
+          Player1.correctWordsTyped = 100;
+          expect(Player1.wordsPerMinute(240000)).to.equal(25);
+        });
+    });
 });
 
-// addWord test if activeWords changes and is stringified
-// test incrementStreak 
-// test newChar
-//test removeChar
-// test validateInput (look in to that more)
-// test clearWord
-// test showAccuracy
-// test wordsPerMinute
+
+Date.now = originalDateNow;

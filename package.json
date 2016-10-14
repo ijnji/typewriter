@@ -7,9 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon --watch server -e js,html server/start.js",
-    "test": "karma start ./tests/browser/karma.conf.js",
+    "test": "mocha ./tests/server/**/*.js --watch",
     "postinstall": "gulp build"
-    
   },
   "engines": {
     "node": ">=4.0.0"
@@ -72,6 +71,7 @@
     "serve-favicon": "^2.3.0",
     "session.socket.io": "^0.2.1",
     "shortid": "^2.2.6",
+    "should": "^11.1.1",
     "sinon": "^1.17.6",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",

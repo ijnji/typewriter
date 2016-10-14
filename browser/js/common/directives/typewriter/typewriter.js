@@ -126,7 +126,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 DrawFactory.addWordMe(payload.text, payload.duration, Math.random())
             }
         }
-     
+
         // Main game loop.
         function gameLoop() {
             if (!scope.gameover) {
@@ -143,6 +143,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 scope.myAccuracy = playerMe.showAccuracy();
                 scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
                 scope.rivalAccuracy = playerRival.showAccuracy();
+                scope.myLongestStreak = playerMe.getLongestStreak();
+                scope.rivalLongestStreak = playerRival.getLongestStreak();
             }
         }
     };

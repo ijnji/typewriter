@@ -9,7 +9,13 @@ app.config(function($stateProvider) {
 app.controller('LobbyCtrl', function($scope, $state, Socket) {
 
     $scope.waiting = true;
-
+    $scope.$on('$destroy', function(){
+        Socket.removeListener('users', usersFunc);
+        Socket.removeListener('sendingmsg', sendingmsgFunc);
+        Socket.removeListener('noMatch', noMatchFunc);
+        Socket.removeListener('closeModals', closeModalsFunc);
+        Socket.removeListener('gameStart', gameStartFunc);
+    })
 
     $scope.initModals = function() {
         $('.modal-trigger').leanModal(); // Initialize the modals
@@ -17,10 +23,11 @@ app.controller('LobbyCtrl', function($scope, $state, Socket) {
 
     Socket.emit('getUsers');
 
-    Socket.on('users', function(payload) {
+    Socket.on('users', usersFunc);
+    function usersFunc(payload) {
         $scope.activeUsers = payload.users;
         $scope.$evalAsync();
-    });
+    }
 
     $scope.challengeUser = function(user) {
         Socket.emit('challengeUser', { id: user.id });
@@ -29,11 +36,12 @@ app.controller('LobbyCtrl', function($scope, $state, Socket) {
         $scope.$evalAsync();
     };
 
-    Socket.on('sendingmsg', function(payload) {
-        $scope.challenger = payload.sender;
-        $('#challengeUser').openModal();
-        $scope.$evalAsync();
-    });
+    Socket.on('sendingmsg', sendingmsgFunc);
+    function sendingmsgFunc(payload) {
+       $scope.challenger = payload.sender;
+       $('#challengeUser').openModal();
+       $scope.$evalAsync();
+    }
 
     $scope.challengeAccepted = function() {
         Socket.emit('challengeAccepted', { id: $scope.challenger.id });
@@ -44,28 +52,28 @@ app.controller('LobbyCtrl', function($scope, $state, Socket) {
         $scope.challenger = null;
     };
 
-    Socket.on('noMatch', function() {
+    Socket.on('noMatch', noMatchFunc);
+    function noMatchFunc () {
         $scope.waiting = false;
         $scope.$evalAsync();
-    });
-
-    Socket.on('yesMatch', function() {
-
-    });
+    }
 
     // Ran: Hotfix for lingering modal background when challenging users.
-    Socket.on('closeModals', function() {
+    Socket.on('closeModals', closeModalsFunc);
+    function closeModalsFunc() {
         $('#challengeUser').closeModal();
         $('#waitingForUser').closeModal();
-    });
+    }
 
     // Ran: Hotfix for lobby state using frontpage state controller's
     // 'gameStart' event listener to move both players into the game.
     // As a side effect, game doesn't start if players go directly to
     // lobby URL (eg. http://localhost:1337/lobby)
-    Socket.on('gameStart', function(payload) {
+
+    Socket.on('gameStart', gameStartFunc);
+    function gameStartFunc(payload) {
         $state.go('game', { gameId: payload.room });
-    });
+    }
 });
 
 

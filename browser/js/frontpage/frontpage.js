@@ -23,11 +23,12 @@ app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, S
         Socket.emit('randomMatch');
     };
 
-    Socket.on('gameStart', function(payload) {
-        $('#waiting').closeModal();
-        $scope.searching = false;
-        $state.go('game', { gameId: payload.room });
-    });
+    Socket.on('gameStart', gameStartFunc);
+    function gameStartFunc(payload) {
+       $('#waiting').closeModal();
+       $scope.searching = false;
+       $state.go('game', { gameId: payload.room });
+   }
 
 
     $scope.runLogo = function(){

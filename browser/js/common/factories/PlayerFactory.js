@@ -10,6 +10,7 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         this.activeWords = [];
         this.totalWordsTyped = 0;
         this.correctWordsTyped = 0;
+        this.longestStreak = 0;
     }
 
     Player.prototype.addWord = function(text, duration) {
@@ -17,8 +18,14 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         JSON.stringify(this.activeWords);
     }
 
+    Player.prototype.getLongestStreak = function(){
+        return this.longestStreak;
+    }
     Player.prototype.incrementStreak = function(){
         this.streak++;
+        if (this.longestStreak < this.streak){
+            this.longestStreak = this.streak;
+        }
     }
 
     Player.prototype.resetStreak = function(){

@@ -188,3 +188,6 @@ describe('PlayerFactory', function() {
         });
     });
 });
+
+
+Date.now = originalDateNow;

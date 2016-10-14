@@ -1,4 +1,4 @@
-Happ.config(function($stateProvider) {
+app.config(function($stateProvider) {
     $stateProvider.state('frontpage', {
         cache: false,
         url: '/',

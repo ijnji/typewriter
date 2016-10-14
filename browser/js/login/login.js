@@ -20,7 +20,7 @@ app.controller('LoginCtrl', function($scope, AuthService, $state, Socket) {
         $scope.submitted = true;
 
         AuthService.login(loginInfo).then(function(user) {
-            Socket.emit('loginUser', {username: user.username});
+            Socket.emit('loginUser', { username: user.username });
             $state.go('lobby');
         }).catch(function() {
             $scope.error = 'Invalid login credentials.';

@@ -4,10 +4,10 @@ app.config(function($stateProvider) {
         templateUrl: 'js/user/user.html',
         controller: 'UserCtrl',
         resolve: {
-            user: function(UserFactory, $stateParams){
+            user: function(UserFactory, $stateParams) {
                 return UserFactory.getById($stateParams.id);
             },
-            matches: function(MatchFactory, $stateParams){
+            matches: function(MatchFactory, $stateParams) {
                 // return 'matches';
                 return MatchFactory.getAllForUser($stateParams.id);
             }
@@ -15,7 +15,7 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('UserCtrl', function($scope, UserFactory, user, matches){
+app.controller('UserCtrl', function($scope, UserFactory, user, matches) {
     console.log(matches);
     $scope.user = user;
     $scope.matches = matches;

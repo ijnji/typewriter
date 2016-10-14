@@ -6,7 +6,9 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
     directive.templateUrl = 'js/common/directives/typewriter/typewriter.html';
 
     directive.link = function(scope) {
+
         let startTime, endTime, totalTime;
+
         $(document).ready(function() {
             scope.gameover = false;
             DrawFactory.initialize();
@@ -16,15 +18,28 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
 
         let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
         let playerRival = new PlayerFactory.Player();
-        let theGame = new GameFactory.Game();
+
+        let animationFrameReference = requestAnimationFrame(gameLoop);
+
         scope.me = playerMe;
         scope.rival = playerRival;
-
         scope.gameover = false;
         scope.rivalUser = SocketService.getRival();
-        requestAnimationFrame(gameLoop);
 
-        Socket.on('newKey', function (payload) {
+        scope.$on('$destroy', function() {
+            window.cancelAnimationFrame(animationFrameReference);
+            Socket.removeListener('newKey', newKeyFunc);
+            Socket.removeListener('newWord', newWordFunc);
+            Socket.removeListener('endGame', endGameFunc);
+            Socket.removeListener('playerLeave', playerLeaveFunc);
+            Socket.removeListener('wordHit', wordHitFunc);
+            Socket.removeListener('wordMiss', wordMissFunc);
+            Socket.removeListener('streak', streakFunc);
+            DrawFactory.reset();
+        });
+
+        Socket.on('newKey', newKeyFunc);
+        function newKeyFunc(payload) {
             if (playerMe.id === payload.id) {
                 if (payload.key === 'Enter' || payload.key === ' ') {
                     const hit = playerMe.validateInput(DrawFactory.removeWordMe);
@@ -49,77 +64,68 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 }
             }
             scope.$digest();
-        });
+        }
 
-        Socket.on('newWord', function(event) {
+        Socket.on('newWord', newWordFunc);
+        function newWordFunc(event) {
             if (scope.gameover) return;
             playerMe.addWord(event.text, event.duration);
             playerRival.addWord(event.text, event.duration);
             DrawFactory.addWordMe(event.text, event.duration, event.xoffset);
             DrawFactory.addWordRival(event.text, event.duration, event.xoffset);
-        });
+        }
 
-        Socket.on('endGame', function(payload) {
-
+        Socket.on('endGame', endGameFunc);
+        function endGameFunc(payload) {
+            DrawFactory.reset();
             GameFactory.Game.handleGameOver(playerMe, payload.loserId);
             scope.gameover = true;
             scope.$evalAsync();
+        }
 
-        });
-
-        Socket.on('playerLeave', function() {
+        Socket.on('playerLeave', playerLeaveFunc);
+        function playerLeaveFunc() {
+            DrawFactory.reset();
             playerMe.win = true;
             scope.$digest();
-        });
-        Socket.on('eventDiff', function(event) {
-            console.log('Event Words', event.words)
+        }
 
-        });
-
-        Socket.on('wordHit', function(payload){
-            console.log('SOMEONE HIT HIT')
+        Socket.on('wordHit', wordHitFunc);
+        function wordHitFunc(payload) {
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
-            if (playerId ===  playerMe.id) {
-                console.log('I HIT');
+            if (playerId === playerMe.id) {
                 playerMe.incrementStreak();
                 if (playerMe.streak % 5 === 0) {
                     Socket.emit('streakWord', {streak: playerMe.streak})
                 }
-            }
-            else {
-                console.log('RIVAL HIT');
+            } else {
                 playerRival.incrementStreak();
             }
             scope.$digest();
-        })
+        }
 
-        Socket.on('wordMiss', function(payload){
+        Socket.on('wordMiss', wordMissFunc);
+        function wordMissFunc(payload) {
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
             if (playerId === playerMe.id) {
-                console.log('I MISS');
                 playerMe.resetStreak();
-            }
-            else {
-                console.log('RIVAL MISS');
+            } else {
                 playerRival.resetStreak();
             }
             scope.$digest();
-        })
+        }
 
-        Socket.on('streak', function(payload) {
+        Socket.on('streak', streakFunc);
+        function streakFunc(payload) {
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
-            if(playerId === playerMe.id) {
-
-                        playerRival.addWord(payload.text, payload.duration)
-                        DrawFactory.addWordRival(payload.text, payload.duration, Math.random())
-                        count-=1       
+            if (playerId === playerMe.id) {
+                playerRival.addWord(payload.text, payload.duration)
+                DrawFactory.addWordRival(payload.text, payload.duration, Math.random())
+            } else {
+                playerMe.addWord(payload.text, payload.duration)
+                DrawFactory.addWordMe(payload.text, payload.duration, Math.random())
             }
-
-            else {
-                    playerMe.addWord(payload.text, payload.duration)
-                    DrawFactory.addWordMe(payload.text, payload.duration, Math.random())
-                }
-        })
+        }
      
         // Main game loop.
         function gameLoop() {
@@ -129,7 +135,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 DrawFactory.removeTimedoutRival();
                 DrawFactory.removeExpiredMe();
                 DrawFactory.removeExpiredRival();
-                requestAnimationFrame(gameLoop);
+                animationFrameReference = requestAnimationFrame(gameLoop);
             } else {
                 endTime = Date.now();
                 totalTime = endTime - startTime;
@@ -137,7 +143,6 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                 scope.myAccuracy = playerMe.showAccuracy();
                 scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
                 scope.rivalAccuracy = playerRival.showAccuracy();
-                console.log(scope.wpm, scope.accuracy);
             }
         }
     };

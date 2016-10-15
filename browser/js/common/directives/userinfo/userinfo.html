@@ -5,7 +5,7 @@
     <div>
     </div>
     <div>
-        <div pageslide ps-open="checked">
+        <div pageslide ps-open="checked" ps-auto-close="true">
             <div style="padding:20px" id="demo-right">
                 <lobby></lobby>
                 <a ng-click="toggle()" class="button">Close</a>
@@ -16,7 +16,7 @@
         <span>Welcome, {{ user }}!</span>
         <a class="btn-floating btn-large waves-effect waves-light yellow" ng-click="toggle()"><i class="fa fa-user" aria-hidden="true"></i></a>
         <a class="btn-floating btn-large waves-effect waves-light yellow"  ui-sref="login">Login</a>
-        <a class="btn-floating btn-large waves-effect waves-light yellow"  ui-sref="login">Signup</a>
+        <a class="btn-floating btn-large waves-effect waves-light yellow"  ui-sref="signup">Signup</a>
     </div>
             <!-- </div> -->
     <div class="info" ng-show="isLoggedIn()">

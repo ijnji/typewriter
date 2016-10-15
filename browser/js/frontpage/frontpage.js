@@ -8,13 +8,13 @@ app.config(function($stateProvider) {
 });
 
 app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, SocketService) {
-    $scope.testMatch = function() {
-        $state.go('test');
-    };
-
-    // document.onkeydown = function () {
-    //     AudioFactory.play('singletype');
+    // $scope.testMatch = function() {
+    //     $state.go('test');
     // };
+
+    document.onkeydown = function () {
+        AudioFactory.play('singletype');
+    };
 
     $scope.randomMatch = function() {
         $scope.searching = true;

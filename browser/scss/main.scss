@@ -3,25 +3,17 @@ $color-font-dark: #2B292A;
 $color-bgh-normal: #93DEFF;
 $color-bgh-light: #ffffff;
 $color-bgh-dark: #FFEB3B;
-@font-face {
-    font-family: 'BlankSpace';
-    src: url('/img/font/RifficFree-Bold.ttf');
-}
+
 
 @font-face {
     font-family: 'SketchBlock';
     src: url('/img/font/Sketch_Block.ttf');
 }
-
 @font-face {
-    font-family: 'Coolvetica';
-    src: url('/img/font/coolvetica.ttf');
+    font-family: 'RifficFree';
+    src: url('/img/font/RifficFree-Bold.ttf');
 }
 
-@font-face {
-    font-family: 'Geosanslight';
-    src: url('/img/font/GeosansLight.ttf');
-}
 * {
     box-sizing: border-box;
 }
@@ -36,7 +28,7 @@ body,
 
 body {
     background: $color-bgh-normal;
-    font-family: 'BlankSpace';
+    font-family: 'RifficFree';
     text-align: center;
 }
 

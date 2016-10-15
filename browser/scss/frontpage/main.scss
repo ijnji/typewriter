@@ -1,5 +1,5 @@
 #title {
-    font-family: BlankSpace;
+    font-family: RifficFree;
     .btn {
         border-radius: 30px;
         text-decoration: none;
@@ -25,6 +25,11 @@
         overflow: hidden;
         z-index: -1;
     }
+
+    .close {
+        font-size: 20px;
+    }
+
 }
 
 .typed-cursor {

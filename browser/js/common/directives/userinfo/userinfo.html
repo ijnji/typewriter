@@ -1,13 +1,22 @@
 <div id="userinfo">
     <div class="siteicon">
-        <a ui-sref="frontpage"><img src = "img/logo.svg"></a>
+        <a ui-sref="frontpage"><img src="img/logo.svg"></a>
     </div>
     <div>
     </div>
-    <div class="info"  ng-show="!isLoggedIn()">
+    <div>
+        <a class="large button" href="" ng-click="toggle()">Open Demo</a>
+        <div pageslide ps-open="checked">
+            <div style="padding:20px" id="demo-right">
+                <lobby></lobby>
+                <a ng-click="toggle()" class="button">Close</a>
+            </div>
+        </div>
+    </div>
+    <div class="info" ng-show="!isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
         <button ui-sref="login" class="waves-effect waves-light btn">Login</button>
-         <button ui-sref="signup" class="waves-effect waves-light btn">Sign Up</button>
+        <button ui-sref="signup" class="waves-effect waves-light btn">Sign Up</button>
     </div>
     <a ui-sref="users">User</button>
             <!-- </div> -->

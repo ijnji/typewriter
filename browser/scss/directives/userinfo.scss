@@ -1,6 +1,7 @@
 #userinfo {
     padding: 20px;
     white-space: nowrap;
+    font-size: 1.5rem;
 
     .siteicon {
         display: inline;
@@ -16,5 +17,9 @@
     img {
         width: 50px;
         align: left;
+    }
+
+    .btn-floating {
+        font-size:15px;
     }
 }

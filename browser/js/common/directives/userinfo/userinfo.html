@@ -5,7 +5,6 @@
     <div>
     </div>
     <div>
-        <a class="large button" href="" ng-click="toggle()">Open Demo</a>
         <div pageslide ps-open="checked">
             <div style="padding:20px" id="demo-right">
                 <lobby></lobby>
@@ -15,13 +14,14 @@
     </div>
     <div class="info" ng-show="!isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
-        <button ui-sref="login" class="waves-effect waves-light btn">Login</button>
-        <button ui-sref="signup" class="waves-effect waves-light btn">Sign Up</button>
+        <a class="btn-floating btn-large waves-effect waves-light yellow" ng-click="toggle()"><i class="fa fa-user" aria-hidden="true"></i></a>
+        <a class="btn-floating btn-large waves-effect waves-light yellow"  ui-sref="login">Login</a>
+        <a class="btn-floating btn-large waves-effect waves-light yellow"  ui-sref="login">Signup</a>
     </div>
-    <a ui-sref="users">User</button>
             <!-- </div> -->
     <div class="info" ng-show="isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
-        <button ng-click="logout()" class="waves-effect waves-light btn">Logout</button>
-    </div>
+        <a class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">add</i></a>
+    <button ng-click="logout()" class="waves-effect waves-light btn">Logout</button>
+</div>
 </div>

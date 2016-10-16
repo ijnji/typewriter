@@ -4,14 +4,13 @@
     </div>
     <div>
     </div>
+    <span>Welcome, {{ user.username }}!</span>
+    <img ng-src="{{user.avatarSm}}" />
     <div class="info"  ng-show="!isLoggedIn()">
-        <span>Welcome, {{ user }}!</span>
-        <button ui-sref="login" class="waves-effect waves-light btn">Login</button>
-         <button ui-sref="signup" class="waves-effect waves-light btn">Sign Up</button>
+        <button ng-click="login()" class="waves-effect waves-light btn">Login</button>
+        <button ng-click="signup()" class="waves-effect waves-light btn">Sign Up</button>
     </div>
-            <!-- </div> -->
     <div class="info" ng-show="isLoggedIn()">
-        <span>Welcome, {{ user }}!</span>
         <button ng-click="logout()" class="waves-effect waves-light btn">Logout</button>
     </div>
 </div>

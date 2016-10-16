@@ -1,14 +1,16 @@
-app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket, SocketService, UtilityFactory) {
-
+app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, SocketFactory, SocketService, UtilityFactory, $rootScope) {
     let directive = {};
     directive.restrict = 'E';
     directive.scope = {};
     directive.templateUrl = 'js/common/directives/typewriter/typewriter.html';
 
     directive.link = function(scope) {
+        let Socket = SocketFactory.socket;
+        scope.$on('refreshedSocket', function(event, data) {
+            Socket = data.socket;
+        });
 
         let startTime, endTime, totalTime;
-
         $(document).ready(function() {
             scope.gameover = false;
             DrawFactory.initialize();
@@ -24,7 +26,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         scope.me = playerMe;
         scope.rival = playerRival;
         scope.gameover = false;
-        scope.rivalUser = SocketService.getRival();
+        scope.rivalInfo = SocketService.getRival();
 
         scope.$on('$destroy', function() {
             window.cancelAnimationFrame(animationFrameReference);
@@ -77,10 +79,11 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         }
 
         Socket.on('endGame', endGameFunc);
-
         function endGameFunc(payload) {
             DrawFactory.reset();
-            GameFactory.Game.handleGameOver(playerMe, payload.loserId);
+            endTime = Date.now();
+            totalTime = endTime - startTime;
+            GameFactory.Game.handleGameOver(playerMe, playerRival, $rootScope.rootScopeUser, scope.rivalInfo, payload.loserId, totalTime);
             scope.gameover = true;
             scope.$evalAsync();
         }
@@ -139,20 +142,22 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         function gameLoop() {
             if (!scope.gameover) {
                 DrawFactory.updatePositions();
-                DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver);
+                DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver({
+                    rivalSocketId: scope.rivalInfo.socketId
+                }));
                 DrawFactory.removeTimedoutRival();
                 DrawFactory.removeExpiredMe();
                 DrawFactory.removeExpiredRival();
                 animationFrameReference = requestAnimationFrame(gameLoop);
             } else {
-                endTime = Date.now();
-                totalTime = endTime - startTime;
-                scope.myWpm = playerMe.wordsPerMinute(totalTime);
-                scope.myAccuracy = playerMe.showAccuracy();
-                scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
-                scope.rivalAccuracy = playerRival.showAccuracy();
-                scope.myLongestStreak = playerMe.getLongestStreak();
-                scope.rivalLongestStreak = playerRival.getLongestStreak();
+                // endTime = Date.now();
+                // totalTime = endTime - startTime;
+                // scope.myWpm = playerMe.wordsPerMinute(totalTime);
+                // scope.myAccuracy = playerMe.showAccuracy();
+                // scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
+                // scope.rivalAccuracy = playerRival.showAccuracy();
+                // scope.myLongestStreak = playerMe.getLongestStreak();
+                // scope.rivalLongestStreak = playerRival.getLongestStreak();
             }
         }
     };

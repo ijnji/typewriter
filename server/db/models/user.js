@@ -4,7 +4,7 @@ var _ = require('lodash');
 var Sequelize = require('sequelize');
 var Match = require('./match');
 var db = require('../_db');
-
+var _ = require('lodash');
 
 module.exports = db.define('user', {
     email: {
@@ -28,9 +28,11 @@ module.exports = db.define('user', {
     password: {
         type: Sequelize.STRING
     },
-    avatar: {
-      type: Sequelize.STRING,
-      defaultValue: 'http://worldartsme.com/images/snoopy-typing-clipart-1.jpg'
+    avatarSm: {
+      type: Sequelize.STRING
+    },
+    avatarLg: {
+        type: Sequelize.STRING
     },
     salt: {
         type: Sequelize.STRING
@@ -81,6 +83,12 @@ module.exports = db.define('user', {
             if (user.changed('password')) {
                 user.salt = user.Model.generateSalt();
                 user.password = user.Model.encryptPassword(user.password, user.salt);
+                if (!user.avatarSm || !user.avatarLg) {
+                    const genders = ['male', 'female'];
+                    const rand = _.random(0, 1);
+                    user.avatarSm = `http://eightbitavatar.herokuapp.com/?id=${user.username}&s=${genders[rand]}&size=75`;
+                    user.avatarLg = `http://eightbitavatar.herokuapp.com/?id=${user.username}&s=${genders[rand]}&size=150`;
+                }
             }
         },
         beforeUpdate: function (user) {

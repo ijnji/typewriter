@@ -3,16 +3,22 @@ app.config(function($stateProvider) {
         cache: false,
         url: '/',
         templateUrl: 'js/frontpage/frontpage.html',
-        controller: 'FrontpageCtrl'
+        controller: 'FrontpageCtrl',
     });
 });
 
-app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, SocketService) {
-
+app.controller('FrontpageCtrl', function($scope, $state, SocketFactory, AudioFactory, SocketService) {
+    let Socket = SocketFactory.socket;
+    $scope.$on('refreshedSocket', function(payload) {
+        Socket = payload.socket;
+    });
     // document.onkeydown = function () {
     //     AudioFactory.play('singletype');
     // };
-
+    // if($stateParams.reload === 'true'){
+    //     console.log('reloading page');
+    //     $state.go('frontpage', {}, {reload: true});
+    // }
     $scope.randomMatch = function() {
         $scope.searching = true;
         Socket.emit('randomMatch');

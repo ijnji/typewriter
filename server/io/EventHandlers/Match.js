@@ -3,11 +3,9 @@ const wordEmitter = require('../wordEmitter');
 const dictionaryUtils = require('../../dictionary');
 const _ = require('lodash');
 
-const Match = function(app, socket, io, activeUsers) {
-    this.app = app;
+const Match = function(socket, io) {
     this.socket = socket;
     this.io = io;
-    this.activeUsers = activeUsers;
     this.handler = {
         testMatch: testMatch.bind(this),
         randomMatch: randomMatch.bind(this),
@@ -67,17 +65,13 @@ function randomMatch() {
     }
 }
 
-function gameOver() {
+function gameOver(payload) {
     if (this.socket.currGame) {
+        const rivalSocket = this.io.sockets.connected[payload.rivalSocketId];
         const room = this.socket.currGame;
-        delete(this.socket.rooms[room]);
-        // delete this.socket.currGame;
+        delete this.socket.rooms[room];
         this.socket.currGame = undefined;
-        let self = this;
-        let idx = _.findIndex(this.activeUsers, function(el) {
-            return el.id === self.socket.id;
-        });
-        this.activeUsers[idx].playing = false;
+        rivalSocket.currGame = null;
         wordEmitter.stopWords(room);
         this.io.to(room).emit('endGame', { loserId: this.socket.id });
     }

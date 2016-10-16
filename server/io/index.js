@@ -3,6 +3,7 @@ const socketio = require('socket.io');
 const Match = require('./EventHandlers/Match');
 const Lobby = require('./EventHandlers/Lobby');
 const Game = require('./EventHandlers/Game');
+const Data = require('./EventHandlers/Data');
 const chalk = require('chalk');
 const _ = require('lodash');
 const passportSocketIo = require('passport.socketio');
@@ -13,7 +14,7 @@ const guestTools = require('./guestTools');
 // const sharedsession = require('express-socket.io-session');
 
 let io = null;
-
+const allSockets = [];
 module.exports = function(server) {
 
     if (io) return io;
@@ -41,28 +42,51 @@ module.exports = function(server) {
 
     io.on('connection', function(socket) {
         // Create event handlers for this socket
-        console.log('user object in socket', socket.request.user);
+        // console.log('user object in socket', socket.request.user);
         console.log(chalk.magenta(socket.id + ' has connected'));
-        console.log(activeUsers);
-        //make sure socketid matches user
-        if(socket.request.user.logged_in === false){
-            socket.request.user.username = guestTools.generateUsername(io);
+
+        //make username and avatar if guest
+        if (socket.request.user.logged_in === false) {
+            socket.request.user.username = guestTools.generateUniqueGuestName(allSockets);
+            const avatars = guestTools.generateAvatarUrl(socket.request.user.username);
+            socket.request.user.avatarSm = avatars.avatarSm;
+            socket.request.user.avatarLg = avatars.avatarLg;
         }
-        console.log('adding username for guest');
+        else {
+            const authedUser = {};
+            authedUser.username = socket.request.user.username;
+            authedUser.id = socket.request.user.id;
+            authedUser.avatarSm = socket.request.user.avatarSm;
+            authedUser.avatrLg = socket.request.user.avatrLg;
+            authedUser.averageAccuracy = socket.request.user.averageAccuracy;
+            authedUser.lognestStreak = socket.request.user.lognestStreak;
+            authedUser.wins = socket.request.user.wins;
+            authedUser.losses = socket.request.user.losses;
+            authedUser.email = socket.request.user.email;
+            socket.request.user = authedUser;
+        }
+        //tack on socketId to user for use in frontend
+        socket.request.user.socketId = socket.id;
+        // console.log('socketId',socket.request.user);
+        allSockets.push(socket);
 
-
-        activeUsers.push({ id: socket.id, username: newUser, playing: false })
-        console.log(activeUsers);
 
         //send user to frontend
+        socket.on('setUser', function () {
+            io.to(socket.id).emit('setUser', {user: socket.request.user});
+        });
+        io.to(socket.id).emit('setUser', {user: socket.request.user});
 
-        socket.emit('setUsername', { username: newUser });
+        //notify lobby members of new user
+        console.log('before new ', socket.request.user);
+        socket.join('lobby');
+        io.to('lobby').emit('newUserInLobby', { user: socket.request.user});
 
         const eventHandlers = {
-            match: new Match(app, socket, io, activeUsers),
-            lobby: new Lobby(app, socket, io, activeUsers),
-            game: new Game(app, socket, io)
-
+            match: new Match(socket, io),
+            lobby: new Lobby(socket, io, allSockets),
+            game: new Game(socket, io),
+            data: new Data(socket, io)
         };
 
         // Bind events to handlers
@@ -74,17 +98,17 @@ module.exports = function(server) {
         }
 
         // Keep track of the socket
-        app.allSockets.push(socket);
+        allSockets.push(socket);
 
         //everything below this should be in it's own EventHandler (except disconnect)
         socket.on('disconnect', function() {
             console.log(chalk.magenta(socket.id + ' has disconnected'));
 
-            var i = _.findIndex(activeUsers, function(el) {
-                return el.id === socket.id;
+            var idx = _.findIndex(allSockets, function(e) {
+                return e.id === socket.id;
             });
-            activeUsers.splice(i, 1);
-
+            allSockets.splice(idx, 1);
+            io.to('lobby').emit('removeUser', {user: socket.request.user});
             if (socket.currGame) {
                 const room = socket.currGame;
                 delete socket.currGame;

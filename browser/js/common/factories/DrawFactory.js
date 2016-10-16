@@ -73,6 +73,7 @@ app.factory('DrawFactory', function(AnimationFactory) {
             let sTop = sprites[i].posDiv.position().top;
             let sHeight = sprites[i].posDiv.height();
             let sParentHeight = sprites[i].posDiv.parent().height();
+            console.log(sTop, sParentHeight - sHeight);
             if (sTop >= (sParentHeight - sHeight)) {
                 sprites[i].posDiv.remove();
                 sprites[i] = undefined;

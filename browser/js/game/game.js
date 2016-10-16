@@ -8,5 +8,5 @@ app.config(function($stateProvider) {
 });
 
 
-app.controller('GameCtrl', function($scope, $state, UtilityFactory, PlayerFactory, Socket) {
+app.controller('GameCtrl', function() {
 });

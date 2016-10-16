@@ -6,49 +6,75 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('LobbyCtrl', function($scope, $state, Socket) {
-
+app.controller('LobbyCtrl', function($scope, $state, SocketFactory) {
+    let Socket = SocketFactory.socket;
+    $scope.$on('refreshedSocket', function(event, data) {
+        Socket = data.socket;
+    });
     $scope.waiting = true;
     $scope.$on('$destroy', function(){
         Socket.removeListener('users', usersFunc);
-        Socket.removeListener('sendingmsg', sendingmsgFunc);
+        Socket.removeListener('newChallenge', newChallengeFunc);
         Socket.removeListener('noMatch', noMatchFunc);
         Socket.removeListener('closeModals', closeModalsFunc);
         Socket.removeListener('gameStart', gameStartFunc);
+        Socket.removeListener('removeUser', removeUserFunc);
     })
 
     $scope.initModals = function() {
         $('.modal-trigger').leanModal(); // Initialize the modals
     };
-
     Socket.emit('getUsers');
 
     Socket.on('users', usersFunc);
     function usersFunc(payload) {
-        $scope.activeUsers = payload.users;
+        $scope.lobbyUsers = payload.users;
+        $scope.$evalAsync();
+    }
+
+    Socket.on('newUserInLobby', newUserInLobbyFunc);
+    function newUserInLobbyFunc(payload){
+        console.log('heard new user', payload.user);
+        $scope.lobbyUsers.push(payload.user);
+        console.log($scope.lobbyUsers);
+        $scope.$evalAsync();
+    }
+
+    Socket.on('removeUser', removeUserFunc);
+    function removeUserFunc(payload){
+        const usernames = $scope.lobbyUsers.map(user => user.username);
+        const userIdx = usernames.indexOf(payload.user.username);
+        console.log(usernames, payload.user.username);
+        if(userIdx > -1){
+            $scope.lobbyUsers.splice(userIdx, 1);
+            console.log('user removed');
+        }
         $scope.$evalAsync();
     }
 
     $scope.challengeUser = function(user) {
-        Socket.emit('challengeUser', { id: user.id });
+        console.log('challenging', user.socketId);
+        Socket.emit('challengeUser', { id: user.socketId });
         $scope.opponent = user;
         $('#waitingForUser').openModal();
         $scope.$evalAsync();
     };
 
-    Socket.on('sendingmsg', sendingmsgFunc);
-    function sendingmsgFunc(payload) {
-       $scope.challenger = payload.sender;
+    Socket.on('newChallenge', newChallengeFunc);
+    function newChallengeFunc(payload) {
+    console.log('new challenge');
+       $scope.challenger = payload.challenger;
        $('#challengeUser').openModal();
        $scope.$evalAsync();
     }
 
     $scope.challengeAccepted = function() {
-        Socket.emit('challengeAccepted', { id: $scope.challenger.id });
+        Socket.emit('challengeAccepted', { challenger: $scope.challenger });
+        $scope.challenger = null;
     };
 
     $scope.challengeRejected = function() {
-        Socket.emit('challengeRejected', { id: $scope.challenger.id });
+        Socket.emit('challengeRejected', { challenger: $scope.challenger });
         $scope.challenger = null;
     };
 

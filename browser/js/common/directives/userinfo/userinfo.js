@@ -1,11 +1,16 @@
-app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS, Socket) {
-
+app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS, SocketFactory, SocketService) {
     return {
         restrict: 'E',
         scope: {},
         templateUrl: 'js/common/directives/userinfo/userinfo.html',
         link: function(scope) {
-
+            let Socket = SocketFactory.socket;
+            console.log(Socket);
+            scope.$on('refreshedSocket', function(event, data) {
+                Socket = data.socket;
+                console.log(Socket);
+                Socket.on('setUser', setUserFunc);
+            });
 
             scope.isLoggedIn = function() {
                 var loggedIn = AuthService.isAuthenticated();
@@ -14,29 +19,41 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
 
             scope.logout = function() {
                 AuthService.logout().then(function() {
-                    $state.go('frontpage');
+                    SocketService.loginOrLogoutHandler();
                 });
             };
 
-            Socket.on('setUsername', function (payload){
-                $rootScope.user = payload.username;
-                scope.user = $rootScope.user;
-                scope.$digest();
-            })
+            scope.login = function() {
+                $state.go('login');
+            }
+
+            scope.signup = function() {
+                $state.go('signup');
+            }
+
+            Socket.on('setUser', setUserFunc)
+            function setUserFunc(payload) {
+               console.log('settingUser');
+               $rootScope.rootScopeUser = payload.user;
+               scope.user = $rootScope.rootScopeUser;
+               console.log(scope.user.username);
+               scope.$digest();
+            }
 
             var setUser = function() {
                 AuthService.getLoggedInUser()
                 .then(function(user) {
-                    $rootScope.loggedUser = user;
-                    $rootScope.user = user.username;
-                    scope.user = $rootScope.user;
+                    // $rootScope.loggedUser = user;
+                    if(user){
+                        $rootScope.rootScopeUser = user;
+                        scope.user = $rootScope.rootScopeUser;
+                    }
                 });
             };
 
             var removeUser = function() {
                 scope.user = null;
                 $rootScope.loggedUser = null;
-                scope.$digest();
             };
 
             setUser();

@@ -7,9 +7,14 @@
 
     var app = angular.module('fsaPreBuilt', []);
 
-    app.factory('Socket', function () {
+    app.factory('SocketFactory', function () {
         if (!window.io) throw new Error('socket.io not found!');
-        return window.io(window.location.origin);
+        const SocketFactory = {};
+        SocketFactory.socket = window.io(window.location.origin);
+        SocketFactory.refreshSocket = function () {
+            this.socket = window.io.connect(window.location.origin, {forceNew: true});
+        }
+        return SocketFactory;
     });
 
     // AUTH_EVENTS is used throughout our app to
@@ -53,7 +58,6 @@
 
             var user = response.data.user;
             Session.create(user);
-            console.log('Session.user', Session.user);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
             return user;
         }

@@ -143,9 +143,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         function gameLoop() {
             if (!scope.gameover) {
                 DrawFactory.updatePositions();
-                DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver({
-                    rivalSocketId: scope.rivalInfo.socketId
-                }));
+                DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver, {rivalSocketId: scope.rivalInfo.socketId});
                 DrawFactory.removeTimedoutRival();
                 DrawFactory.removeExpiredMe();
                 DrawFactory.removeExpiredRival();

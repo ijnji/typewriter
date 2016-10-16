@@ -66,7 +66,7 @@ app.factory('DrawFactory', function(AnimationFactory) {
         sprites.length = newlen;
     };
 
-    const removeTimedout = function(sprites, callback) {
+    const removeTimedout = function(sprites, callback, payload) {
         if (sprites.length === 0) return;
         let toTrim = false;
         for (let i = 0; i < sprites.length; i++) {
@@ -78,14 +78,14 @@ app.factory('DrawFactory', function(AnimationFactory) {
                 sprites[i].posDiv.remove();
                 sprites[i] = undefined;
                 toTrim = true;
-                if (callback) callback();
+                if (callback(payload)) callback();
             }
         }
         if (toTrim) trim(sprites);
     };
 
-    factory.removeTimedoutMe = function(callback) {
-        removeTimedout(factory.playerMeSprites, callback);
+    factory.removeTimedoutMe = function(callback, payload) {
+        removeTimedout(factory.playerMeSprites, callback, payload);
     }
 
     factory.removeTimedoutRival = function(callback) {

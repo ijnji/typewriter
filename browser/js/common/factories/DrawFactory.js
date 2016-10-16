@@ -77,7 +77,7 @@ app.factory('DrawFactory', function(AnimationFactory) {
                 sprites[i].posDiv.remove();
                 sprites[i] = undefined;
                 toTrim = true;
-                if (callback(payload)) callback();
+                if (callback) callback(payload);
             }
         }
         if (toTrim) trim(sprites);

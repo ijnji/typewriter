@@ -8,22 +8,28 @@ var _ = require('lodash');
 
 module.exports = db.define('user', {
     email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     username: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     longestStreak: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     },
     wins: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     },
     losses: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     },
     averageAccuracy: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        defaultValue: 0
     },
     password: {
         type: Sequelize.STRING
@@ -64,6 +70,28 @@ module.exports = db.define('user', {
                     }]
                 },
                 include: [{model: this.Model, as: 'winner'}, {model: this.Model, as: 'loser'}]
+            })
+        },
+        updateStats: function(matchAccuracy, matchStreak, isWinner){
+            if (isWinner) {
+                this.wins++;
+            }
+            else {
+                this.losses++;
+            }
+            if (this.longestStreak < matchStreak) {
+                this.longestStreak = matchStreak;
+            }
+            this.getMatches()
+            .then(matches => {
+                const numMatches = matches.length;
+                this.averageAccuracy = (this.averageAccuracy * numMatches + matchAccuracy) / (numMatches + 1);
+                return this.update({
+                    wins: this.wins,
+                    losses: this.losses,
+                    longestStreak: this.longestStrea,
+                    averageAccuracy: this.averageAccuracy
+                })
             })
         }
     },

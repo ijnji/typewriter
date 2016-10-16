@@ -27,6 +27,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         scope.rival = playerRival;
         scope.gameover = false;
         scope.rivalInfo = SocketService.getRival();
+        console.log('scope.rivalInfo',scope.rivalInfo)
 
         scope.$on('$destroy', function() {
             window.cancelAnimationFrame(animationFrameReference);

@@ -38,8 +38,9 @@ const challengeUser = function(payload) {
 }
 
 const challengeAccepted = function(payload) {
+    console.log('payload', payload);
     const challengerSocket = this.io.sockets.connected[payload.challenger.socketId];
-    console.log(payload, challengerSocket);
+    console.log('challengerSocket', challengerSocket);
     const room = shortid.generate();
     this.socket.join(room)
     challengerSocket.join(room);

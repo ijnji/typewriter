@@ -24,8 +24,9 @@ app.directive('compareTo', function (){
   }
 });
 
-app.controller('SignupCtrl', function ($scope, $state, $log, AuthService, UserFactory, Socket) {
+app.controller('SignupCtrl', function ($scope, $state, $log, AuthService, UserFactory, SocketService) {
     $scope.submitSignup = function(data) {
+        console.log('submitting')
         return UserFactory.addPlayer(data)
                 .then(function(user) {
                     $scope.loginInfo = {
@@ -33,9 +34,9 @@ app.controller('SignupCtrl', function ($scope, $state, $log, AuthService, UserFa
                         password: data.password
                     };
                     AuthService.login($scope.loginInfo);
-                  })
+                 })
                 .then(function(){
-                  Socket.emit('addUser');
+                   SocketService.loginOrLogoutHandler();
                    $state.go('frontpage');
                 })
                 .catch($log.error);

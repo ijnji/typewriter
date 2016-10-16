@@ -12,6 +12,10 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
                 Socket.on('setUser', setUserFunc);
             });
 
+            scope.toggle = function() {
+                scope.checked = !scope.checked
+            }
+
             scope.isLoggedIn = function() {
                 var loggedIn = AuthService.isAuthenticated();
                 return loggedIn;
@@ -43,17 +47,16 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
             var setUser = function() {
                 AuthService.getLoggedInUser()
                 .then(function(user) {
-                    // $rootScope.loggedUser = user;
                     if(user){
                         $rootScope.rootScopeUser = user;
                         scope.user = $rootScope.rootScopeUser;
                     }
                 });
-            };
+            }
 
             var removeUser = function() {
                 scope.user = null;
-                $rootScope.loggedUser = null;
+                $rootScope.rootScopeUser = null;
             };
 
             setUser();

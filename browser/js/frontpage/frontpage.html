@@ -1,11 +1,12 @@
 <section id="title" ng-cloak>
     <div class="header"><span class="element" ng-init="runLogo()"></span></div>
-    <a ng-click="randomMatch()" class="btn waves-effect waves-yellow center-block trigger-searching" href="#waiting">Play</a>
-    <a ui-sref="lobby" class="btn waves-effect waves-yellow center-block">Lobby</a>
-    <a ui-sref="users" class="btn waves-effect waves-yellow center-block">Users</a>
+    <a ng-click="randomMatch()" class="btn waves-effect waves-yellow center-block trigger-searching" href="#waiting">Quick Play</a>
+    <a class="btn waves-effect waves-yellow center-block trigger-searching" ui-sref="users">Rankings</a>
     <div id="waiting" class="modal">
         <div class="modal-content">
-          Searching for an Opponent<searching></searching>
+        <div class="left-align close"><a class="modal-action modal-close">X</a></div>
+            Searching for an Opponent
+            <searching class="center-block"></searching>
         </div>
     </div>
 </section>

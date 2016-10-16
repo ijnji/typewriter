@@ -1,6 +1,6 @@
 <section id='lobby'>
   <div>
-    <h3>Active Users</h3>
+    <h4>Users Online</h4>
     <ul>
          <li ng-repeat="lobbyUser in lobbyUsers | filter: {username: '!' + rootScopeUser.username}">
             <img src="{{lobbyUser.avatarSm}}"/>
@@ -29,6 +29,7 @@
 
   <div id="waitingForUser" class="modal">
     <div class="modal-content" ng-show="waiting">
+    <div class="left-align close"><a class="modal-action modal-close">X</a></div>
       <p>Waiting for {{opponent.username}}'s response!</p>
     </div>
     <div class="modal-content" ng-show="!waiting">

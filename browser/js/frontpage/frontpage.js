@@ -12,13 +12,7 @@ app.controller('FrontpageCtrl', function($scope, $state, SocketFactory, AudioFac
     $scope.$on('refreshedSocket', function(payload) {
         Socket = payload.socket;
     });
-    // document.onkeydown = function () {
-    //     AudioFactory.play('singletype');
-    // };
-    // if($stateParams.reload === 'true'){
-    //     console.log('reloading page');
-    //     $state.go('frontpage', {}, {reload: true});
-    // }
+
     $scope.randomMatch = function() {
         $scope.searching = true;
         Socket.emit('randomMatch');
@@ -32,20 +26,20 @@ app.controller('FrontpageCtrl', function($scope, $state, SocketFactory, AudioFac
    }
 
 
-    $scope.runLogo = function(){
+    $scope.runLogo = function() {
         $('.element').typed({
             strings: ['TypeRightr'],
             typeSpeed: 50
         });
     }
 
-    $(document).ready(function(){
-            $('.trigger-searching').leanModal({
-            complete: function () {
+    $(document).ready(function() {
+        $('.trigger-searching').leanModal({
+            complete: function() {
                 $scope.searching = false;
                 Socket.emit('stopMatch');
             }
         });
-  });
+    });
 
 });

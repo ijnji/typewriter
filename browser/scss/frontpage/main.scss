@@ -1,7 +1,7 @@
 #title {
-    font-family: SketchBlock;
+    font-family: RifficFree;
     .btn {
-        border-radius: 50px;
+        border-radius: 30px;
         text-decoration: none;
         font-size: 4em;
         width: 7em;
@@ -10,35 +10,68 @@
         display: block;
         margin-bottom: 15px;
     }
+
     .header {
         font-size: 100px;
         margin: 10vh 5vw;
+        font-family: SketchBlock;
     }
-
     #waiting {
         font-size: 50px;
+    }
+    .ng-pageslide {
+        background: #eee;
+        position: absolute;
+        overflow: hidden;
+        z-index: -1;
+    }
+
+    .close {
+        font-size: 20px;
     }
 
 }
 
-.typed-cursor{
+.typed-cursor {
     opacity: 1;
     -webkit-animation: blink 0.7s infinite;
     -moz-animation: blink 0.7s infinite;
     animation: blink 0.7s infinite;
 }
-@keyframes blink{
-    0% { opacity:1; }
-    50% { opacity:0; }
-    100% { opacity:1; }
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
-@-webkit-keyframes blink{
-    0% { opacity:1; }
-    50% { opacity:0; }
-    100% { opacity:1; }
+
+@-webkit-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
-@-moz-keyframes blink{
-    0% { opacity:1; }
-    50% { opacity:0; }
-    100% { opacity:1; }
+
+@-moz-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
+

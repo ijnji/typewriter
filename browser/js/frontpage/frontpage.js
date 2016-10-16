@@ -7,14 +7,7 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('FrontpageCtrl', function($scope, $state, Socket, AudioFactory, SocketService) {
-    // $scope.testMatch = function() {
-    //     $state.go('test');
-    // };
-
-    document.onkeydown = function () {
-        AudioFactory.play('singletype');
-    };
+app.controller('FrontpageCtrl', function($scope, $state, Socket, SocketService) {
 
     $scope.randomMatch = function() {
         $scope.searching = true;

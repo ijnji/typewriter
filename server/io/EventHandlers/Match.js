@@ -2,6 +2,7 @@ const shortid = require('shortid');
 const wordEmitter = require('../wordEmitter');
 const dictionaryUtils = require('../../dictionary');
 const _ = require('lodash');
+const socketUtils = require('../socketUtils');
 
 const Match = function(socket, io) {
     this.socket = socket;
@@ -42,20 +43,10 @@ function stopMatch() {
 function randomMatch() {
     if (openRooms.length) {
         const room = openRooms.shift();
+        const opponentSocket = socketUtils.getAllRoomMembers(room, this.io)[0];
         this.socket.join(room);
         this.socket.currGame = room;
-        let players = this.io.sockets.adapter.rooms[room].sockets;
-        let usersArr = [];
-        _.forOwn(players, function(v, k) {
-            usersArr.push(k);
-        })
-        var player1 = _.find(this.activeUsers, function(user) {
-            return user.id === usersArr[0];
-        });
-        var player2 = _.find(this.activeUsers, function(user) {
-            return user.id === usersArr[1];
-        });
-        this.io.sockets.in(room).emit('gameStart', { room: room, player1: player1, player2: player2 });
+        this.io.sockets.in(room).emit('gameStart', { room: room, player1: opponentSocket.request.user, player2: this.socket.request.user });
         wordEmitter.emitWords(room, this.io);
     } else {
         const room = shortid.generate();
@@ -67,6 +58,7 @@ function randomMatch() {
 
 function gameOver(payload) {
     if (this.socket.currGame) {
+        console.log('payload for gameOver', payload);
         const rivalSocket = this.io.sockets.connected[payload.rivalSocketId];
         const room = this.socket.currGame;
         delete this.socket.rooms[room];

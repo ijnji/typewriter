@@ -83,6 +83,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
             DrawFactory.reset();
             endTime = Date.now();
             totalTime = endTime - startTime;
+            console.log('rootScopeUser', $rootScope.rootScopeUser);
             GameFactory.Game.handleGameOver(playerMe, playerRival, $rootScope.rootScopeUser, scope.rivalInfo, payload.loserId, totalTime);
             scope.gameover = true;
             scope.$evalAsync();

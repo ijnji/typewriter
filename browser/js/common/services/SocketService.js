@@ -4,7 +4,7 @@ app.service('SocketService', function ($rootScope, SocketFactory, $state){
     let rival;
     Socket.on('gameStart', function(payload) {
         console.log(payload, $rootScope.rootScopeUser);
-       rival = payload.player1.username === $rootScope.rootScopeUser.username ? payload.player2 : payload.player1;
+        rival = payload.player1.username === $rootScope.rootScopeUser.username ? payload.player2 : payload.player1;
     });
     this.loginOrLogoutHandler = function () {
         Socket.emit('loginOrLogoutUser');

@@ -45,7 +45,7 @@ app.controller('LobbyCtrl', function($scope, $state, SocketFactory) {
         const usernames = $scope.lobbyUsers.map(user => user.username);
         const userIdx = usernames.indexOf(payload.user.username);
         console.log(usernames, payload.user.username);
-        if(userIdx > -1){
+        if (userIdx > -1) {
             $scope.lobbyUsers.splice(userIdx, 1);
             console.log('user removed');
         }
@@ -111,7 +111,7 @@ app.directive('repeatDone', function() {
     }
 });
 
-app.directive('lobby', function($state, Socket) {
+app.directive('lobby', function() {
     return {
         restrict: 'E',
         scope: false,

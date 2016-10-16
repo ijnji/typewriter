@@ -15,4 +15,6 @@ function saveMatchData(payload) {
     const loserSocket = this.io.sockets.connected[payload.loserInfo.socketId];
     winnerSocket.join('lobby');
     loserSocket.join('lobby');
+    this.io.to('lobby').emit('newUserInLobby', {user: winnerSocket.request.user});
+    this.io.to('lobby').emit('newUserInLobby', {user: loserSocket.request.user});
 }

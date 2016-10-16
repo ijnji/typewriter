@@ -71,7 +71,7 @@ function gameOver(payload) {
         const room = this.socket.currGame;
         delete this.socket.rooms[room];
         this.socket.currGame = undefined;
-        rivalSocket.currGame = null;
+        rivalSocket.currGame = undefined;
         wordEmitter.stopWords(room);
         this.io.to(room).emit('endGame', { loserId: this.socket.id });
     }

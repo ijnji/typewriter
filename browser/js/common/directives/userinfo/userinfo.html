@@ -1,18 +1,28 @@
 <div id="userinfo">
-    <div class="siteicon">
-        <a ui-sref="frontpage"><img src = "img/logo.svg"></a>
+
+    <div class="siteicon z-depth-1">
+        <a ui-sref="frontpage"><img src="img/logo.svg"></a>
     </div>
+
     <div>
+        <div pageslide ps-open="checked" ps-auto-close="true">
+            <div style="padding:20px" id="demo-right">
+                <lobby></lobby>
+                <a ng-click="toggle()" class="button">Close</a>
+            </div>
+        </div>
     </div>
-    <div class="info"  ng-show="!isLoggedIn()">
+    <div class="info" ng-show="!isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
-        <button ui-sref="login" class="waves-effect waves-light btn">Login</button>
-         <button ui-sref="signup" class="waves-effect waves-light btn">Sign Up</button>
+        <a class="btn-floating btn-large waves-effect waves-light yellow" ng-click="toggle()"><i class="fa fa-user" aria-hidden="true"></i></a>
+        <a class="btn-floating btn-large waves-effect waves-light yellow" ui-sref="login">Login</a>
+        <a class="btn-floating btn-large waves-effect waves-light yellow" ui-sref="signup">Signup</a>
     </div>
-    <a ui-sref="users">User</button>
-            <!-- </div> -->
+    <!-- </div> -->
     <div class="info" ng-show="isLoggedIn()">
         <span>Welcome, {{ user }}!</span>
+        <a class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">add</i></a>
         <button ng-click="logout()" class="waves-effect waves-light btn">Logout</button>
     </div>
+    
 </div>

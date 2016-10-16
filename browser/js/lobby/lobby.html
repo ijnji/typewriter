@@ -1,8 +1,9 @@
 <section id='lobby'>
   <div>
-    <h3>Active Users</h3>
+    <h4>Users Online</h4>
     <ul>
          <li ng-repeat="activeUser in activeUsers | filter: {playing: false, username: '!' + user}">
+         <img src="/img/defaultavatar.png" width="50">
             <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{activeUser.username}}</a>
            <div id="modal{{$index+1}}"" class="modal">
             <div class="modal-content">
@@ -28,6 +29,7 @@
 
   <div id="waitingForUser" class="modal">
     <div class="modal-content" ng-show="waiting">
+    <div class="left-align close"><a class="modal-action modal-close">X</a></div>
       <p>Waiting for {{opponent.username}}'s response!</p>
     </div>
     <div class="modal-content" ng-show="!waiting">

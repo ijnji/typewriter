@@ -6,7 +6,9 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
         templateUrl: 'js/common/directives/userinfo/userinfo.html',
         link: function(scope) {
 
-
+            scope.toggle = function() {
+                scope.checked = !scope.checked
+            }
             scope.isLoggedIn = function() {
                 var loggedIn = AuthService.isAuthenticated();
                 return loggedIn;
@@ -18,7 +20,7 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
                 });
             };
 
-            Socket.on('setUsername', function (payload){
+            Socket.on('setUsername', function(payload) {
                 $rootScope.user = payload.username;
                 scope.user = $rootScope.user;
                 scope.$digest();
@@ -26,11 +28,11 @@ app.directive('userInfo', function($rootScope, $state, AuthService, AUTH_EVENTS,
 
             var setUser = function() {
                 AuthService.getLoggedInUser()
-                .then(function(user) {
-                    $rootScope.loggedUser = user;
-                    $rootScope.user = user.username;
-                    scope.user = $rootScope.user;
-                });
+                    .then(function(user) {
+                        $rootScope.loggedUser = user;
+                        $rootScope.user = user.username;
+                        scope.user = $rootScope.user;
+                    });
             };
 
             var removeUser = function() {

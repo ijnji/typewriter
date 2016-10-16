@@ -1,4 +1,4 @@
-app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, Socket, SocketService, UtilityFactory) {
+app.directive('typewriter', function(PlayerFactory, InputFactory, AudioFactory, GameFactory, DrawFactory, Socket, SocketService, UtilityFactory) {
 
     let directive = {};
     directive.restrict = 'E';
@@ -50,8 +50,14 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
                         Socket.emit('wordMiss');
                     }
                 } else if (payload.key === 'Backspace') {
+                    // Handle sounds on socket inbound events.
+                    AudioFactory.playFile('backspace');
+
                     playerMe.removeChar();
                 } else if (payload.key.charCodeAt(0) >= 97 && payload.key.charCodeAt(0) <= 122) {
+                    // Handle sounds on socket inbound events.
+                    AudioFactory.playFile('singletype');
+
                     playerMe.newChar(payload.key);
                 }
             } else {
@@ -98,6 +104,10 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         function wordHitFunc(payload) {
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
             if (playerId === playerMe.id) {
+
+                // Handle sounds on socket inbound events.
+                AudioFactory.playFile('carriagereturn');
+
                 playerMe.incrementStreak();
                 if (playerMe.streak % 5 === 0) {
                     Socket.emit('streakWord', { streak: playerMe.streak })

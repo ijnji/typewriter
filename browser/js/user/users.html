@@ -1,21 +1,20 @@
 <div class="container">
     <div class="collection">
         <div class="collection-item" ng-repeat="uzer in users | orderBy: '-wins'">
-            <a ui-sref="user({id: uzer.id })">
-                <div class="row">
-                    <div class="col s3">
-                        <img ng-src="{{uzer.avatar}}" alt="">
-                    </div>
-                    <div class="col s3">
-                        {{uzer.username}}
-                    </div>
-                    <div class="col s3">
-                        Wins: {{uzer.wins}}
-                    </div>
-                    <div class="col s3">
-                        Losses: {{uzer.losses}}
-                    </div>
-            </a>
+            <div class="row">
+                <div class="col s3">
+                    <a ui-sref="user({id: uzer.id })"><img ng-src="{{uzer.avatar}}" alt=""></a>
+                </div>
+                <div class="col s3">
+                    <a ui-sref="user({id: uzer.id })">{{uzer.username}} </a>
+                </div>
+                <div class="col s3">
+                    Wins: {{uzer.wins}}
+                </div>
+                <div class="col s3">
+                    Losses: {{uzer.losses}}
+                </div>
+            </div>
         </div>
     </div>
 </div>

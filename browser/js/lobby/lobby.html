@@ -1,6 +1,8 @@
 <section id='lobby'>
   <div>
     <h4>Users Online</h4>
+
+
     <ul>
          <li ng-repeat="activeUser in activeUsers | filter: {playing: false, username: '!' + user}" class="left-align">
          <img src="/img/defaultavatar.png" width="50">

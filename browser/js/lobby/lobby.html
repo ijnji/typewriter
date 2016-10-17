@@ -10,8 +10,8 @@
                 <p>Would you like to challenge {{lobbyUser.username}}?</p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close" ng-click="challengeUser(lobbyUser)">Yes</a>
-                <a href="#!" class=" modal-action modal-close">No</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="challengeUser(activeUser)">Yes</a>
             </div>
         </li>
     </ul>
@@ -22,8 +22,8 @@
       <p>{{challenger.username}} wants to challenge you! Do you want to play against them?</p>
     </div>
     <div class="modal-footer">
+    <a ng-click="challengeRejected()" class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
       <a ng-click="challengeAccepted()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes</a>
-      <a ng-click="challengeRejected()" class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
     </div>
   </div>
 

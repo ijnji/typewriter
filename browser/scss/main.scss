@@ -13,9 +13,17 @@ $color-bgh-dark: #FFEB3B;
     font-family: 'RifficFree';
     src: url('/img/font/RifficFree-Bold.ttf');
 }
+
 .black-text {
     color: black;
 }
+
+@font-face {
+    font-family: 'Chinacat';
+    src: url('/img/font/Chinacat.ttf');
+}
+
+
 * {
     box-sizing: border-box;
 }
@@ -30,7 +38,7 @@ body,
 
 body {
     background: $color-bgh-normal;
-    font-family: 'RifficFree';
+    font-family: 'Chinacat';
     text-align: center;
 }
 
@@ -45,8 +53,13 @@ body {
 .btn {
     background: $color-bgh-dark;
     color: white;
+    font-family: 'RifficFree';
 }
 
+
+button, .btn-large {
+    font-family: 'RifficFree';
+}
 
 /* Needed for hiding crollbars when pushing */
 
@@ -102,10 +115,10 @@ body.ng-pageslide-body-closed::before {
 .lean-overlay {
     position: relative;
 }
-@import url('https://fonts.googleapis.com/css?family=Poppins');
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
 @import 'game/main';
 @import 'frontpage/main';
 @import 'signup/main';
+@import 'users/main';

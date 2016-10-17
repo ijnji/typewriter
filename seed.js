@@ -94,7 +94,8 @@ function generateUsers () {
             longestStreak: 999,
             wins: 200,
             losses: 0,
-            averageAccuracy: 1
+            averageAccuracy: 1,
+            avatar: "http://scontent.cdninstagram.com/t51.2885-15/e35/1390271_1697286650559505_1043272681_n.jpg?ig_cache_key=MTIwOTQyODk4Mzg3NjcxNzk4Nw%3D%3D.2"
         }));
     return users;
 }

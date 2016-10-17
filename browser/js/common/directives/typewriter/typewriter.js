@@ -162,14 +162,14 @@ app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, 
                 DrawFactory.removeExpiredRival();
                 animationFrameReference = requestAnimationFrame(gameLoop);
             } else {
-                // endTime = Date.now();
-                // totalTime = endTime - startTime;
-                // scope.myWpm = playerMe.wordsPerMinute(totalTime);
-                // scope.myAccuracy = playerMe.showAccuracy();
-                // scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
-                // scope.rivalAccuracy = playerRival.showAccuracy();
-                // scope.myLongestStreak = playerMe.getLongestStreak();
-                // scope.rivalLongestStreak = playerRival.getLongestStreak();
+                endTime = Date.now();
+                totalTime = endTime - startTime;
+                scope.myWpm = playerMe.wordsPerMinute(totalTime);
+                scope.myAccuracy = playerMe.showAccuracy();
+                scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
+                scope.rivalAccuracy = playerRival.showAccuracy();
+                scope.myStreak = playerMe.longestStreak;
+                scope.rivalStreak = playerRival.longestStreak;
             }
         }
     };

@@ -1,7 +1,11 @@
 <section id="title" ng-cloak>
     <div class="header"><span class="element" ng-init="runLogo()"></span></div>
-    <a ng-click="randomMatch()" class="btn waves-effect waves-yellow center-block trigger-searching" href="#waiting">Quick Play</a>
-    <a class="btn waves-effect waves-yellow center-block trigger-searching" ui-sref="users">Rankings</a>
+    <a ng-click="randomMatch()" class="btn waves-effect waves-yellow center-block trigger-searching" href="#waiting" ng-class="{'animated infinite pulse': hover1}"
+    ng-mouseenter="hover1 = true"
+    ng-mouseleave="hover1 = false">Quick Play</a>
+    <a class="btn waves-effect waves-yellow center-block trigger-searching" ui-sref="users" ng-class="{'animated infinite pulse': hover2}"
+    ng-mouseenter="hover2 = true"
+    ng-mouseleave="hover2 = false">Rankings</a>
     <div id="waiting" class="modal">
         <div class="modal-content">
         <div class="left-align close"><a class="modal-action modal-close">X</a></div>

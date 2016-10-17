@@ -13,8 +13,8 @@
         </div>
     </div>
     <div class="info" ng-show="!isLoggedIn()">
+        <img src="{{user.avatar}}" class="avatar">
         <span>Welcome, {{ user.username }}!</span>
-        <img src="{{user.avatar}}" alt="">
         <a class="btn-floating btn-large waves-effect waves-light yellow" ng-click="toggle()"><i class="fa fa-user" aria-hidden="true"></i></a>
         <a class="btn-floating btn-large waves-effect waves-light yellow" ui-sref="login">Login</a>
         <a class="btn-floating btn-large waves-effect waves-light yellow" ui-sref="signup">Signup</a>
@@ -23,7 +23,11 @@
     <div class="info" ng-show="isLoggedIn()">
         <a ui-sref="user({id: user.id})">
             <span class="black-text">Welcome, {{ user.username }}!</span>
+<<<<<<< HEAD
                 <img src="{{user.avatar}}" alt="">
+=======
+            <img src="{{user.avatar}}" class="avatar">
+>>>>>>> master
         </a>
         <a class="btn-floating btn-large waves-effect waves-light yellow" ng-click="toggle()"><i class="fa fa-user" aria-hidden="true"></i></a>
         <button ng-click="logout()" class="btn-floating btn-large waves-effect waves-light yellow logout">Logout</button>

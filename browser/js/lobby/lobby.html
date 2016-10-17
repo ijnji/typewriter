@@ -1,10 +1,10 @@
 <section id='lobby'>
   <div>
-    <h4>Users Online</h4>
+    <h4 class="title">Users Online</h4>
     <ul>
-         <li ng-repeat="lobbyUser in lobbyUsers | filter: {username: '!' + $root.rootScopeUser.username}">
-            <img src="{{lobbyUser.avatar}}"/ class="img">
-            <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{lobbyUser.username}}</a>
+         <li ng-repeat="lobbyUser in lobbyUsers | filter: {username: '!' + $root.rootScopeUser.username}" class="left-align">
+            <img src="{{lobbyUser.avatar}}" style="width:60px;">
+            <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{lobbyUser.username}} </a>
            <div id="modal{{$index+1}}" class="modal">
             <div class="modal-content">
                 <p>Would you like to challenge {{lobbyUser.username}}?</p>

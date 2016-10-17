@@ -18,8 +18,7 @@ function saveMatchData(payload) {
     const loserSocket = this.io.sockets.connected[payload.loserInfo.socketId];
     winnerSocket.join('lobby');
     loserSocket.join('lobby');
-    this.io.to('lobby').emit('newUserInLobby', {user: winnerSocket.request.user});
-    this.io.to('lobby').emit('newUserInLobby', {user: loserSocket.request.user});
+    this.io.to('lobby').emit('getUsers');
 
     //if both users are authenticated, save the match data and update their stats
     if(payload.winnerInfo.id && payload.loserInfo.id){

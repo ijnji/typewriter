@@ -9,6 +9,7 @@
 app.controller('LobbyCtrl', function($scope, $state, SocketFactory) {
     let Socket = SocketFactory.socket;
     $scope.$on('refreshedSocket', function(event, data) {
+        console.log('socket refreshed')
         Socket = data.socket;
     });
     $scope.waiting = true;
@@ -25,7 +26,10 @@ app.controller('LobbyCtrl', function($scope, $state, SocketFactory) {
         $('.modal-trigger').leanModal(); // Initialize the modals
     };
     Socket.emit('getUsers');
-
+    Socket.on('getUsers', getUsersFunc)
+    function getUsersFunc(){
+        Socket.emit('getUsers');
+    }
     Socket.on('users', usersFunc);
     function usersFunc(payload) {
         $scope.lobbyUsers = payload.users;

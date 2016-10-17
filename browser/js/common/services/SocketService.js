@@ -7,11 +7,11 @@ app.service('SocketService', function ($rootScope, SocketFactory, $state){
         rival = payload.player1.username === $rootScope.rootScopeUser.username ? payload.player2 : payload.player1;
     });
     this.loginOrLogoutHandler = function () {
-        Socket.emit('loginOrLogoutUser');
+        Socket.emit('loginOrLogout');
         SocketFactory.refreshSocket();
         Socket = SocketFactory.socket;
-        console.log(SocketFactory.socket);
         $rootScope.$broadcast('refreshedSocket', {socket: SocketFactory.socket});
+        Socket.emit('getUsers');
         $state.go('frontpage')
     }
    this.getRival = function () {

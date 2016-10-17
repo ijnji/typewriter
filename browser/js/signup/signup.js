@@ -37,7 +37,6 @@ app.controller('SignupCtrl', function ($scope, $state, $log, AuthService, UserFa
                  })
                 .then(function(){
                    SocketService.loginOrLogoutHandler();
-                   $state.go('frontpage');
                 })
                 .catch($log.error);
     };

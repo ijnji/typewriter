@@ -45,6 +45,9 @@ function randomMatch() {
         const room = openRooms.shift();
         const opponentSocket = socketUtils.getAllRoomMembers(room, this.io)[0];
         this.socket.join(room);
+        this.socket.leave('lobby');
+        opponentSocket.leave('lobby');
+        this.io.to('lobby').emit('getUsers');
         this.socket.currGame = room;
         this.io.sockets.in(room).emit('gameStart', { room: room, player1: opponentSocket.request.user, player2: this.socket.request.user });
         wordEmitter.emitWords(room, this.io);

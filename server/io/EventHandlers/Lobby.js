@@ -46,6 +46,9 @@ const challengeAccepted = function(payload) {
     challengerSocket.join(room);
     this.socket.leave('lobby');
     challengerSocket.leave('lobby');
+    this.io.to('lobby').emit('getUsers');
+    // this.io.to('lobby').emit('removeUser', {user: this.socket.request.user});
+    // this.io.to('lobby').emit('removeUser', {user: challengerSocket.request.user});
     this.socket.currGame = room;
     challengerSocket.currGame = room;
     // Ran: Hotfix for lingering modal background when challenging users.

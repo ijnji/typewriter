@@ -89,7 +89,7 @@ module.exports = db.define('user', {
                 return this.update({
                     wins: this.wins,
                     losses: this.losses,
-                    longestStreak: this.longestStrea,
+                    longestStreak: this.longestStreak,
                     averageAccuracy: this.averageAccuracy
                 })
             })

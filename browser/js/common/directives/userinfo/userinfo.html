@@ -14,13 +14,18 @@
     </div>
     <div class="info" ng-show="!isLoggedIn()">
         <span>Welcome, {{ user.username }}!</span>
+        <img src="{{user.avatarSm}}" alt="">
         <a class="btn-floating btn-large waves-effect waves-light yellow" ng-click="toggle()"><i class="fa fa-user" aria-hidden="true"></i></a>
         <a class="btn-floating btn-large waves-effect waves-light yellow" ui-sref="login">Login</a>
         <a class="btn-floating btn-large waves-effect waves-light yellow" ui-sref="signup">Signup</a>
     </div>
     <!-- </div> -->
     <div class="info" ng-show="isLoggedIn()">
-        <span>Welcome, {{ user.username }}!</span>
+        <a ui-sref="user({id: user.id})">
+            <span class="black-text">Welcome, {{ user.username }}!</span>
+            <img src="{{user.avatarSm}}" alt="">
+        </a>
+        <a class="btn-floating btn-large waves-effect waves-light yellow" ng-click="toggle()"><i class="fa fa-user" aria-hidden="true"></i></a>
         <a class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">add</i></a>
         <button ng-click="logout()" class="waves-effect waves-light btn">Logout</button>
     </div>

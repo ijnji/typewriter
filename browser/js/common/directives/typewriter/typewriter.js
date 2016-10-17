@@ -1,4 +1,4 @@
-app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, DrawFactory, SocketFactory, SocketService, UtilityFactory, $rootScope) {
+app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, GameFactory, DrawFactory, SocketFactory, SocketService, UtilityFactory, $rootScope) {
     let directive = {};
     directive.restrict = 'E';
     directive.scope = {};
@@ -44,7 +44,9 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, GameFactory, D
         Socket.on('newKey', newKeyFunc);
 
         function newKeyFunc(payload) {
+            console.log(playerMe.id, payload.id);
             if (playerMe.id === payload.id) {
+                console.log('ME KEY');
                 if (payload.key === 'Enter' || payload.key === ' ') {
                     const hit = playerMe.validateInput(DrawFactory.removeWordMe);
                     if (hit) {

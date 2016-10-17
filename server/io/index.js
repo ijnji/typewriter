@@ -80,7 +80,8 @@ module.exports = function(server) {
         //notify lobby members of new user
         console.log('before new ', socket.request.user);
         socket.join('lobby');
-        io.to('lobby').emit('newUserInLobby', { user: socket.request.user});
+
+        io.to('lobby').emit('getUsers');
 
         const eventHandlers = {
             match: new Match(socket, io),
@@ -101,6 +102,9 @@ module.exports = function(server) {
         allSockets.push(socket);
 
         //everything below this should be in it's own EventHandler (except disconnect)
+        socket.on('loginOrLogout', function() {
+            socket.disconnect();
+        });
         socket.on('disconnect', function() {
             console.log(chalk.magenta(socket.id + ' has disconnected'));
 
@@ -108,7 +112,7 @@ module.exports = function(server) {
                 return e.id === socket.id;
             });
             allSockets.splice(idx, 1);
-            io.to('lobby').emit('removeUser', {user: socket.request.user});
+            io.to('lobby').emit('getUsers');
             if (socket.currGame) {
                 const room = socket.currGame;
                 delete socket.currGame;

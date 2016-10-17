@@ -13,7 +13,9 @@ $color-bgh-dark: #FFEB3B;
     font-family: 'RifficFree';
     src: url('/img/font/RifficFree-Bold.ttf');
 }
-
+.black-text {
+    color: black;
+}
 * {
     box-sizing: border-box;
 }

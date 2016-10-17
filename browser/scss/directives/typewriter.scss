@@ -1,6 +1,7 @@
 #typewriter {
     position: absolute;
     top: 15vh;
+    font-family: 'SketchBlock';
     // left: 12vh;
     width: 100%;
     .gameContainerDrawing {
@@ -36,6 +37,7 @@
         top: 30%;
         width: 50%;
         text-align: center;
+        font-family: 'RifficFree';
         //margin: 0 auto;
     }
     #winningMessage {

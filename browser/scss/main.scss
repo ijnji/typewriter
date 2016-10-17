@@ -48,8 +48,13 @@ body {
 .btn {
     background: $color-bgh-dark;
     color: white;
+    font-family: 'RifficFree';
 }
 
+
+button, .btn-large {
+    font-family: 'RifficFree';
+}
 
 /* Needed for hiding crollbars when pushing */
 

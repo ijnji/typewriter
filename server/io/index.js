@@ -48,16 +48,14 @@ module.exports = function(server) {
         //make username and avatar if guest
         if (socket.request.user.logged_in === false) {
             socket.request.user.username = guestTools.generateUniqueGuestName(allSockets);
-            const avatars = guestTools.generateAvatarUrl(socket.request.user.username);
-            socket.request.user.avatarSm = avatars.avatarSm;
-            socket.request.user.avatarLg = avatars.avatarLg;
+            socket.request.user.avatar = guestTools.generateAvatarUrl(socket.request.user.username);
+
         }
         else {
             const authedUser = {};
             authedUser.username = socket.request.user.username;
             authedUser.id = socket.request.user.id;
-            authedUser.avatarSm = socket.request.user.avatarSm;
-            authedUser.avatrLg = socket.request.user.avatrLg;
+            authedUser.avatar = socket.request.user.avatar;
             authedUser.averageAccuracy = socket.request.user.averageAccuracy;
             authedUser.lognestStreak = socket.request.user.lognestStreak;
             authedUser.wins = socket.request.user.wins;

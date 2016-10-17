@@ -26,10 +26,7 @@ const generateUniqueGuestName = function (allSockets) {
 const generateAvatarUrl = function (username) {
     const rand = _.random(0, 1);
     const genders = ['male', 'female']
-    return {
-        avatarSm: `http://eightbitavatar.herokuapp.com/?id=${username}&s=${genders[rand]}&size=75`,
-        avatarLg: `http://eightbitavatar.herokuapp.com/?id=${username}&s=${genders[rand]}&size=150`
-    }
+    return `http://eightbitavatar.herokuapp.com/?id=${username}&s=${genders[rand]}&size=150`
 }
 
 module.exports = {

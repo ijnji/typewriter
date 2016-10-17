@@ -2,7 +2,7 @@
 
   <div class="row center-align">
     <div class="col s6">
-      <img ng-src="{{$root.rootScopeUser.avatarSm}}" alt="">
+      <img ng-src="{{$root.rootScopeUser.avatar}}" alt="">
       <h5>You: {{$root.rootScopeUser.username}}</h5>
         <div ng-show="gameover">
          <div class="animated infinite bounce" id="winningMessage" ng-if="player-me.win">Winner!
@@ -22,7 +22,7 @@
       streak {{me.streak}}
     </div>
     <div class="col s6">
-      <img ng-src="{{rivalInfo.avatarSm}}" alt="">
+      <img ng-src="{{rivalInfo.avatar}}" alt="">
       <h5>{{rivalInfo.username}}</h5>
         <div ng-if="gameover">
           <div class="animated infinite bounce" id="losingMessage" ng-if="player-me.win">

@@ -34,10 +34,7 @@ module.exports = db.define('user', {
     password: {
         type: Sequelize.STRING
     },
-    avatarSm: {
-      type: Sequelize.STRING
-    },
-    avatarLg: {
+    avatar: {
         type: Sequelize.STRING
     },
     salt: {
@@ -111,11 +108,10 @@ module.exports = db.define('user', {
             if (user.changed('password')) {
                 user.salt = user.Model.generateSalt();
                 user.password = user.Model.encryptPassword(user.password, user.salt);
-                if (!user.avatarSm || !user.avatarLg) {
+                if (!user.avatar) {
                     const genders = ['male', 'female'];
                     const rand = _.random(0, 1);
-                    user.avatarSm = `http://eightbitavatar.herokuapp.com/?id=${user.username}&s=${genders[rand]}&size=75`;
-                    user.avatarLg = `http://eightbitavatar.herokuapp.com/?id=${user.username}&s=${genders[rand]}&size=150`;
+                    user.avatar = `http://eightbitavatar.herokuapp.com/?id=${user.username}&s=${genders[rand]}&size=150`;
                 }
             }
         },

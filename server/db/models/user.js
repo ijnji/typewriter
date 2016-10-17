@@ -29,7 +29,10 @@ module.exports = db.define('user', {
     },
     averageAccuracy: {
         type: Sequelize.FLOAT,
-        defaultValue: 0
+        defaultValue: 0,
+        get: function(){
+            return Math.round(this.getDataValue('averageAccuracy') * 100 ) + '%';
+        }
     },
     password: {
         type: Sequelize.STRING

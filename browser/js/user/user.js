@@ -17,6 +17,5 @@ app.config(function($stateProvider) {
 
 app.controller('UserCtrl', function($scope, UserFactory, user, matches){
     $scope.user = user;
-    $scope.user.averageAccuracy = Math.round($scope.user.averageAccuracy * 100 ) + '%';
     $scope.matches = matches;
 });

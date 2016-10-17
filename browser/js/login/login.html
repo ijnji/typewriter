@@ -1,4 +1,4 @@
-<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
+<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)" ng-class="{'animated shake': error}">
     <!-- <div ng-class="{}"> -->
     <alert type="danger" ng-show="error">
         {{ error }}

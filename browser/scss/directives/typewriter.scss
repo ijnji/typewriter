@@ -3,26 +3,21 @@
     top: 15vh;
     // left: 12vh;
     width: 100%;
-
-
     .gameContainerDrawing {
         width: 80%;
         height: 70vh;
         margin: 0 auto;
         position: relative;
-
         background-color: #ffffff;
-        background-image:
-        linear-gradient(#eee .1em, transparent .1em);
+        background-image: linear-gradient(#eee .1em, transparent .1em);
         background-size: 100% 2.5rem;
     }
-
     .gameContainerSprite {
         position: absolute;
         font-size: 1.5rem;
     }
-
-    #playerMeInput, #playerRivalInput {
+    #playerMeInput,
+    #playerRivalInput {
         margin: 0 auto;
         height: 42px;
         width: 90%;
@@ -33,29 +28,36 @@
         color: black;
         font-size: 1.5rem;
     }
-
-    #winningMessage, #losingMessage {
-        background: $color-bgh-light;
+    #winningMessage,
+    #losingMessage {
+        //background: $color-bgh-light;
         opacity: 0.7;
         position: absolute;
-        top: 50%;
+        top: 30%;
         width: 50%;
         text-align: center;
-        margin: 0 auto;
-        font-size: 3rem;
+        //margin: 0 auto;
     }
-
     #winningMessage {
         color: green;
+        z-index: 100;
     }
-
     #losingMessage {
         color: red;
+        z-index: 100;
     }
     .gameover {
         z-index: -5;
         opacity: 0.5;
         pointer-events: none;
-        transition : opacity 1s ease-out;
-        background: rgba(0,0,0,.75);    }
+        transition: opacity 1s ease-out;
+        background: rgba(0, 0, 0, .75);
+    }
+    .win {
+        background: rgba(255,255,255,.75);
+    }
+
+    .lose {
+        background: rgba(0, 0, 0, .75);
+    }
 }

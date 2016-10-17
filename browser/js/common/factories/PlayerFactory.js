@@ -18,9 +18,12 @@ app.factory('PlayerFactory', function(UtilityFactory, WordFactory) {
         JSON.stringify(this.activeWords);
     }
 
+    Player.prototype.getLongestStreak = function(){
+        return this.longestStreak;
+    }
     Player.prototype.incrementStreak = function(){
         this.streak++;
-        if (this.streak > this.longestStreak) {
+        if (this.longestStreak < this.streak){
             this.longestStreak = this.streak;
         }
     }

@@ -2,12 +2,12 @@
   <div>
     <h4>Users Online</h4>
     <ul>
-         <li ng-repeat="activeUser in activeUsers | filter: {playing: false, username: '!' + user}" class="left-align">
-         <img src="/img/defaultavatar.png" width="50">
-            <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{activeUser.username}}</a>
-           <div id="modal{{$index+1}}"" class="modal">
+         <li ng-repeat="lobbyUser in lobbyUsers | filter: {username: '!' + $root.rootScopeUser.username}">
+            <img src="{{lobbyUser.avatar}}"/>
+            <a class="modal-trigger" href="#modal{{$index+1}}" repeat-done="initModals()">{{lobbyUser.username}} </a>
+           <div id="modal{{$index+1}}" class="modal">
             <div class="modal-content">
-                <p>A Would you like to challenge {{activeUser.username}}?</p>
+                <p>Would you like to challenge {{lobbyUser.username}}?</p>
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
@@ -41,4 +41,3 @@
   </div>
 
 </section>
-

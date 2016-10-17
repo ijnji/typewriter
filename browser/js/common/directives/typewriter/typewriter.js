@@ -1,14 +1,16 @@
-app.directive('typewriter', function(PlayerFactory, InputFactory, AudioFactory, GameFactory, DrawFactory, Socket, SocketService, UtilityFactory) {
-
+app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, GameFactory, DrawFactory, SocketFactory, SocketService, UtilityFactory, $rootScope) {
     let directive = {};
     directive.restrict = 'E';
     directive.scope = {};
     directive.templateUrl = 'js/common/directives/typewriter/typewriter.html';
 
     directive.link = function(scope) {
+        let Socket = SocketFactory.socket;
+        scope.$on('refreshedSocket', function(event, data) {
+            Socket = data.socket;
+        });
 
         let startTime, endTime, totalTime;
-
         $(document).ready(function() {
             scope.gameover = false;
             DrawFactory.initialize();
@@ -24,7 +26,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, AudioFactory, 
         scope.me = playerMe;
         scope.rival = playerRival;
         scope.gameover = false;
-        scope.rivalUser = SocketService.getRival();
+        scope.rivalInfo = SocketService.getRival();
+        console.log('scope.rivalInfo',scope.rivalInfo)
 
         scope.$on('$destroy', function() {
             window.cancelAnimationFrame(animationFrameReference);
@@ -41,7 +44,9 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, AudioFactory, 
         Socket.on('newKey', newKeyFunc);
 
         function newKeyFunc(payload) {
+            console.log(playerMe.id, payload.id);
             if (playerMe.id === payload.id) {
+                console.log('ME KEY');
                 if (payload.key === 'Enter' || payload.key === ' ') {
                     const hit = playerMe.validateInput(DrawFactory.removeWordMe);
                     if (hit) {
@@ -83,10 +88,12 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, AudioFactory, 
         }
 
         Socket.on('endGame', endGameFunc);
-
         function endGameFunc(payload) {
             DrawFactory.reset();
-            GameFactory.Game.handleGameOver(playerMe, payload.loserId);
+            endTime = Date.now();
+            totalTime = endTime - startTime;
+            console.log('rootScopeUser', $rootScope.rootScopeUser);
+            GameFactory.Game.handleGameOver(playerMe, playerRival, $rootScope.rootScopeUser, scope.rivalInfo, payload.loserId, totalTime);
             scope.gameover = true;
             scope.$evalAsync();
         }
@@ -149,7 +156,7 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, AudioFactory, 
         function gameLoop() {
             if (!scope.gameover) {
                 DrawFactory.updatePositions();
-                DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver);
+                DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver, {rivalSocketId: scope.rivalInfo.socketId});
                 DrawFactory.removeTimedoutRival();
                 DrawFactory.removeExpiredMe();
                 DrawFactory.removeExpiredRival();

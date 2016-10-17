@@ -2,7 +2,21 @@
 
   <div class="row center-align">
     <div class="col s6">
-      <h5>You: {{$root.user}}</h5>
+<!-- <<<<<<< HEAD
+      <img ng-src="{{$root.rootScopeUser.avatar}}" alt="">
+      <h5>You: {{$root.rootScopeUser.username}}</h5>
+        <div ng-show="gameover">
+         <div class="animated infinite bounce" id="winningMessage" ng-if="player-me.win">Winner!
+         </div>
+          <div class="animated infinite bounce" id="losingMessage" ng-if="!player-me.win">
+          Loser!
+          </div>
+        </div>
+      <div class="gameContainerDrawing z-depth-1" id="playerMeDrawing" ng-class="{ 'gameover': gameover}">
+      </div>
+======= -->
+      <img ng-src="{{$root.rootScopeUser.avatar}}" alt="">
+      <h5>You: {{$root.rootScopeUser.username}}</h5>
                     <div ng-show="gameover">
                 <div class="animated infinite bounce" id="winningMessage" ng-if="player-me.win">
                     <h3>Winner!</h3>
@@ -14,7 +28,6 @@
                 </div>
             </div>
             <div class="gameContainerDrawing z-depth-1" id="playerMeDrawing" ng-class="{ 'gameover': gameover, 'win': player-me.win && gameover, 'lose': !player-me.win && gameover}">
-                <!-- <div ng-repeat="word in me.activeWords">{{ word.text }}</div> -->
             </div>
       <div id="playerMeInput">
         {{me.word}}
@@ -22,7 +35,8 @@
       streak {{me.streak}}
     </div>
     <div class="col s6">
-      <h5>Rival: {{rivalUser}}</h5>
+        <img ng-src="{{rivalInfo.avatar}}" alt="">
+        <h5>{{rivalInfo.username}}</h5>
             <div ng-if="gameover">
                 <div class="animated infinite bounce" id="losingMessage" ng-if="player-me.win">
                     <h3>Loser!</h3>

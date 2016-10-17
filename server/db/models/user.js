@@ -4,33 +4,41 @@ var _ = require('lodash');
 var Sequelize = require('sequelize');
 var Match = require('./match');
 var db = require('../_db');
-
+var _ = require('lodash');
 
 module.exports = db.define('user', {
     email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     username: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     longestStreak: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     },
     wins: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     },
     losses: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     },
     averageAccuracy: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        defaultValue: 0,
+        get: function(){
+            return Math.round(this.getDataValue('averageAccuracy') * 100 ) + '%';
+        }
     },
     password: {
         type: Sequelize.STRING
     },
     avatar: {
-      type: Sequelize.STRING,
-      defaultValue: 'http://orig13.deviantart.net/dc4c/f/2013/086/0/b/8_bit_mlp_oc___locke_tumbler_by_nightshade424-d5zivjf.jpg'
+        type: Sequelize.STRING
     },
     salt: {
         type: Sequelize.STRING
@@ -63,6 +71,28 @@ module.exports = db.define('user', {
                 },
                 include: [{model: this.Model, as: 'winner'}, {model: this.Model, as: 'loser'}]
             })
+        },
+        updateStats: function(matchAccuracy, matchStreak, isWinner){
+            if (isWinner) {
+                this.wins++;
+            }
+            else {
+                this.losses++;
+            }
+            if (this.longestStreak < matchStreak) {
+                this.longestStreak = matchStreak;
+            }
+            this.getMatches()
+            .then(matches => {
+                const numMatches = matches.length;
+                this.averageAccuracy = (this.averageAccuracy * numMatches + matchAccuracy) / (numMatches + 1);
+                return this.update({
+                    wins: this.wins,
+                    losses: this.losses,
+                    longestStreak: this.longestStreak,
+                    averageAccuracy: this.averageAccuracy
+                })
+            })
         }
     },
     classMethods: {
@@ -81,6 +111,11 @@ module.exports = db.define('user', {
             if (user.changed('password')) {
                 user.salt = user.Model.generateSalt();
                 user.password = user.Model.encryptPassword(user.password, user.salt);
+                if (!user.avatar) {
+                    const genders = ['male', 'female'];
+                    const rand = _.random(0, 1);
+                    user.avatar = `http://eightbitavatar.herokuapp.com/?id=${user.username}&s=${genders[rand]}&size=150`;
+                }
             }
         },
         beforeUpdate: function (user) {

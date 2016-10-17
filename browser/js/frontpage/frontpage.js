@@ -3,22 +3,27 @@ app.config(function($stateProvider) {
         cache: false,
         url: '/',
         templateUrl: 'js/frontpage/frontpage.html',
-        controller: 'FrontpageCtrl'
+        controller: 'FrontpageCtrl',
     });
 });
 
-app.controller('FrontpageCtrl', function($scope, $state, Socket, SocketService) {
+app.controller('FrontpageCtrl', function($scope, $state, SocketFactory, AudioFactory, SocketService) {
+    let Socket = SocketFactory.socket;
+    $scope.$on('refreshedSocket', function(payload) {
+        Socket = payload.socket;
+    });
 
     $scope.randomMatch = function() {
         $scope.searching = true;
         Socket.emit('randomMatch');
     };
 
-    Socket.on('gameStart', function(payload) {
-        $('#waiting').closeModal();
-        $scope.searching = false;
-        $state.go('game', { gameId: payload.room });
-    });
+    Socket.on('gameStart', gameStartFunc);
+    function gameStartFunc(payload) {
+       $('#waiting').closeModal();
+       $scope.searching = false;
+       $state.go('game', { gameId: payload.room });
+   }
 
 
     $scope.runLogo = function() {

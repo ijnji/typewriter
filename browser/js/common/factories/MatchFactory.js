@@ -15,6 +15,10 @@ app.factory('MatchFactory', function($http) {
         return $http.get(path)
             .then(formatData)
     };
+    //loser: playerMe, winner: playerRival
+    MatchFactory.createMatch = function(winner, loser){
+
+    }
 
     return MatchFactory;
 

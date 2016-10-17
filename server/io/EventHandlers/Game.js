@@ -1,8 +1,7 @@
 const dictionaryUtils = require('../../dictionary');
 const _ = require('lodash');
 
-const Game = function(app, socket, io) {
-    this.app = app;
+const Game = function(socket, io) {
     this.socket = socket;
     this.io = io;
     this.roomToWordInterval = {};
@@ -20,7 +19,6 @@ function keypress(payload) {
 }
 
 function wordHit() {
-
     this.io.to(this.socket.currGame).emit('wordHit', { playerId: this.socket.id });
 }
 

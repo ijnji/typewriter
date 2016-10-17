@@ -4,9 +4,13 @@
     width: 60vw;
     table {
         background-color: white;
-        border-collapse: collapse;
-        border: 0px;
-        border-spacing: 0px;
+        border-collapse: separate;
+        border-radius: 25px;
+        border: 5px solid #FFEB3B;
+        border-spacing: 0;
+    }
+    thead {
+        border-bottom: 5px solid #FFEB3B;
     }
     .ranking {
         margin: 0 auto;

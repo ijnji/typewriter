@@ -19,6 +19,7 @@ app.controller('UsersCtrl', function($scope, users) {
     $scope.numberOfPages = function() {
         return Math.ceil(users.length / $scope.pageSize);
     }
+    $scope.search = '';
 });
 
 app.filter('startFrom', function() {
@@ -28,14 +29,3 @@ app.filter('startFrom', function() {
     }
 });
 
-// function MyCtrl($scope) {
-//     $scope.currentPage = 0;
-//     $scope.pageSize = 10;
-//     $scope.data = [];
-//     $scope.numberOfPages=function(){
-//         return Math.ceil($scope.data.length/$scope.pageSize);
-//     }
-//     for (var i=0; i<45; i++) {
-//         $scope.data.push("Item "+i);
-//     }
-// }

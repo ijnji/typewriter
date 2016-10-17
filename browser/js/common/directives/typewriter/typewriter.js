@@ -161,6 +161,8 @@ app.directive('typewriter', function(PlayerFactory, InputFactory, AudioFactory, 
                 scope.myAccuracy = playerMe.showAccuracy();
                 scope.rivalWpm = playerRival.wordsPerMinute(totalTime);
                 scope.rivalAccuracy = playerRival.showAccuracy();
+                scope.myStreak = playerMe.longestStreak;
+                scope.rivalStreak = playerRival.longestStreak;
             }
         }
     };

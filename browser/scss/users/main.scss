@@ -1,0 +1,23 @@
+#users {
+    // padding: 20px;
+    margin: 5em auto;
+    width: 60vw;
+    table {
+        background-color: white;
+        border-collapse: separate;
+        border-radius: 25px;
+        border: 2px solid #FFEB3B;
+        border-spacing: 0 5px;
+    }
+    thead tr th {
+        border-bottom: 2px solid #FFEB3B;
+        //border-collapse: separate;
+        //border-spacing: 5px 5px;
+    }
+    .ranking {
+        margin: 15px auto;
+    }
+    img {
+        width: 100px;
+    }
+}

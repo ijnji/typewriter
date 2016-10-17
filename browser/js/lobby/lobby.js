@@ -77,7 +77,7 @@ app.directive('repeatDone', function() {
     }
 });
 
-app.directive('lobby', function($state, Socket) {
+app.directive('lobby', function($state) {
     return {
         restrict: 'E',
         scope: false,

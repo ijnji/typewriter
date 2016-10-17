@@ -30,7 +30,7 @@ module.exports = db.define('user', {
     },
     avatar: {
       type: Sequelize.STRING,
-      defaultValue: 'http://worldartsme.com/images/snoopy-typing-clipart-1.jpg'
+      defaultValue: 'http://orig13.deviantart.net/dc4c/f/2013/086/0/b/8_bit_mlp_oc___locke_tumbler_by_nightshade424-d5zivjf.jpg'
     },
     salt: {
         type: Sequelize.STRING

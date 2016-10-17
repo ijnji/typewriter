@@ -1,4 +1,8 @@
 #lobby {
+
+  .title {
+    margin: 15px;
+  }
   div {
     background-color: #ffffff;
     display: table;
@@ -10,5 +14,6 @@
 
 }
   img {
-    width: 50px;
+    width: 50px !important;
+    height: 50px;
   }

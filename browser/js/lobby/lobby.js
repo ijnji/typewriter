@@ -57,7 +57,7 @@ app.controller('LobbyCtrl', function($scope, $state, SocketFactory) {
     }
 
     $scope.challengeUser = function(user) {
-        console.log('challenging', user.socketId);
+        console.log('challenging', user);
         Socket.emit('challengeUser', { id: user.socketId });
         $scope.opponent = user;
         $('#waitingForUser').openModal();

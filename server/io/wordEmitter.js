@@ -39,10 +39,6 @@ const levels = [
     { fn: wordEmitterMaker(3, 5, 6, 13), freqRange: [400, 500] } //level x...
 ];
 
-const pressurelevels = [
-    { fn: wordEmitterMaker(10, 10, 12, 15) }
-];
-
 let roomToTimeouts = {};
 
 function emitWords(room, io) {

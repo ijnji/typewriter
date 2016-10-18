@@ -1,7 +1,9 @@
 <div id="userinfo">
 
     <div class="siteicon z-depth-1">
-        <a ui-sref="frontpage"><img src="img/logo.svg"></a>
+        <a ui-sref="frontpage"><img src="img/logo.svg" ng-class="{'animated infinite tada': hover}"
+    ng-mouseenter="hover = true"
+    ng-mouseleave="hover = false"></a>
     </div>
 
     <div>

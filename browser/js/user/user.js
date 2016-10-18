@@ -17,5 +17,9 @@ app.config(function($stateProvider) {
 
 app.controller('UserCtrl', function($scope, UserFactory, user, matches){
     $scope.user = user;
-    $scope.matches = matches;
+    $scope.matches = matches.map(match => {
+        match.winnerAccuracy = Math.round(match.winnerAccuracy * 100) + '%';
+        match.loserAccuracy = Math.round(match.loserAccuracy * 100) + '%';
+        return match;
+    });
 });

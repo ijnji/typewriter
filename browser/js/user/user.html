@@ -35,25 +35,56 @@
             <p>Longset Streak: {{user.longestStreak}}</p>
         </div>
     </div>
+
+
+
     <div class="row">
-        <div class="col s6">
+        <div id="winnerTxt" class="col s6">
             WINNER
         </div>
-        <div class="col s6">
+        <div id="loserTxt" class="col s6">
             LOSER
         </div>
     </div>
     <div class="collection matches">
         <div class="collection-item" ng-repeat="match in matches">
+            <!-- <div class="row">
+                <div id="winnerTxt" class="col s3">
+                    WINNER
+                </div>
+                <div id="loserTxt" class="col s3 offset-s6">
+                    LOSER
+                </div>
+            </div> -->
             <div class="row">
                 <div class="col s3">
                     <img ng-src="{{match.winner.avatar}}" alt="">
                 </div>
                 <div class="col s3">
                     <a ui-sref="user({id: match.winnerId})">{{match.winner.username}}</a>
+                    <div class="row">
+                        <div class="col s12">
+                            Accuracy: {{match.winnerAccuracy}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            Longest Streak: {{match.winnerStreak}}
+                        </div>
+                    </div>
                 </div>
                 <div class="col s3">
                     <a ui-sref="user({id: match.loserId})">{{match.loser.username}}</a>
+                    <div class="row">
+                        <div class="col s12">
+                            Accuracy: {{match.loserAccuracy}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            Longest Streak: {{match.loserStreak}}
+                        </div>
+                    </div>
                 </div>
                 <div class="col s3">
                     <img ng-src="{{match.loser.avatar}}" alt="">

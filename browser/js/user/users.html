@@ -3,12 +3,13 @@
 <!--         <div class="searchbar">
             <input type="text" class="btn-extended" placeholder="search" ng-model="search"/>
             <div class="btn-search"></div>
-        </div> -->
-        <table class="highlight">
+        </div>
+ -->        <table class="highlight">
             <thead>
                 <tr>
                     <th>Ranking</th>
-                    <th>User</th>
+                    <th>Avatar</th>
+                    <th>Username</th>
                     <th>Wins</th>
                     <th>Losses</th>
                 </tr>
@@ -20,7 +21,8 @@
                     </td>
                     <td>
                         <a ui-sref="user({id: uzer.id })"><img ng-src="{{uzer.avatar}}" alt=""></a>
-                        <a ui-sref="user({id: uzer.id })">{{uzer.username}} </a></td>
+                    </td>
+                    <td><a ui-sref="user({id: uzer.id })">{{uzer.username}}</a></td>
                     <td>{{uzer.wins}}</td>
                     <td>{{uzer.losses}}</td>
                 </tr>

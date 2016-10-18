@@ -18,6 +18,10 @@ $color-bgh-dark: #FFEB3B;
     color: black;
 }
 
+#users-page-username{
+    margin: auto;
+}
+
 @font-face {
     font-family: 'Chinacat';
     src: url('/img/font/Chinacat.ttf');
@@ -115,6 +119,7 @@ body.ng-pageslide-body-closed::before {
 .lean-overlay {
     position: relative;
 }
+
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
@@ -123,3 +128,4 @@ body.ng-pageslide-body-closed::before {
 @import 'signup/main';
 @import 'users/main';
 @import 'users/user';
+@import 'lobby/main';

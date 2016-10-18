@@ -25,9 +25,12 @@ function wordHit() {
 function wordMiss() {
     this.io.to(this.socket.currGame).emit('wordMiss', { playerId: this.socket.id });
 }
-
+const roomToStreakTimeouts = {};
 function streakWord(payload) {
-    let numberOfWords = payload.streak / 5;
+    if (!roomToStreakTimeouts[this.socket.currGame]) {
+        roomToStreakTimeouts[this.socket.currGame] = [];
+    }
+    let numberOfWords = Math.floor(payload.streak / 15);
     let count = 0;
     let funcIO = this.io;
     let funcSock = this.socket;
@@ -37,10 +40,17 @@ function streakWord(payload) {
         let timeout = setTimeout(function() {
             const sameLengthWordArray = dictionaryUtils.dictObj[10];
             let word = sameLengthWordArray[_.random(0, sameLengthWordArray.length - 1)];
-            funcIO.to(funcSock.currGame).emit('streak', { playerId: funcSock.id, streak: numberOfWords, text: word, duration: 10 });
+            funcIO.to(funcSock.currGame).emit('streak', { playerId: funcSock.id, streak: numberOfWords, text: word, duration: 30 });
         }, countWords);
+        roomToStreakTimeouts[this.socket.currGame].push(timeout);
         count += 1;
     }
 }
 
-module.exports = Game;
+function stopStreakWords(room) {
+    const roomStreakTimeouts = roomToStreakTimeouts[room];
+    for (let i = 0; i < roomStreakTimeouts.length; i++) {
+        clearTimeout(roomStreakTimeouts[i]);
+    }
+}
+module.exports = {Game: Game, stopStreakWords: stopStreakWords};

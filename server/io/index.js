@@ -57,7 +57,7 @@ module.exports = function(server) {
             authedUser.id = socket.request.user.id;
             authedUser.avatar = socket.request.user.avatar;
             authedUser.averageAccuracy = socket.request.user.averageAccuracy;
-            authedUser.lognestStreak = socket.request.user.lognestStreak;
+            authedUser.longestStreak = socket.request.user.longestStreak;
             authedUser.wins = socket.request.user.wins;
             authedUser.losses = socket.request.user.losses;
             authedUser.email = socket.request.user.email;
@@ -84,7 +84,7 @@ module.exports = function(server) {
         const eventHandlers = {
             match: new Match(socket, io),
             lobby: new Lobby(socket, io, allSockets),
-            game: new Game(socket, io),
+            game: new Game.Game(socket, io),
             data: new Data(socket, io)
         };
 

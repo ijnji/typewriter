@@ -1,19 +1,24 @@
 #lobby {
+    .title {
+        margin: 15px;
+    }
+    // .searchbar {
+    //     margin: 3px;
+    //     border: 2px solid black;
+    //     border-radius: 25px;
+    // }
+    // .rounded {
+    //     border-radius: 25px;
+    // }
+    ::-webkit-input-placeholder {
+        text-align: center;
+    }
+    input {
+        -webkit-box-sizing: border-box;
+        padding: 20px;
+    }
 
-  .title {
-    margin: 15px;
-  }
-  div {
-    background-color: #ffffff;
-    display: table;
-  }
-  ul {
-    list-style-type: none;
-    background-color: #ffffff;
-  }
-
+    img {
+      width:60px;
+    }
 }
-  img {
-    width: 50px !important;
-    height: 50px;
-  }

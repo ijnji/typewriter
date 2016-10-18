@@ -31,13 +31,14 @@ function createMatchandUpdateStats(payload){
     const winnerTotalWords = payload.winnerStats.totalWordsTyped;
     const loserTotalWords = payload.loserStats.totalWordsTyped;
 
-    const winnerAccuracy = winnerTotalWords === 0 ? 0 : payload.winnerStats.correctWordsTyped / payload.winnerStats.totalWordsTyped;
+    const winnerAccuracy = winnerTotalWords === 0 ? 0 : payload.winnerStats.correctWordsTyped / winnerTotalWords;
     const winnerStreak = payload.winnerStats.longestStreak;
     const winnerId = payload.winnerInfo.id;
-    const loserAccuracy = loserTotalWords === 0 ? 0 : payload.loserStats.correctWordsTyped / payload.loserStats.totalWordsTyped;
+    const loserAccuracy = loserTotalWords === 0 ? 0 : payload.loserStats.correctWordsTyped / loserTotalWords;
     const loserStreak = payload.loserStats.longestStreak;
     const loserId = payload.loserInfo.id;
     const gameDuration = payload.duration;
+    console.log('winnerTotalWords', winnerTotalWords, 'loserTotalWords', loserTotalWords,'winnerAccuracy', winnerAccuracy, 'loserAccuracy', loserAccuracy);
     Match.create({
         winnerAccuracy: winnerAccuracy,
         winnerStreak: winnerStreak,

@@ -69,10 +69,12 @@ module.exports = db.define('user', {
                         loserId: this.id
                     }]
                 },
+                order: '"createdAt" DESC',
                 include: [{model: this.Model, as: 'winner'}, {model: this.Model, as: 'loser'}]
             })
         },
         updateStats: function(matchAccuracy, matchStreak, isWinner){
+            console.log('matchAccuracy', matchAccuracy);
             if (isWinner) {
                 this.wins++;
             }
@@ -85,12 +87,13 @@ module.exports = db.define('user', {
             this.getMatches()
             .then(matches => {
                 const numMatches = matches.length;
-                this.averageAccuracy = (this.averageAccuracy * numMatches + matchAccuracy) / (numMatches + 1);
+                const avgAccuracyInFloat = parseFloat(this.averageAccuracy) / 100;
+                const newAvgAccuracy = (avgAccuracyInFloat * numMatches + matchAccuracy) / (numMatches + 1);
                 return this.update({
                     wins: this.wins,
                     losses: this.losses,
                     longestStreak: this.longestStreak,
-                    averageAccuracy: this.averageAccuracy
+                    averageAccuracy: newAvgAccuracy
                 })
             })
         }

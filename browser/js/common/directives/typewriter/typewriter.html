@@ -18,13 +18,15 @@
       <img ng-src="{{$root.rootScopeUser.avatar}}" alt="">
       <h5>You: {{$root.rootScopeUser.username}}</h5>
                     <div ng-show="gameover">
-                <div class="animated infinite bounce" id="winningMessage" ng-if="player-me.win">
-                    <h3>Winner!</h3>
+                <div id="winningMessage" ng-if="player-me.win">
+                    <h3 class="animated infinite bounce">Winner!</h3>
                     <my-stats></my-stats>
+                    <rematch></rematch>
                 </div>
-                <div class="animated infinite bounce" id="losingMessage" ng-if="!player-me.win">
-                    <h3>Loser!</h3>
+                <div id="losingMessage" ng-if="!player-me.win">
+                    <h3 class="animated infinite bounce">Loser!</h3>
                     <my-stats></my-stats>
+                    <rematch></rematch>
                 </div>
             </div>
             <div class="gameContainerDrawing z-depth-1" id="playerMeDrawing" ng-class="{ 'gameover': gameover, 'win': player-me.win && gameover, 'lose': !player-me.win && gameover}">
@@ -38,12 +40,12 @@
         <img ng-src="{{rivalInfo.avatar}}" alt="">
         <h5>{{rivalInfo.username}}</h5>
             <div ng-if="gameover">
-                <div class="animated infinite bounce" id="losingMessage" ng-if="player-me.win">
-                    <h3>Loser!</h3>
+                <div id="losingMessage" ng-if="player-me.win">
+                    <h3 class="animated infinite bounce">Loser!</h3>
                     <rival-stats></rival-stats>
                 </div>
-                <div class="animated infinite bounce" id="winningMessage" ng-if="!player-me.win">
-                    <h3>Winner!</h3>
+                <div  id="winningMessage" ng-if="!player-me.win">
+                    <h3 class="animated infinite bounce">Winner!</h3>
                     <rival-stats></rival-stats>
                 </div>
             </div>

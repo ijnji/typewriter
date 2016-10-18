@@ -16,6 +16,8 @@ app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, 
             DrawFactory.initialize();
             InputFactory.watchKeys();
             startTime = Date.now();
+            // Ran: Scroll to bottom of page on load for now.
+            $(document).scrollTop($('#playerMeInput').position().top);
         });
 
         let playerMe = new PlayerFactory.Player(Socket.io.engine.id);

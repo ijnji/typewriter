@@ -24,4 +24,17 @@
     img {
         width: 100px;
     }
+
+    #winnerTxt {
+        color: green;
+
+    }
+    .winnerLoser {
+        font-family: 'RifficFree';
+        font-size: 2rem;
+    }
+    #loserTxt {
+        color: red;
+    }
+
 }

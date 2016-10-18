@@ -48,14 +48,18 @@
             <p>Longset Streak: {{user.longestStreak}}</p>
         </div>
     </div>
-  -->   <div class="row">
-        <div class="col s6">
+
+  -->
+
+    <div class="row">
+        <div id="winnerTxt" class="col s6 winnerLoser">
             WINNER
         </div>
-        <div class="col s6">
+        <div id="loserTxt" class="col s6 winnerLoser">
             LOSER
         </div>
     </div>
+
     <div class="collection matches">
         <div class="collection-item" ng-repeat="match in matches">
             <div class="row">
@@ -64,9 +68,29 @@
                 </div>
                 <div class="col s3">
                     <a ui-sref="user({id: match.winnerId})">{{match.winner.username}}</a>
+                    <div class="row">
+                        <div class="col s12">
+                            Accuracy: {{match.winnerAccuracy}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            Longest Streak: {{match.winnerStreak}}
+                        </div>
+                    </div>
                 </div>
                 <div class="col s3">
                     <a ui-sref="user({id: match.loserId})">{{match.loser.username}}</a>
+                    <div class="row">
+                        <div class="col s12">
+                            Accuracy: {{match.loserAccuracy}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            Longest Streak: {{match.loserStreak}}
+                        </div>
+                    </div>
                 </div>
                 <div class="col s3">
                     <img ng-src="{{match.loser.avatar}}" alt="">

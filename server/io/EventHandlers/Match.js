@@ -3,7 +3,7 @@ const wordEmitter = require('../wordEmitter');
 const dictionaryUtils = require('../../dictionary');
 const _ = require('lodash');
 const socketUtils = require('../socketUtils');
-
+const Game = require('./game');
 const Match = function(socket, io) {
     this.socket = socket;
     this.io = io;
@@ -68,6 +68,7 @@ function gameOver(payload) {
         this.socket.currGame = undefined;
         rivalSocket.currGame = undefined;
         wordEmitter.stopWords(room);
+        Game.stopStreakWords(room);
         this.io.to(room).emit('endGame', { loserId: this.socket.id });
     }
 }

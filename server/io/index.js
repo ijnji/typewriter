@@ -84,7 +84,7 @@ module.exports = function(server) {
         const eventHandlers = {
             match: new Match(socket, io),
             lobby: new Lobby(socket, io, allSockets),
-            game: new Game(socket, io),
+            game: new Game.Game(socket, io),
             data: new Data(socket, io)
         };
 

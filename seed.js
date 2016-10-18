@@ -138,6 +138,17 @@ function generateUsers () {
             losses: 0,
             averageAccuracy: .92715
         }));
+    users.push(User.build({
+            email: 'george@washington.com',
+            password: 'number1president',
+            username: 'geogewashington',
+            avatar: 'http://piq.codeus.net/static/media/userpics/piq_81585_400x400.png',
+            longestStreak: 100,
+            wins: 100,
+            losses: 0,
+            averageAccuracy: 1
+        }));
+
     return users;
 }
 

@@ -5,6 +5,7 @@
     // left: 12vh;
     width: 100%;
     .gameContainerDrawing {
+        text-align: center;
         width: 80%;
         height: 70vh;
         margin: 0 auto;
@@ -16,6 +17,20 @@
     .gameContainerSprite {
         position: absolute;
         font-size: 1.5rem;
+    }
+    .gameContainerStreakSprite {
+        position: absolute;
+        margin: 0 auto;
+        text-align: center;
+        color: black;
+        opacity: 0.2;
+        font-family: 'SketchBlock';
+        .gameContainerStreakSpriteNum {
+            font-size: 9rem;
+        }
+        .gameContainerStreakSpriteTxt {
+            font-size: 4rem;
+        }
     }
     #playerMeInput,
     #playerRivalInput {

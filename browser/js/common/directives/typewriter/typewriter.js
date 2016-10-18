@@ -1,4 +1,4 @@
-app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, GameFactory, DrawFactory, SocketFactory, SocketService, UtilityFactory, $rootScope) {
+app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, GameFactory, DrawFactory, DrawStreakFactory, SocketFactory, SocketService, UtilityFactory, $rootScope) {
     let directive = {};
     directive.restrict = 'E';
     directive.scope = {};
@@ -14,8 +14,11 @@ app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, 
         $(document).ready(function() {
             scope.gameover = false;
             DrawFactory.initialize();
+            DrawStreakFactory.initialize();
             InputFactory.watchKeys();
             startTime = Date.now();
+            // Ran: Scroll to bottom of page on load for now.
+            $(document).scrollTop($('#playerMeInput').position().top);
         });
 
         let playerMe = new PlayerFactory.Player(Socket.io.engine.id);
@@ -39,6 +42,7 @@ app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, 
             Socket.removeListener('wordMiss', wordMissFunc);
             Socket.removeListener('streak', streakFunc);
             DrawFactory.reset();
+            DrawStreakFactory.reset();
         });
 
         Socket.on('newKey', newKeyFunc);
@@ -116,11 +120,14 @@ app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, 
                 AudioFactory.playFile('carriagereturn');
 
                 playerMe.incrementStreak();
+                DrawStreakFactory.incrementMe();
+
                 if (playerMe.streak % 5 === 0) {
                     Socket.emit('streakWord', { streak: playerMe.streak })
                 }
             } else {
                 playerRival.incrementStreak();
+                DrawStreakFactory.incrementRival();
             }
             scope.$digest();
         }
@@ -131,8 +138,10 @@ app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, 
             const playerId = UtilityFactory.stripSocketIdPrefix(payload.playerId);
             if (playerId === playerMe.id) {
                 playerMe.resetStreak();
+                DrawStreakFactory.clearMe();
             } else {
                 playerRival.resetStreak();
+                DrawStreakFactory.clearRival();
             }
             scope.$digest();
         }
@@ -156,7 +165,9 @@ app.directive('typewriter', function(PlayerFactory, AudioFactory, InputFactory, 
         function gameLoop() {
             if (!scope.gameover) {
                 DrawFactory.updatePositions();
-                DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver, {rivalSocketId: scope.rivalInfo.socketId});
+                // Ran: TODO uncomment before commiting.
+                // DrawFactory.removeTimedoutMe(GameFactory.Game.emitGameOver, {rivalSocketId: scope.rivalInfo.socketId});
+                DrawFactory.removeTimedoutMe();
                 DrawFactory.removeTimedoutRival();
                 DrawFactory.removeExpiredMe();
                 DrawFactory.removeExpiredRival();

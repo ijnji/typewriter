@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('DrawFactory', function(AnimationFactory) {
+app.factory('DrawFactory', function(DrawAnimationFactory, DrawStreakFactory) {
 
     let factory = {};
 
@@ -108,7 +108,7 @@ app.factory('DrawFactory', function(AnimationFactory) {
         for (let i = 0; i < sprites.length; i++) {
             if (sprites[i].txtDiv.html() === text) {
                 idx = i;
-                AnimationFactory.addStrikethrough(sprites[i]);
+                DrawAnimationFactory.addStrikethrough(sprites[i]);
                 expiring.push(sprites[i]);
                 //sprites[i].posDiv.remove();
             }

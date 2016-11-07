@@ -117,7 +117,8 @@ body.ng-pageslide-body-closed::before {
 }
 
 .lean-overlay {
-    position: relative;
+    z-index: 900 !important;
+   // position: relative;
 }
 
 @import 'directives/main';
